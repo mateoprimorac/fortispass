@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/bioColorBg">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/bioColorBg2"
+        android:paddingHorizontal="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="?attr/bioColorText2"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconTint="?attr/bioColorText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login_vault_title"
+            android:textColor="?attr/bioColorText"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="?attr/bioColorBorder" />
+
+    <!-- Menu content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_import_old_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
+            android:paddingVertical="16dp"
+            android:text="@string/login_vault_option_import"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/bioColorAccent"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp"
+            app:icon="@drawable/ic_phone"
+            app:iconGravity="start"
+            app:iconPadding="10dp"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_scan_invite_qr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
+            android:paddingVertical="16dp"
+            android:text="@string/scan_invite_qr"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/bioColorAccent"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp"
+            app:icon="@drawable/ic_qr_code"
+            app:iconGravity="start"
+            app:iconPadding="10dp"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_use_recovery_phrase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
+            android:paddingVertical="16dp"
+            android:text="@string/login_vault_option_recovery"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/bioColorAccent"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_key"
+            app:iconGravity="start"
+            app:iconPadding="10dp"
+            app:iconTint="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

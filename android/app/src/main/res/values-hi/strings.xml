@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">वॉल्ट लॉक है</string>
+    <string name="btn_scan_qr">QR स्कैन करके अनलॉक करें</string>
+    <string name="btn_settings">सेटिंग्स</string>
+    <string name="import_from_old_phone">पुराने फ़ोन से आयात करें</string>
+    <string name="setup_subtitle">शुरू करने के लिए अपना relay सर्वर URL दर्ज करें। कोई खाता या मास्टर पासवर्ड आवश्यक नहीं।</string>
+    <string name="relay_url_label">रिले सर्वर URL</string>
+    <string name="device_name_label">डिवाइस का नाम (वैकल्पिक)</string>
+    <string name="device_name_hint">मेरा फ़ोन</string>
+    <string name="btn_register">Vault बनाएं</string>
+    <string name="qr_scan_title">QR कोड स्कैन करें</string>
+    <string name="qr_scan_instruction">पुराने फ़ोन पर QR कोड पर कैमरा लगाएं</string>
+    <string name="btn_back">वापस</string>
+    <string name="biometric_title">fortispass अनलॉक करें</string>
+    <string name="biometric_subtitle">ब्राउज़र एक्सटेंशन अनलॉक करने के लिए प्रमाणित करें</string>
+    <string name="biometric_cancel">रद्द करें</string>
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="section_theme">थीम</string>
+    <string name="section_language">भाषा</string>
+    <string name="section_migration">माइग्रेशन</string>
+    <string name="section_danger">खतरनाक क्षेत्र</string>
+    <string name="migration_desc">नए फ़ोन पर जा रहे हैं? अपना पंजीकरण निर्यात करें और नए डिवाइस पर स्कैन करें।</string>
+    <string name="btn_export_migration">नए फ़ोन पर निर्यात करें</string>
+    <string name="btn_import_migration">Vault में लॉग इन करें</string>
+    <string name="btn_re_register">Vault से लॉग आउट करें</string>
+    <string name="re_register_title">Vault से लॉग आउट करें</string>
+    <string name="re_register_message">इससे इस डिवाइस से सभी Vault डेटा हट जाएगा। जारी रखने से पहले सुनिश्चित करें कि आपका रिकवरी वाक्यांश सुरक्षित है।</string>
+    <string name="re_register_confirm">लॉग आउट करें</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="done">हो गया</string>
+    <string name="ok">ठीक है</string>
+    <string name="error">त्रुटि</string>
+    <string name="migration_export_title">नए फ़ोन पर स्कैन करें</string>
+    <string name="migration_export_desc">अपने नए फ़ोन पर fortispass खोलें, सेटिंग्स पर जाएं, पुराने फ़ोन से आयात करें पर टैप करें और इस कोड को स्कैन करें। 3 मिनट में समाप्त हो जाता है।</string>
+    <string name="migration_expiry">%s में समाप्त</string>
+    <string name="migration_expired">समाप्त हो गया — बंद करें और पुनः प्रयास करें</string>
+    <string name="import_title">पंजीकरण आयात करें</string>
+    <string name="import_message">पुराने फ़ोन से डिवाइस पंजीकरण आयात करें? वर्तमान पंजीकरण बदल दिया जाएगा।</string>
+    <string name="import_confirm">आयात करें</string>
+    <string name="err_enter_url">रिले सर्वर URL दर्ज करें</string>
+    <string name="fetching_identity">सर्वर पहचान प्राप्त की जा रही है…</string>
+    <string name="generating_keys">डिवाइस कुंजियाँ बनाई जा रही हैं…</string>
+    <string name="registering">सर्वर के साथ पंजीकरण हो रहा है…</string>
+    <string name="confirm_biometric">वॉल्ट कुंजी सुरक्षित करने के लिए बायोमेट्रिक की पुष्टि करें…</string>
+    <string name="device_registered">डिवाइस पंजीकृत</string>
+    <string name="setup_complete">सेटअप पूर्ण!</string>
+    <string name="unlocking">अनलॉक हो रहा है…</string>
+    <string name="extension_unlocked">एक्सटेंशन अनलॉक हो गया</string>
+    <string name="extension_unlocked_toast">एक्सटेंशन अनलॉक हो गया!</string>
+    <string name="camera_permission_required">QR कोड स्कैन करने के लिए कैमरा अनुमति आवश्यक है</string>
+    <string name="import_success">पंजीकरण सफलतापूर्वक आयात किया गया!</string>
+    <string name="not_registered">पंजीकृत नहीं</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">आप इससे जुड़ रहे हैं:
+%1$s
+
+सर्वर फ़िंगरप्रिंट (SHA-256):
+
+%2$s
+
+केवल तभी विश्वास करें टैप करें जब आपने स्वयं यह सर्वर सेट किया हो।</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">आपके पिछले पंजीकरण के बाद से सर्वर की कुंजी बदल गई है।
+
+पिन की गई:
+%1$s
+
+नई:
+%2$s
+
+केवल तभी पुनः पंजीकरण करें जब आपने जानबूझकर अपना सर्वर पुनः इंस्टॉल किया हो।</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">गहरा</string>
+    <string name="theme_light">हल्का</string>
+    <string name="theme_system">सिस्टम</string>
+    <string name="theme_madoka">मादोका</string>
+    <string name="theme_homura">होमुरा</string>
+    <string name="theme_mami">मामी</string>
+    <string name="theme_sayaka">सायाका</string>
+    <string name="theme_kyoko">क्योको</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">यह डिवाइस इस सर्वर पर पंजीकृत नहीं है — कृपया सेटिंग में पुनः पंजीकरण करें।</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">रिकवरी वाक्यांश</string>
+    <string name="recovery_desc">एक बार बैकअप लेने के बाद यह बटन गायब हो जाता है और आप इसे दोबारा कभी नहीं देख सकते।</string>
+    <string name="btn_recovery_phrase">रिकवरी वाक्यांश देखें</string>
+    <string name="recovery_biometric_subtitle">रिकवरी वाक्यांश देखने के लिए प्रमाणित करें</string>
+    <string name="recovery_phrase_title">आपका रिकवरी वाक्यांश</string>
+    <string name="recovery_phrase_instruction">सभी 24 शब्दों को क्रम में लिखें। इसे फिर कभी नहीं दिखाया जाएगा।</string>
+    <string name="recovery_phrase_next">मैंने लिख लिया</string>
+    <string name="recovery_verify_title">अपना बैकअप सत्यापित करें</string>
+    <string name="recovery_verify_instruction">यह पुष्टि करने के लिए इन स्थानों पर शब्द दर्ज करें कि आपने उन्हें सही से लिखा है।</string>
+    <string name="recovery_word_hint">शब्द</string>
+    <string name="recovery_verify_confirm">पुष्टि करें</string>
+    <string name="recovery_verify_wrong">गलत — अपना लिखा वाक्यांश जांचें और पुनः प्रयास करें।</string>
+    <string name="recovery_confirm_success">रिकवरी वाक्यांश की पुष्टि हुई। इसे सुरक्षित रखें।</string>
+    <string name="recovery_server_error">पुष्टि सहेजी नहीं जा सकी। पुनः प्रयास करें।</string>
+    <string name="logout_blocked_title">पहले बैकअप लें</string>
+    <string name="logout_blocked_message">लॉग आउट से पहले आपको अपना रिकवरी वाक्यांश पुष्टि करना होगा। पहले इसे सुरक्षित करने के लिए उपर रिकवरी वाक्यांश देखें टैप करें।</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">Vault में लॉग इन करें</string>
+    <string name="login_vault_option_import">पुराने फ़ोन से आयात करें</string>
+    <string name="login_vault_option_recovery">रिकवरी वाक्यांश का उपयोग करें</string>
+    <string name="login_vault_import_desc">Vault स्थानांतरित करने के लिए अपने पुराने डिवाइस से QR कोड स्कैन करें।</string>
+    <string name="login_vault_recovery_desc">पहुँच पुनः प्राप्त करने के लिए अपना 24-शब्द रिकवरी वाक्यांश दर्ज करें।</string>
+    <string name="recovery_login_title">रिकवरी वाक्यांश से लॉगिन</string>
+    <string name="recovery_login_relay_label">Relay सर्वर URL</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">पुराने डिवाइस की ID</string>
+    <string name="recovery_login_device_id_hint">आपके पुराने डिवाइस की सेटिंग से</string>
+    <string name="recovery_login_phrase_label">रिकवरी वाक्यांश (24 शब्द, रिक्त स्थान से अलग)</string>
+    <string name="recovery_login_phrase_hint">शब्द1 शब्द2 शब्द3 …</string>
+    <string name="recovery_login_btn">Vault पुनः प्राप्त करें</string>
+    <string name="recovery_login_fetching">Vault प्राप्त हो रहा है…</string>
+    <string name="recovery_login_decrypting">Vault डिक्रिप्ट हो रहा है…</string>
+    <string name="recovery_login_registering">डिवाइस पंजीकृत हो रहा है…</string>
+    <string name="recovery_login_wrong_phrase">गलत वाक्यांश — Vault डिक्रिप्ट नहीं हो सका। हर शब्द जांचें।</string>
+    <string name="recovery_login_not_available">इस Vault के लिए रिकवरी उपलब्ध नहीं है।</string>
+    <string name="recovery_login_device_not_found">डिवाइस नहीं मिला। URL और ID जांचें।</string>
+    <string name="recovery_login_success">Vault सफलतापूर्वक पुनः प्राप्त हुआ।</string>
+    <string name="recovery_login_error">पुनर्प्राप्ति विफल: %s</string>
+
+    <string name="next">अगला</string>
+    <string name="words_page_indicator">शब्द %1$d–%2$d में से 24</string>
+    <string name="word_label">शब्द %d</string>
+    <string name="recovery_word_unknown">अज्ञात शब्द</string>
+
+    <string name="prev_page">पिछला</string>
+    <string name="restore">पुनर्स्थापित करें</string>
+
+    <!-- Add Device -->
+    <string name="add_device">डिवाइस जोड़ें</string>
+    <string name="add_device_title">डिवाइस जोड़ें</string>
+    <string name="add_device_desc">अपने vault में जोड़ने के लिए नए फ़ोन पर यह QR कोड स्कैन करें।</string>
+    <string name="add_device_waiting">नए डिवाइस के स्कैन की प्रतीक्षा…</string>
+    <string name="add_device_accepted">नया डिवाइस स्कैन हुआ। Vault एक्सेस दी जा रही है…</string>
+    <string name="add_device_done">नया डिवाइस सफलतापूर्वक जोड़ा गया।</string>
+    <string name="add_device_error">डिवाइस जोड़ना विफल: %s</string>
+    <string name="add_device_expired">आमंत्रण समाप्त हो गया। कृपया पुनः प्रयास करें।</string>
+    <string name="add_device_mode_title">Vault में शामिल हों</string>
+    <string name="add_device_mode_desc">मौजूदा डिवाइस पर दिखाया गया QR कोड स्कैन करें।</string>
+    <string name="add_device_at_limit">इस vault ने डिवाइस सीमा पार कर ली है। जारी रखने के लिए एक डिवाइस हटाएं।</string>
+    <string name="kick_device_title">डिवाइस हटाएं</string>
+    <string name="kick_device_message">Vault सीमा पर है। हटाने के लिए एक डिवाइस चुनें।</string>
+    <string name="kick_device_confirm">हटाएं और शामिल हों</string>
+    <string name="kick_device_added_on">%s को जोड़ा गया</string>
+
+    <string name="section_this_vault">आपका VAULT</string>
+    <string name="device_count_fmt">%1$d / %2$d डिवाइस</string>
+    <string name="device_joined">%s को लॉग इन</string>
+    <string name="device_this">यह डिवाइस</string>
+    <string name="devices_offline">सर्वर से संपर्क नहीं हो सका। शायद यह बंद है या समस्या में है।</string>
+
+    <string name="rename_device">डिवाइस का नाम बदलें</string>
+    <string name="rename_device_hint">डिवाइस का नाम</string>
+    <string name="rename_device_success">डिवाइस का नाम बदल दिया गया।</string>
+    <string name="rename_device_error">नाम बदलना विफल: %s</string>
+    <string name="scan_invite_qr">आमंत्रण QR स्कैन करें</string>
+    <string name="qr_scan_instruction_invite">दूसरे डिवाइस पर QR कोड पर कैमरा लगाएं</string>
+</resources>

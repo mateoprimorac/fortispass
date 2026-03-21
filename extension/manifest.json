@@ -1,0 +1,69 @@
+{
+  "manifest_version": 3,
+  "name": "fortispass",
+  "version": "1.0.0",
+  "description": "Zero-knowledge password manager with biometric unlock",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "scripting",
+    "clipboardWrite",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*",
+    "wss://*/*",
+    "ws://*/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "settings/settings.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*"
+      ],
+      "js": [
+        "content/autofill.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src *; style-src 'self'; img-src 'self' data: https://www.google.com https://www.gstatic.com"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "lib/libsodium-wrappers.js",
+        "lib/qrcode.js",
+        "fonts/SpaceGrotesk-Light.woff2",
+        "fonts/SpaceGrotesk-SemiBold.woff2",
+        "pinme/pinme.html",
+        "pinme/pinme.css",
+        "pinme/pinme.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base theme that all others inherit from -->
+    <style name="Theme.Biokey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#3A6FD8</item>
+        <item name="colorPrimaryVariant">#2A58C0</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#4ADE80</item>
+        <item name="android:windowBackground">#0E0E10</item>
+        <item name="android:statusBarColor">#141418</item>
+        <item name="bioColorBg">#0E0E10</item>
+        <item name="bioColorBg2">#141418</item>
+        <item name="bioColorBg3">#1C1C22</item>
+        <item name="bioColorBorder">#2A2A38</item>
+        <item name="bioColorText">#E8E8F0</item>
+        <item name="bioColorText2">#8888A0</item>
+        <item name="bioColorText3">#4A4A5A</item>
+        <item name="bioColorAccent">#3A6FD8</item>
+    </style>
+
+    <!-- Light: explicit parent required because colors invert -->
+    <style name="Theme.Biokey.Light" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">#4040C8</item>
+        <item name="colorPrimaryVariant">#3030A8</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#4ADE80</item>
+        <item name="android:windowBackground">#F5F5FF</item>
+        <item name="android:statusBarColor">#E8E8F8</item>
+        <item name="bioColorBg">#F5F5FF</item>
+        <item name="bioColorBg2">#E8E8F8</item>
+        <item name="bioColorBg3">#DDDDF5</item>
+        <item name="bioColorBorder">#C0C0E0</item>
+        <item name="bioColorText">#111128</item>
+        <item name="bioColorText2">#444468</item>
+        <item name="bioColorText3">#8888A8</item>
+        <item name="bioColorAccent">#4040C8</item>
+    </style>
+
+    <!-- System: inherits Dark base, DayNight parent handles OS switching -->
+    <!-- (same values as Dark; night mode toggling is done in FortispassApplication) -->
+    <style name="Theme.Biokey.System">
+        <item name="bioColorBg">#0E0E10</item>
+        <item name="bioColorBg2">#141418</item>
+        <item name="bioColorBg3">#1C1C22</item>
+        <item name="bioColorBorder">#2A2A38</item>
+        <item name="bioColorText">#E8E8F0</item>
+        <item name="bioColorText2">#8888A0</item>
+        <item name="bioColorText3">#4A4A5A</item>
+        <item name="bioColorAccent">#3A6FD8</item>
+    </style>
+
+    <!-- Palette themes — inherit from Theme.Biokey, only override what changes -->
+    <style name="Theme.Biokey.Madoka">
+        <item name="colorPrimary">#E8427A</item>
+        <item name="colorPrimaryVariant">#C03060</item>
+        <item name="android:windowBackground">#1A0F14</item>
+        <item name="android:statusBarColor">#22101A</item>
+        <item name="bioColorBg">#1A0F14</item>
+        <item name="bioColorBg2">#22101A</item>
+        <item name="bioColorBg3">#2C1422</item>
+        <item name="bioColorBorder">#3A1828</item>
+        <item name="bioColorText">#F0E0E8</item>
+        <item name="bioColorText2">#A07888</item>
+        <item name="bioColorText3">#604050</item>
+        <item name="bioColorAccent">#E8427A</item>
+    </style>
+
+    <style name="Theme.Biokey.Homura">
+        <item name="colorPrimary">#7A50C8</item>
+        <item name="colorPrimaryVariant">#6040A8</item>
+        <item name="android:windowBackground">#0A0A12</item>
+        <item name="android:statusBarColor">#10101A</item>
+        <item name="bioColorBg">#0A0A12</item>
+        <item name="bioColorBg2">#10101A</item>
+        <item name="bioColorBg3">#181828</item>
+        <item name="bioColorBorder">#20203A</item>
+        <item name="bioColorText">#E0E0F0</item>
+        <item name="bioColorText2">#7878A0</item>
+        <item name="bioColorText3">#404060</item>
+        <item name="bioColorAccent">#7A50C8</item>
+    </style>
+
+    <style name="Theme.Biokey.Mami">
+        <item name="colorPrimary">#E8B820</item>
+        <item name="colorPrimaryVariant">#C09010</item>
+        <item name="colorOnPrimary">#17130A</item>
+        <item name="android:windowBackground">#17130A</item>
+        <item name="android:statusBarColor">#1F180C</item>
+        <item name="bioColorBg">#17130A</item>
+        <item name="bioColorBg2">#1F180C</item>
+        <item name="bioColorBg3">#2A2010</item>
+        <item name="bioColorBorder">#38300A</item>
+        <item name="bioColorText">#F0EAD0</item>
+        <item name="bioColorText2">#A09060</item>
+        <item name="bioColorText3">#605830</item>
+        <item name="bioColorAccent">#E8B820</item>
+    </style>
+
+    <style name="Theme.Biokey.Sayaka">
+        <item name="colorPrimary">#2090C8</item>
+        <item name="colorPrimaryVariant">#1070A0</item>
+        <item name="android:windowBackground">#091418</item>
+        <item name="android:statusBarColor">#0C1A20</item>
+        <item name="bioColorBg">#091418</item>
+        <item name="bioColorBg2">#0C1A20</item>
+        <item name="bioColorBg3">#10222C</item>
+        <item name="bioColorBorder">#102838</item>
+        <item name="bioColorText">#D0EAF0</item>
+        <item name="bioColorText2">#608898</item>
+        <item name="bioColorText3">#304858</item>
+        <item name="bioColorAccent">#2090C8</item>
+    </style>
+
+    <style name="Theme.Biokey.Kyoko">
+        <item name="colorPrimary">#D83020</item>
+        <item name="colorPrimaryVariant">#A82010</item>
+        <item name="android:windowBackground">#180A0A</item>
+        <item name="android:statusBarColor">#200C0C</item>
+        <item name="bioColorBg">#180A0A</item>
+        <item name="bioColorBg2">#200C0C</item>
+        <item name="bioColorBg3">#2C1010</item>
+        <item name="bioColorBorder">#381010</item>
+        <item name="bioColorText">#F0D8D0</item>
+        <item name="bioColorText2">#A07068</item>
+        <item name="bioColorText3">#604038</item>
+        <item name="bioColorAccent">#D83020</item>
+    </style>
+
+</resources>

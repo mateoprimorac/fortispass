@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>fortispass</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="../lib/qrcode.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <img src="../icons/icon32.png" alt="" class="logo">
+      <span class="title"><span class="fp-fortis">fortis</span><span class="fp-pass">pass</span></span>
+      <button id="btn-lock" class="icon-btn" title="Lock" class="hidden">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+      <button id="btn-gen" class="icon-btn" title="Password generator">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2"/>
+          <circle cx="7" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="17" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+      <button id="btn-settings" class="icon-btn" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div id="view-setup" class="view hidden">
+
+      <!-- Step 1: pin prompt -->
+      <div id="setup-step-pin">
+        <div class="status-badge setup">Welcome to fortispass</div>
+        <ol class="pin-steps">
+          <li><span>Click the <strong>Extensions</strong> puzzle icon in your toolbar</span></li>
+          <li><span>Find <strong>fortispass</strong> in the list</span></li>
+          <li><span>Click the <strong>pin icon</strong> next to it</span></li>
+        </ol>
+        <div class="pin-btns">
+          <button id="btn-pin-done" class="btn-primary">Done</button>
+          <button id="btn-pin-skip" class="btn-secondary">Skip for now</button>
+        </div>
+      </div>
+
+      <!-- Step 2: open settings -->
+      <div id="setup-step-configure" class="hidden">
+        <div class="status-badge setup" data-i18n="status_setup">Setup Required</div>
+        <p class="hint" data-i18n="setup_hint">Enter your relay server URL to get started.</p>
+        <button id="btn-open-settings" class="btn-primary" data-i18n="btn_open_settings">Open Settings</button>
+      </div>
+
+    </div>
+
+    <div id="view-locked" class="view">
+      <div class="status-badge locked" data-i18n="status_locked">Vault Locked</div>
+      <p class="hint" data-i18n="locked_hint">Open the fortispass app on your phone and scan the QR code to unlock.</p>
+      <button id="btn-show-qr" class="btn-primary" data-i18n="btn_show_qr">Show QR Code</button>
+    </div>
+
+    <div id="view-qr" class="view hidden">
+      <div class="qr-wrap">
+        <div id="qr-container"></div>
+      </div>
+      <div class="timer-row">
+        <span class="timer-label" data-i18n="expires_in">Expires in</span>
+        <span id="qr-countdown" class="timer-val">45s</span>
+      </div>
+      <p class="hint" data-i18n="qr_hint">Scan with the Android app &rarr; biometric &rarr; done.</p>
+      <button id="btn-cancel" class="btn-secondary" data-i18n="btn_cancel">Cancel</button>
+    </div>
+
+    <div id="view-biometric" class="view hidden">
+      <div class="status-badge biometric" data-i18n="status_biometric">Waiting for Biometric</div>
+      <div class="biometric-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
+          <path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"/>
+        </svg>
+      </div>
+      <p class="hint" data-i18n="biometric_hint">Waiting for biometric confirmation on your phone…</p>
+      <button id="btn-cancel-bio" class="btn-secondary" data-i18n="btn_cancel">Cancel</button>
+    </div>
+
+    <div id="view-unlocked" class="view hidden">
+      <!-- Tab bar -->
+      <div class="vault-tabs">
+        <button class="vault-tab active" data-tab="passwords" data-i18n="tab_passwords">Passwords</button>
+        <button class="vault-tab" data-tab="totp" data-i18n="tab_totp">2FA / TOTP</button>
+      </div>
+
+      <!-- Passwords tab -->
+      <div id="tab-passwords" class="tab-pane">
+        <div id="cred-list" class="item-list"></div>
+        <button id="btn-add-cred" class="btn-add" data-i18n="btn_add_password">＋ Add password</button>
+      </div>
+
+      <!-- TOTP tab -->
+      <div id="tab-totp" class="tab-pane hidden">
+        <div id="totp-list" class="item-list"></div>
+        <button id="btn-add-totp" class="btn-add" data-i18n="btn_add_totp">＋ Add TOTP</button>
+      </div>
+
+      <!-- Credential form (shared add/edit) -->
+      <div id="cred-form" class="vault-form hidden">
+        <div class="form-title" id="cred-form-title" data-i18n="form_add_password">Add password</div>
+        <input id="cf-name"     class="vault-input" data-i18n-ph="cf_name_ph"     placeholder="Name (e.g. GitHub)">
+        <input id="cf-url"      class="vault-input" data-i18n-ph="cf_url_ph"      placeholder="URL (e.g. https://github.com)">
+        <input id="cf-username" class="vault-input" data-i18n-ph="cf_username_ph" placeholder="Username / email">
+        <div class="pw-row">
+          <input id="cf-password" class="vault-input" type="password" data-i18n-ph="cf_password_ph" placeholder="Password">
+          <button id="cf-toggle-pw" class="icon-btn" title="Show/hide">
+            <svg id="cf-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="form-btns">
+          <button id="cf-save" class="btn-primary" data-i18n="btn_save">Save</button>
+          <button id="cf-cancel" class="btn-ghost" data-i18n="btn_cancel">Cancel</button>
+        </div>
+      </div>
+
+      <!-- TOTP form -->
+      <div id="totp-form" class="vault-form hidden">
+        <div class="form-title" id="totp-form-title" data-i18n="form_add_totp">Add TOTP</div>
+        <input id="tf-name"   class="vault-input" data-i18n-ph="tf_name_ph"   placeholder="Name (e.g. GitHub)">
+        <input id="tf-secret" class="vault-input" data-i18n-ph="tf_secret_ph" placeholder="Secret key (Base32)">
+        <div class="totp-opts">
+          <select id="tf-digits" class="vault-select">
+            <option value="6" data-i18n="digits_6">6 digits</option>
+            <option value="8" data-i18n="digits_8">8 digits</option>
+          </select>
+          <select id="tf-period" class="vault-select">
+            <option value="30" data-i18n="period_30">30 sec</option>
+            <option value="60" data-i18n="period_60">60 sec</option>
+          </select>
+        </div>
+        <div class="form-btns">
+          <button id="tf-save" class="btn-primary" data-i18n="btn_save">Save</button>
+          <button id="tf-cancel" class="btn-ghost" data-i18n="btn_cancel">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="view-error" class="view hidden">
+      <div class="error-box" id="error-text"></div>
+      <button id="btn-retry" class="btn-secondary" data-i18n="btn_retry">Try Again</button>
+    </div>
+
+    <div id="view-loading" class="view center hidden">
+      <div class="spinner"></div>
+    </div>
+  <!-- ── Password Generator Panel ── -->
+  <div id="gen-panel" class="gen-panel hidden">
+    <div class="gen-output-row">
+      <code id="gen-output" class="gen-output">—</code>
+      <button id="gen-copy" class="icon-btn gen-copy-btn" data-i18n-title="gen_copy_title" title="Copy password">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </button>
+    </div>
+    <div class="gen-length-row">
+      <span class="gen-label" data-i18n="gen_length">Length</span>
+      <input type="range" id="gen-length" min="8" max="64" value="20">
+      <input type="number" id="gen-length-val" min="8" max="64" value="20">
+    </div>
+    <div class="gen-opts">
+      <label class="gen-check"><input type="checkbox" id="gen-upper" checked> A–Z</label>
+      <label class="gen-check"><input type="checkbox" id="gen-lower" checked> a–z</label>
+      <label class="gen-check"><input type="checkbox" id="gen-digits" checked> 0–9</label>
+      <label class="gen-check"><input type="checkbox" id="gen-symbols" checked> !@#…</label>
+    </div>
+    <button id="gen-generate" class="btn-primary gen-generate-btn" data-i18n="gen_generate">Generate</button>
+  </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

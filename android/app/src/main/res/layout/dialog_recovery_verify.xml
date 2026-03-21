@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recovery_verify_title"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/bioColorText"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recovery_verify_instruction"
+            android:textSize="13sp"
+            android:textColor="?attr/bioColorText2"
+            android:lineSpacingMultiplier="1.4"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Slot 1 -->
+        <TextView
+            android:id="@+id/tv_word_label_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="?attr/bioColorAccent"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_word_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textNoSuggestions"
+            android:textColor="?attr/bioColorText"
+            android:backgroundTint="?attr/bioColorBorder"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Slot 2 -->
+        <TextView
+            android:id="@+id/tv_word_label_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="?attr/bioColorAccent"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_word_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textNoSuggestions"
+            android:textColor="?attr/bioColorText"
+            android:backgroundTint="?attr/bioColorBorder"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Slot 3 -->
+        <TextView
+            android:id="@+id/tv_word_label_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="?attr/bioColorAccent"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_word_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textNoSuggestions"
+            android:textColor="?attr/bioColorText"
+            android:backgroundTint="?attr/bioColorBorder"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_verify_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="13sp"
+            android:visibility="gone"
+            android:layout_marginBottom="4dp" />
+
+    </LinearLayout>
+</ScrollView>

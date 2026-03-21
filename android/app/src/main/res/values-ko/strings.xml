@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">볼트 잠김</string>
+    <string name="btn_scan_qr">QR 스캔하여 잠금 해제</string>
+    <string name="btn_settings">설정</string>
+    <string name="import_from_old_phone">이전 기기에서 가져오기</string>
+    <string name="setup_subtitle">시작하려면 relay 서버 URL을 입력하세요. 계정이나 마스터 비밀번호가 필요하지 않습니다.</string>
+    <string name="relay_url_label">릴레이 서버 URL</string>
+    <string name="device_name_label">기기 이름 (선택사항)</string>
+    <string name="device_name_hint">내 전화</string>
+    <string name="btn_register">Vault 만들기</string>
+    <string name="qr_scan_title">QR 코드 스캔</string>
+    <string name="qr_scan_instruction">이전 기기의 QR 코드에 카메라를 향하세요</string>
+    <string name="btn_back">뒤로</string>
+    <string name="biometric_title">fortispass 잠금 해제</string>
+    <string name="biometric_subtitle">브라우저 확장 프로그램을 잠금 해제하려면 인증하세요</string>
+    <string name="biometric_cancel">취소</string>
+    <string name="settings_title">설정</string>
+    <string name="section_theme">테마</string>
+    <string name="section_language">언어</string>
+    <string name="section_migration">마이그레이션</string>
+    <string name="section_danger">위험 구역</string>
+    <string name="migration_desc">새 전화로 이동하시나요? 등록 정보를 내보내고 새 기기에서 스캔하세요.</string>
+    <string name="btn_export_migration">새 전화로 내보내기</string>
+    <string name="btn_import_migration">Vault 로그인</string>
+    <string name="btn_re_register">Vault 로그아웃</string>
+    <string name="re_register_title">Vault 로그아웃</string>
+    <string name="re_register_message">이 기기에서 모든 Vault 데이터가 삭제됩니다. 계속하기 전에 복구 구문이 저장되어 있는지 확인하세요.</string>
+    <string name="re_register_confirm">로그아웃</string>
+    <string name="cancel">취소</string>
+    <string name="done">완료</string>
+    <string name="ok">확인</string>
+    <string name="error">오류</string>
+    <string name="migration_export_title">새 전화에서 스캔</string>
+    <string name="migration_export_desc">새 전화에서 fortispass를 열고, 설정으로 이동하여 이전 전화에서 가져오기를 탭하고 이 코드를 스캔하세요. 3분 후 만료됩니다.</string>
+    <string name="migration_expiry">%s 후 만료</string>
+    <string name="migration_expired">만료됨 — 닫고 다시 시도하세요</string>
+    <string name="import_title">등록 가져오기</string>
+    <string name="import_message">이전 전화에서 기기 등록을 가져올까요? 현재 등록이 교체됩니다.</string>
+    <string name="import_confirm">가져오기</string>
+    <string name="err_enter_url">릴레이 서버 URL을 입력하세요</string>
+    <string name="fetching_identity">서버 ID 가져오는 중…</string>
+    <string name="generating_keys">기기 키 생성 중…</string>
+    <string name="registering">서버에 등록 중…</string>
+    <string name="confirm_biometric">볼트 키를 보호하려면 생체 인식을 확인하세요…</string>
+    <string name="device_registered">기기가 등록되었습니다</string>
+    <string name="setup_complete">설정 완료!</string>
+    <string name="unlocking">잠금 해제 중…</string>
+    <string name="extension_unlocked">확장 프로그램이 잠금 해제되었습니다</string>
+    <string name="extension_unlocked_toast">확장 프로그램이 잠금 해제되었습니다!</string>
+    <string name="camera_permission_required">QR 코드를 스캔하려면 카메라 권한이 필요합니다</string>
+    <string name="import_success">등록을 성공적으로 가져왔습니다!</string>
+    <string name="not_registered">등록되지 않음</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">연결 중인 서버:
+%1$s
+
+서버 지문 (SHA-256):
+
+%2$s
+
+직접 이 서버를 설정한 경우에만 신뢰를 탭하세요.</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">마지막 등록 이후 서버 키가 변경되었습니다.
+
+고정된 키:
+%1$s
+
+새 키:
+%2$s
+
+서버를 의도적으로 재설치한 경우에만 재등록하세요.</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">다크</string>
+    <string name="theme_light">라이트</string>
+    <string name="theme_system">시스템</string>
+    <string name="theme_madoka">마도카</string>
+    <string name="theme_homura">호무라</string>
+    <string name="theme_mami">마미</string>
+    <string name="theme_sayaka">사야카</string>
+    <string name="theme_kyoko">쿄코</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">이 서버에 기기가 등록되지 않았습니다 — 설정에서 다시 등록하세요.</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">복구 구문</string>
+    <string name="recovery_desc">백업하고 나면 이 버튼은 사라지고 다시는 볼 수 없습니다.</string>
+    <string name="btn_recovery_phrase">복구 구문 보기</string>
+    <string name="recovery_biometric_subtitle">복구 구문을 보려면 인증하세요</string>
+    <string name="recovery_phrase_title">복구 구문</string>
+    <string name="recovery_phrase_instruction">24개의 단어를 순서대로 모두 적어두세요. 다시는 표시되지 않습니다.</string>
+    <string name="recovery_phrase_next">적어두었습니다</string>
+    <string name="recovery_verify_title">백업 확인</string>
+    <string name="recovery_verify_instruction">올바르게 적었는지 확인하기 위해 이 위치의 단어를 입력하세요.</string>
+    <string name="recovery_word_hint">단어</string>
+    <string name="recovery_verify_confirm">확인</string>
+    <string name="recovery_verify_wrong">틀렸습니다 — 적어둔 구문을 확인하고 다시 시도하세요.</string>
+    <string name="recovery_confirm_success">복구 구문이 확인되었습니다. 안전한 곳에 보관하세요.</string>
+    <string name="recovery_server_error">확인을 저장할 수 없습니다. 다시 시도하세요.</string>
+    <string name="logout_blocked_title">먼저 백업하세요</string>
+    <string name="logout_blocked_message">로그아웃하기 전에 복구 구문을 확인해야 합니다. 위의 «복구 구문 보기»를 탭하여 먼저 저장하세요.</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">Vault 로그인</string>
+    <string name="login_vault_option_import">이전 기기에서 가져오기</string>
+    <string name="login_vault_option_recovery">복구 구문 사용</string>
+    <string name="login_vault_import_desc">이전 기기에서 QR 코드를 스캔하여 Vault를 전송합니다.</string>
+    <string name="login_vault_recovery_desc">24단어 복구 구문을 입력하여 액세스를 복원합니다.</string>
+    <string name="recovery_login_title">복구 구문으로 로그인</string>
+    <string name="recovery_login_relay_label">릴레이 서버 URL</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">이전 기기 ID</string>
+    <string name="recovery_login_device_id_hint">이전 기기 설정에서 확인</string>
+    <string name="recovery_login_phrase_label">복구 구문 (24단어, 공백으로 구분)</string>
+    <string name="recovery_login_phrase_hint">단어1 단어2 단어3 …</string>
+    <string name="recovery_login_btn">Vault 복원</string>
+    <string name="recovery_login_fetching">Vault 가져오는 중…</string>
+    <string name="recovery_login_decrypting">Vault 복호화 중…</string>
+    <string name="recovery_login_registering">기기 등록 중…</string>
+    <string name="recovery_login_wrong_phrase">잘못된 구문 — Vault를 복호화할 수 없습니다. 각 단어를 확인하세요.</string>
+    <string name="recovery_login_not_available">이 Vault는 복구를 사용할 수 없습니다.</string>
+    <string name="recovery_login_device_not_found">기기를 찾을 수 없습니다. URL과 ID를 확인하세요.</string>
+    <string name="recovery_login_success">Vault가 성공적으로 복원되었습니다.</string>
+    <string name="recovery_login_error">복원 실패: %s</string>
+
+    <string name="next">다음</string>
+    <string name="words_page_indicator">단어 %1$d–%2$d / 24</string>
+    <string name="word_label">단어 %d</string>
+    <string name="recovery_word_unknown">알 수 없는 단어</string>
+
+    <string name="prev_page">이전</string>
+    <string name="restore">복원</string>
+
+    <!-- Add Device -->
+    <string name="add_device">기기 추가</string>
+    <string name="add_device_title">기기 추가</string>
+    <string name="add_device_desc">새 스마트폰에서 이 QR 코드를 스캔하여 Vault에 추가하세요.</string>
+    <string name="add_device_waiting">새 기기 스캔 대기 중…</string>
+    <string name="add_device_accepted">새 기기가 스캔되었습니다. Vault 접근 권한 전달 중…</string>
+    <string name="add_device_done">새 기기가 성공적으로 추가되었습니다.</string>
+    <string name="add_device_error">기기 추가 실패: %s</string>
+    <string name="add_device_expired">초대가 만료되었습니다. 다시 시도하세요.</string>
+    <string name="add_device_mode_title">Vault 참여</string>
+    <string name="add_device_mode_desc">기존 기기에 표시된 QR 코드를 스캔하세요.</string>
+    <string name="add_device_at_limit">이 Vault는 기기 한도에 도달했습니다. 계속하려면 기기를 제거하세요.</string>
+    <string name="kick_device_title">기기 제거</string>
+    <string name="kick_device_message">Vault가 한도에 도달했습니다. 제거할 기기를 선택하세요.</string>
+    <string name="kick_device_confirm">제거 후 참여</string>
+    <string name="kick_device_added_on">%s 추가됨</string>
+
+    <string name="section_this_vault">내 VAULT</string>
+    <string name="device_count_fmt">%1$d / %2$d 기기</string>
+    <string name="device_joined">%s 로그인</string>
+    <string name="device_this">이 기기</string>
+    <string name="devices_offline">서버에 연결할 수 없습니다. 서버가 다운되었거나 문제가 발생한 것 같습니다.</string>
+
+    <string name="rename_device">기기 이름 변경</string>
+    <string name="rename_device_hint">기기 이름</string>
+    <string name="rename_device_success">기기 이름이 변경되었습니다.</string>
+    <string name="rename_device_error">이름 변경 실패: %s</string>
+    <string name="scan_invite_qr">초대 QR 스캔</string>
+    <string name="qr_scan_instruction_invite">다른 기기의 QR 코드에 카메라를 향하세요</string>
+</resources>

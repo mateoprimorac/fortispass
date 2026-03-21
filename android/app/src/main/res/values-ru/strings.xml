@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">Хранилище заблокировано</string>
+    <string name="btn_scan_qr">Сканировать QR для разблокировки</string>
+    <string name="btn_settings">Настройки</string>
+    <string name="import_from_old_phone">Импорт со старого телефона</string>
+    <string name="setup_subtitle">Введите URL сервера-ретранслятора для начала. Аккаунт и мастер-пароль не нужны.</string>
+    <string name="relay_url_label">URL relay-сервера</string>
+    <string name="device_name_label">Имя устройства (необязательно)</string>
+    <string name="device_name_hint">Мой телефон</string>
+    <string name="btn_register">Создать Vault</string>
+    <string name="qr_scan_title">Сканировать QR-код</string>
+    <string name="qr_scan_instruction">Наведите камеру на QR-код старого телефона</string>
+    <string name="btn_back">Назад</string>
+    <string name="biometric_title">Разблокировать fortispass</string>
+    <string name="biometric_subtitle">Пройдите аутентификацию для разблокировки расширения браузера</string>
+    <string name="biometric_cancel">Отмена</string>
+    <string name="settings_title">Настройки</string>
+    <string name="section_theme">ТЕМА</string>
+    <string name="section_language">ЯЗЫК</string>
+    <string name="section_migration">МИГРАЦИЯ</string>
+    <string name="section_danger">ОПАСНАЯ ЗОНА</string>
+    <string name="migration_desc">Переходите на новый телефон? Экспортируйте регистрацию и отсканируйте на новом устройстве.</string>
+    <string name="btn_export_migration">Экспорт на новый телефон</string>
+    <string name="btn_import_migration">Войти в Vault</string>
+    <string name="btn_re_register">Выйти из Vault</string>
+    <string name="re_register_title">Выход из Vault</string>
+    <string name="re_register_message">Это удалит все данные Vault с этого устройства. Убедитесь, что ваша фраза восстановления сохранена, прежде чем продолжить.</string>
+    <string name="re_register_confirm">Выйти</string>
+    <string name="cancel">Отмена</string>
+    <string name="done">Готово</string>
+    <string name="ok">ОК</string>
+    <string name="error">Ошибка</string>
+    <string name="migration_export_title">Сканировать на новом телефоне</string>
+    <string name="migration_export_desc">Откройте fortispass на новом телефоне, перейдите в Настройки, нажмите Импорт со старого телефона и отсканируйте этот код. Истекает через 3 минуты.</string>
+    <string name="migration_expiry">Истекает через %s</string>
+    <string name="migration_expired">Истекло — закройте и попробуйте снова</string>
+    <string name="import_title">Импорт регистрации</string>
+    <string name="import_message">Импортировать регистрацию устройства со старого телефона? Текущая регистрация будет заменена.</string>
+    <string name="import_confirm">Импортировать</string>
+    <string name="err_enter_url">Введите URL relay-сервера</string>
+    <string name="fetching_identity">Получение идентификатора сервера…</string>
+    <string name="generating_keys">Генерация ключей устройства…</string>
+    <string name="registering">Регистрация на сервере…</string>
+    <string name="confirm_biometric">Подтвердите биометрию для защиты ключа хранилища…</string>
+    <string name="device_registered">Устройство зарегистрировано</string>
+    <string name="setup_complete">Настройка завершена!</string>
+    <string name="unlocking">Разблокировка…</string>
+    <string name="extension_unlocked">Расширение разблокировано</string>
+    <string name="extension_unlocked_toast">Расширение разблокировано!</string>
+    <string name="camera_permission_required">Для сканирования QR-кодов требуется разрешение камеры</string>
+    <string name="import_success">Регистрация успешно импортирована!</string>
+    <string name="not_registered">Не зарегистрировано</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">Вы подключаетесь к:
+%1$s
+
+Отпечаток сервера (SHA-256):
+
+%2$s
+
+Нажмите Доверять только если вы сами настроили этот сервер.</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">Ключ сервера изменился с момента вашей последней регистрации.
+
+Сохранённый:
+%1$s
+
+Новый:
+%2$s
+
+Перерегистрируйтесь только если намеренно переустановили сервер.</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_madoka">Мадока</string>
+    <string name="theme_homura">Хомура</string>
+    <string name="theme_mami">Мами</string>
+    <string name="theme_sayaka">Саяка</string>
+    <string name="theme_kyoko">Кёко</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">Устройство не зарегистрировано на этом сервере — зарегистрируйтесь повторно в Настройках.</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">ФРАЗА ВОССТАНОВЛЕНИЯ</string>
+    <string name="recovery_desc">После сохранения эта кнопка исчезнет, и вы больше никогда её не увидите.</string>
+    <string name="btn_recovery_phrase">Показать фразу восстановления</string>
+    <string name="recovery_biometric_subtitle">Аутентификация для просмотра фразы восстановления</string>
+    <string name="recovery_phrase_title">Ваша фраза восстановления</string>
+    <string name="recovery_phrase_instruction">Запишите все 24 слова по порядку. Это не будет показано снова.</string>
+    <string name="recovery_phrase_next">Я записал(а)</string>
+    <string name="recovery_verify_title">Проверьте резервную копию</string>
+    <string name="recovery_verify_instruction">Введите слова на этих позициях, чтобы подтвердить правильность записи.</string>
+    <string name="recovery_word_hint">Слово</string>
+    <string name="recovery_verify_confirm">Подтвердить</string>
+    <string name="recovery_verify_wrong">Неверно — проверьте записанную фразу и повторите попытку.</string>
+    <string name="recovery_confirm_success">Фраза восстановления подтверждена. Храните её в безопасном месте.</string>
+    <string name="recovery_server_error">Не удалось сохранить подтверждение. Попробуйте снова.</string>
+    <string name="logout_blocked_title">Сначала сохраните</string>
+    <string name="logout_blocked_message">Перед выходом необходимо подтвердить фразу восстановления. Нажмите «Показать фразу восстановления» выше, чтобы сначала её сохранить.</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">Войти в Vault</string>
+    <string name="login_vault_option_import">Импорт со старого телефона</string>
+    <string name="login_vault_option_recovery">Использовать фразу восстановления</string>
+    <string name="login_vault_import_desc">Отсканируйте QR-код со старого устройства для переноса Vault.</string>
+    <string name="login_vault_recovery_desc">Введите 24-словную фразу восстановления для восстановления доступа.</string>
+    <string name="recovery_login_title">Вход по фразе восстановления</string>
+    <string name="recovery_login_relay_label">URL сервера-ретранслятора</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">ID старого устройства</string>
+    <string name="recovery_login_device_id_hint">Из настроек старого устройства</string>
+    <string name="recovery_login_phrase_label">Фраза восстановления (24 слова через пробел)</string>
+    <string name="recovery_login_phrase_hint">слово1 слово2 слово3 …</string>
+    <string name="recovery_login_btn">Восстановить Vault</string>
+    <string name="recovery_login_fetching">Получение Vault…</string>
+    <string name="recovery_login_decrypting">Расшифровка Vault…</string>
+    <string name="recovery_login_registering">Регистрация устройства…</string>
+    <string name="recovery_login_wrong_phrase">Неверная фраза — Vault не удалось расшифровать. Проверьте каждое слово.</string>
+    <string name="recovery_login_not_available">Восстановление недоступно для этого Vault.</string>
+    <string name="recovery_login_device_not_found">Устройство не найдено. Проверьте URL и ID.</string>
+    <string name="recovery_login_success">Vault успешно восстановлен.</string>
+    <string name="recovery_login_error">Восстановление не удалось: %s</string>
+
+    <string name="next">Далее</string>
+    <string name="words_page_indicator">Слова %1$d–%2$d из 24</string>
+    <string name="word_label">Слово %d</string>
+    <string name="recovery_word_unknown">Неизвестное слово</string>
+
+    <string name="prev_page">Назад</string>
+    <string name="restore">Восстановить</string>
+
+    <!-- Add Device -->
+    <string name="add_device">Добавить устройство</string>
+    <string name="add_device_title">Добавить устройство</string>
+    <string name="add_device_desc">Отсканируйте этот QR-код на новом телефоне, чтобы добавить его в Vault.</string>
+    <string name="add_device_waiting">Ожидание сканирования нового устройства…</string>
+    <string name="add_device_accepted">Новое устройство отсканировано. Передача доступа к Vault…</string>
+    <string name="add_device_done">Новое устройство успешно добавлено.</string>
+    <string name="add_device_error">Не удалось добавить устройство: %s</string>
+    <string name="add_device_expired">Приглашение истекло. Попробуйте ещё раз.</string>
+    <string name="add_device_mode_title">Присоединиться к Vault</string>
+    <string name="add_device_mode_desc">Отсканируйте QR-код на существующем устройстве.</string>
+    <string name="add_device_at_limit">Этот Vault достиг лимита устройств. Удалите одно, чтобы продолжить.</string>
+    <string name="kick_device_title">Удалить устройство</string>
+    <string name="kick_device_message">Vault достиг лимита. Выберите устройство для удаления.</string>
+    <string name="kick_device_confirm">Удалить и присоединиться</string>
+    <string name="kick_device_added_on">Добавлено %s</string>
+
+    <string name="section_this_vault">ВАШ VAULT</string>
+    <string name="device_count_fmt">%1$d / %2$d устройства</string>
+    <string name="device_joined">Вошёл %s</string>
+    <string name="device_this">ЭТО УСТРОЙСТВО</string>
+    <string name="devices_offline">Не удаётся связаться с сервером. Возможно, он недоступен или испытывает проблемы.</string>
+
+    <string name="rename_device">Переименовать устройство</string>
+    <string name="rename_device_hint">Имя устройства</string>
+    <string name="rename_device_success">Устройство переименовано.</string>
+    <string name="rename_device_error">Ошибка переименования: %s</string>
+    <string name="scan_invite_qr">Сканировать QR приглашение</string>
+    <string name="qr_scan_instruction_invite">Наведите камеру на QR-код другого устройства</string>
+</resources>

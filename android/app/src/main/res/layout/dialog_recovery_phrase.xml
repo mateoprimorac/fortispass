@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recovery_phrase_title"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/bioColorText"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recovery_phrase_instruction"
+            android:textSize="13sp"
+            android:textColor="?attr/bioColorText2"
+            android:lineSpacingMultiplier="1.4"
+            android:layout_marginBottom="20dp" />
+
+        <!-- 24 words in a 3-column grid: col1=1-8, col2=9-16, col3=17-24 -->
+        <LinearLayout
+            android:id="@+id/ll_phrase_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <!-- Column 1: words 1-8 -->
+            <LinearLayout
+                android:id="@+id/ll_col1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="4dp"/>
+
+            <!-- Column 2: words 9-16 -->
+            <LinearLayout
+                android:id="@+id/ll_col2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="4dp"/>
+
+            <!-- Column 3: words 17-24 -->
+            <LinearLayout
+                android:id="@+id/ll_col3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">保险库已锁定</string>
+    <string name="btn_scan_qr">扫描二维码解锁</string>
+    <string name="btn_settings">设置</string>
+    <string name="import_from_old_phone">从旧手机导入</string>
+    <string name="setup_subtitle">输入您的中继服务器 URL 以开始使用。无需账户或主密码。</string>
+    <string name="relay_url_label">中继服务器URL</string>
+    <string name="device_name_label">设备名称（可选）</string>
+    <string name="device_name_hint">我的手机</string>
+    <string name="btn_register">创建 Vault</string>
+    <string name="qr_scan_title">扫描二维码</string>
+    <string name="qr_scan_instruction">将相机对准旧手机上的二维码</string>
+    <string name="btn_back">返回</string>
+    <string name="biometric_title">解锁fortispass</string>
+    <string name="biometric_subtitle">通过身份验证解锁浏览器扩展</string>
+    <string name="biometric_cancel">取消</string>
+    <string name="settings_title">设置</string>
+    <string name="section_theme">主题</string>
+    <string name="section_language">语言</string>
+    <string name="section_migration">迁移</string>
+    <string name="section_danger">危险区域</string>
+    <string name="migration_desc">换新手机？导出您的注册信息，然后在新设备上扫描。</string>
+    <string name="btn_export_migration">导出到新手机</string>
+    <string name="btn_import_migration">登录 Vault</string>
+    <string name="btn_re_register">退出 Vault</string>
+    <string name="re_register_title">退出 Vault</string>
+    <string name="re_register_message">这将从此设备中删除所有 Vault 数据。在继续之前，请确保已保存恢复短语。</string>
+    <string name="re_register_confirm">退出</string>
+    <string name="cancel">取消</string>
+    <string name="done">完成</string>
+    <string name="ok">确定</string>
+    <string name="error">错误</string>
+    <string name="migration_export_title">在新手机上扫描</string>
+    <string name="migration_export_desc">在新手机上打开fortispass，进入设置，点击从旧手机导入，然后扫描此代码。3分钟后过期。</string>
+    <string name="migration_expiry">将在%s后过期</string>
+    <string name="migration_expired">已过期——关闭后重试</string>
+    <string name="import_title">导入注册信息</string>
+    <string name="import_message">从旧手机导入设备注册信息？这将替换当前的注册信息。</string>
+    <string name="import_confirm">导入</string>
+    <string name="err_enter_url">请输入中继服务器URL</string>
+    <string name="fetching_identity">正在获取服务器身份…</string>
+    <string name="generating_keys">正在生成设备密钥…</string>
+    <string name="registering">正在向服务器注册…</string>
+    <string name="confirm_biometric">确认生物特征以保护保险库密钥…</string>
+    <string name="device_registered">设备已注册</string>
+    <string name="setup_complete">设置完成！</string>
+    <string name="unlocking">正在解锁…</string>
+    <string name="extension_unlocked">扩展已解锁</string>
+    <string name="extension_unlocked_toast">扩展已解锁！</string>
+    <string name="camera_permission_required">扫描二维码需要相机权限</string>
+    <string name="import_success">注册信息导入成功！</string>
+    <string name="not_registered">未注册</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">您正在连接到：
+%1$s
+
+服务器指纹（SHA-256）：
+
+%2$s
+
+只有在您自己设置了此服务器的情况下才点击信任。</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">自上次注册以来，服务器密钥已更改。
+
+已固定：
+%1$s
+
+新密钥：
+%2$s
+
+仅在您有意重新安装服务器时才重新注册。</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_madoka">鹿目圆</string>
+    <string name="theme_homura">晓美焰</string>
+    <string name="theme_mami">巴麻美</string>
+    <string name="theme_sayaka">美树沙耶香</string>
+    <string name="theme_kyoko">佐仓杏子</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">设备未在此服务器注册——请在设置中重新注册。</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">恢复短语</string>
+    <string name="recovery_desc">备份后，此按钮将永久消失，您将再也看不到它。</string>
+    <string name="btn_recovery_phrase">查看恢复短语</string>
+    <string name="recovery_biometric_subtitle">验证以查看恢复短语</string>
+    <string name="recovery_phrase_title">您的恢复短语</string>
+    <string name="recovery_phrase_instruction">按顺序写下全部 24 个单词。此短语将永不再次显示。</string>
+    <string name="recovery_phrase_next">我已写下</string>
+    <string name="recovery_verify_title">验证您的备份</string>
+    <string name="recovery_verify_instruction">输入这些位置的单词以确认您正确写下了它们。</string>
+    <string name="recovery_word_hint">单词</string>
+    <string name="recovery_verify_confirm">确认</string>
+    <string name="recovery_verify_wrong">不正确 — 检查您写下的短语并重试。</string>
+    <string name="recovery_confirm_success">恢复短语已确认。请妥善保管。</string>
+    <string name="recovery_server_error">无法保存确认。请重试。</string>
+    <string name="logout_blocked_title">请先备份</string>
+    <string name="logout_blocked_message">退出前必须确认恢复短语。请先点击上方的查看恢复短语进行保存。</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">登录 Vault</string>
+    <string name="login_vault_option_import">从旧手机导入</string>
+    <string name="login_vault_option_recovery">使用恢复短语</string>
+    <string name="login_vault_import_desc">扫描旧设备上的二维码以传输 Vault。</string>
+    <string name="login_vault_recovery_desc">输入您的 24 个单词恢复短语以恢复访问权限。</string>
+    <string name="recovery_login_title">使用恢复短语登录</string>
+    <string name="recovery_login_relay_label">中继服务器 URL</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">旧设备 ID</string>
+    <string name="recovery_login_device_id_hint">从旧设备的设置中获取</string>
+    <string name="recovery_login_phrase_label">恢复短语（24 个单词，用空格分隔）</string>
+    <string name="recovery_login_phrase_hint">单词1 单词2 单词3 …</string>
+    <string name="recovery_login_btn">恢复 Vault</string>
+    <string name="recovery_login_fetching">正在获取 Vault…</string>
+    <string name="recovery_login_decrypting">正在解密 Vault…</string>
+    <string name="recovery_login_registering">正在注册设备…</string>
+    <string name="recovery_login_wrong_phrase">短语错误 — 无法解密 Vault。请检查每个单词。</string>
+    <string name="recovery_login_not_available">此 Vault 不支持恢复。</string>
+    <string name="recovery_login_device_not_found">未找到设备。请检查 URL 和设备 ID。</string>
+    <string name="recovery_login_success">Vault 恢复成功。</string>
+    <string name="recovery_login_error">恢复失败：%s</string>
+
+    <string name="next">下一步</string>
+    <string name="words_page_indicator">单词 %1$d–%2$d（共24个）</string>
+    <string name="word_label">单词 %d</string>
+    <string name="recovery_word_unknown">未知单词</string>
+
+    <string name="prev_page">上一步</string>
+    <string name="restore">恢复</string>
+
+    <!-- Add Device -->
+    <string name="add_device">添加设备</string>
+    <string name="add_device_title">添加设备</string>
+    <string name="add_device_desc">在新手机上扫描此二维码，将其添加到您的 Vault。</string>
+    <string name="add_device_waiting">等待新设备扫描…</string>
+    <string name="add_device_accepted">新设备已扫描。正在传递 Vault 访问权限…</string>
+    <string name="add_device_done">新设备添加成功。</string>
+    <string name="add_device_error">添加设备失败：%s</string>
+    <string name="add_device_expired">邀请已过期。请重试。</string>
+    <string name="add_device_mode_title">加入 Vault</string>
+    <string name="add_device_mode_desc">扫描现有设备上显示的二维码。</string>
+    <string name="add_device_at_limit">此 Vault 已达到设备上限。请删除一个设备以继续。</string>
+    <string name="kick_device_title">删除设备</string>
+    <string name="kick_device_message">Vault 已达到上限。请选择要删除的设备。</string>
+    <string name="kick_device_confirm">删除并加入</string>
+    <string name="kick_device_added_on">%s 添加</string>
+
+    <string name="section_this_vault">您的 VAULT</string>
+    <string name="device_count_fmt">%1$d / %2$d 台设备</string>
+    <string name="device_joined">%s 登录</string>
+    <string name="device_this">本设备</string>
+    <string name="devices_offline">无法联系服务器。它可能已关闭或遇到问题。</string>
+
+    <string name="rename_device">重命名设备</string>
+    <string name="rename_device_hint">设备名称</string>
+    <string name="rename_device_success">设备已重命名。</string>
+    <string name="rename_device_error">重命名失败：%s</string>
+    <string name="scan_invite_qr">扫描邀请二维码</string>
+    <string name="qr_scan_instruction_invite">将相机对准其他设备上的二维码</string>
+</resources>

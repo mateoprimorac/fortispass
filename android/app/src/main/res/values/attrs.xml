@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bioColorBg"     format="color" />
+    <attr name="bioColorBg2"    format="color" />
+    <attr name="bioColorBg3"    format="color" />
+    <attr name="bioColorBorder" format="color" />
+    <attr name="bioColorText"   format="color" />
+    <attr name="bioColorText2"  format="color" />
+    <attr name="bioColorText3"  format="color" />
+    <attr name="bioColorAccent" format="color" />
+</resources>

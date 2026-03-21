@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/bioColorBg">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/bioColorBg2"
+        android:paddingHorizontal="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="?attr/bioColorText2"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconTint="?attr/bioColorText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title"
+            android:textColor="?attr/bioColorText"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/bioColorBorder" />
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/section_theme" android:textColor="?attr/bioColorAccent" android:textSize="11sp"
+                android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="12dp" />
+
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/theme_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp" />
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="?attr/bioColorBorder" android:layout_marginBottom="24dp" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/section_language" android:textColor="?attr/bioColorAccent" android:textSize="11sp"
+                android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="12dp" />
+
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/lang_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp" />
+
+            <LinearLayout
+                android:id="@+id/layout_registered_sections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Recovery phrase section — hidden once confirmed -->
+                <LinearLayout
+                    android:id="@+id/layout_recovery_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="?attr/bioColorBorder" android:layout_marginBottom="24dp" />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/section_recovery" android:textColor="?attr/bioColorAccent"
+                        android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/recovery_desc"
+                        android:textColor="?attr/bioColorText2" android:textSize="13sp"
+                        android:lineSpacingMultiplier="1.4" android:layout_marginBottom="12dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_recovery_phrase"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="52dp"
+                        android:paddingTop="12dp" android:paddingBottom="12dp"
+                        android:text="@string/btn_recovery_phrase"
+                        android:backgroundTint="?attr/bioColorAccent" android:textColor="@color/white"
+                        android:layout_marginBottom="28dp"
+                        app:icon="@drawable/ic_key"
+                        app:iconGravity="start"
+                        app:iconPadding="10dp"
+                        app:iconTint="@color/white" />
+
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="?attr/bioColorBorder" android:layout_marginBottom="24dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/section_migration" android:textColor="?attr/bioColorAccent" android:textSize="11sp"
+                    android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/migration_desc"
+                    android:textColor="?attr/bioColorText2" android:textSize="13sp"
+                    android:lineSpacingMultiplier="1.4" android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/btn_export_migration"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:paddingTop="12dp" android:paddingBottom="12dp"
+                    android:text="@string/btn_export_migration"
+                    android:backgroundTint="?attr/bioColorAccent" android:textColor="@color/white"
+                    android:layout_marginBottom="28dp"
+                    app:icon="@drawable/ic_phone"
+                    app:iconGravity="start"
+                    app:iconPadding="10dp"
+                    app:iconTint="@color/white" />
+
+                <!-- This Vault section -->
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="?attr/bioColorBorder" android:layout_marginBottom="24dp" />
+
+                <!-- Header row: "THIS VAULT" label + "X / N devices" count -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/section_this_vault"
+                        android:textColor="?attr/bioColorAccent"
+                        android:textSize="11sp" android:textStyle="bold"
+                        android:letterSpacing="0.12" />
+
+                    <TextView
+                        android:id="@+id/tv_device_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="?attr/bioColorText2" />
+
+                </LinearLayout>
+
+                <!-- Shown when server is unreachable -->
+                <TextView
+                    android:id="@+id/tv_devices_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/devices_offline"
+                    android:textSize="13sp"
+                    android:textColor="?attr/bioColorText2"
+                    android:lineSpacingMultiplier="1.4"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Device list — rows injected by SettingsActivity -->
+                <LinearLayout
+                    android:id="@+id/container_devices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:paddingTop="12dp" android:paddingBottom="12dp"
+                    android:text="@string/add_device"
+                    android:backgroundTint="@color/btn_add_device_tint"
+                    android:textColor="@color/white"
+                    android:enabled="false"
+                    android:layout_marginBottom="28dp"
+                    app:icon="@drawable/ic_qr_code"
+                    app:iconGravity="start"
+                    app:iconPadding="10dp"
+                    app:iconTint="@color/white" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="?attr/bioColorBorder" android:layout_marginBottom="24dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/section_danger" android:textColor="@color/red" android:textSize="11sp"
+                    android:textStyle="bold" android:letterSpacing="0.12" android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/btn_re_register"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:paddingTop="12dp" android:paddingBottom="12dp"
+                    android:text="@string/btn_re_register"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/red"
+                    app:strokeColor="@color/red"
+                    app:icon="@drawable/ic_logout"
+                    app:iconGravity="start"
+                    app:iconPadding="10dp"
+                    app:iconTint="@color/red" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+<!-- Theme fade overlay — animates on theme change -->
+<View
+    android:id="@+id/theme_fade_overlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/bioColorBg"
+    android:alpha="0"
+    android:visibility="gone"
+    android:clickable="false" />
+
+</FrameLayout>

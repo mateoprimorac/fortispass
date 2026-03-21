@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">Trezor zaključan</string>
+    <string name="btn_scan_qr">Skeniraj QR za otključavanje</string>
+    <string name="btn_settings">Postavke</string>
+    <string name="import_from_old_phone">Uvezi sa starog telefona</string>
+    <string name="setup_subtitle">Unesite URL relay poslužitelja za početak. Nije potreban račun ni glavna lozinka.</string>
+    <string name="relay_url_label">URL relay poslužitelja</string>
+    <string name="device_name_label">Naziv uređaja (neobavezno)</string>
+    <string name="device_name_hint">Moj telefon</string>
+    <string name="btn_register">Stvori Trezor</string>
+    <string name="qr_scan_title">Skeniraj QR kod</string>
+    <string name="qr_scan_instruction">Usmjeri kameru na QR kod starog telefona</string>
+    <string name="btn_back">Natrag</string>
+    <string name="biometric_title">Otključaj fortispass</string>
+    <string name="biometric_subtitle">Autentificirajte se za otključavanje proširenja preglednika</string>
+    <string name="biometric_cancel">Odustani</string>
+    <string name="settings_title">Postavke</string>
+    <string name="section_theme">TEMA</string>
+    <string name="section_language">JEZIK</string>
+    <string name="section_migration">MIGRACIJA</string>
+    <string name="section_danger">OPASNA ZONA</string>
+    <string name="migration_desc">Prelazite na novi telefon? Izvezite registraciju i skenirajte je na novom uređaju.</string>
+    <string name="btn_export_migration">Izvezi na novi telefon</string>
+    <string name="btn_import_migration">Prijava u Trezor</string>
+    <string name="btn_re_register">Odjavi se iz Trezora</string>
+    <string name="re_register_title">Odjava iz Trezora</string>
+    <string name="re_register_message">Ovo će ukloniti sve podatke trezora s ovog uređaja. Provjeri je li tvoja fraza za oporavak sigurno pohranjena prije nego što nastaviš.</string>
+    <string name="re_register_confirm">Odjavi se</string>
+    <string name="cancel">Odustani</string>
+    <string name="done">Gotovo</string>
+    <string name="ok">U redu</string>
+    <string name="error">Greška</string>
+    <string name="migration_export_title">Skeniraj na novom telefonu</string>
+    <string name="migration_export_desc">Otvori fortispass na novom telefonu, idi na Postavke, tapni Uvezi sa starog telefona i skeniraj ovaj kod. Ističe za 3 minute.</string>
+    <string name="migration_expiry">Ističe za %s</string>
+    <string name="migration_expired">Isteklo — zatvori i pokušaj ponovo</string>
+    <string name="import_title">Uvezi registraciju</string>
+    <string name="import_message">Uvesti registraciju sa starog telefona? Zamijenit će trenutnu registraciju.</string>
+    <string name="import_confirm">Uvezi</string>
+    <string name="err_enter_url">Unesite URL relay poslužitelja</string>
+    <string name="fetching_identity">Dohvaćanje identiteta poslužitelja…</string>
+    <string name="generating_keys">Generiranje ključeva uređaja…</string>
+    <string name="registering">Registracija na poslužitelju…</string>
+    <string name="confirm_biometric">Potvrdite biometriju za zaštitu ključa trezora…</string>
+    <string name="device_registered">Uređaj registriran</string>
+    <string name="setup_complete">Postavljanje završeno!</string>
+    <string name="unlocking">Otključavanje…</string>
+    <string name="extension_unlocked">Proširenje otključano</string>
+    <string name="extension_unlocked_toast">Proširenje otključano!</string>
+    <string name="camera_permission_required">Potrebna dozvola za kameru za skeniranje QR kodova</string>
+    <string name="import_success">Registracija uspješno uvezena!</string>
+    <string name="not_registered">Nije registrirano</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">Spajate se na:
+%1$s
+
+Otisak prsta poslužitelja (SHA-256):
+
+%2$s
+
+Dodirni Povjeruj samo ako si sami postavili ovaj poslužitelj.</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">Ključ poslužitelja se promijenio od vašeg zadnjeg registriranja.
+
+Spremljeno:
+%1$s
+
+Novo:
+%2$s
+
+Registrirajte se ponovo samo ako ste namjerno reinstalirali poslužitelj.</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Trezor</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the trezor key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">Tamna</string>
+    <string name="theme_light">Svijetla</string>
+    <string name="theme_system">Sustav</string>
+    <string name="theme_madoka">Madoka</string>
+    <string name="theme_homura">Homura</string>
+    <string name="theme_mami">Mami</string>
+    <string name="theme_sayaka">Sayaka</string>
+    <string name="theme_kyoko">Kyoko</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">Uređaj nije registriran na ovom poslužitelju — registrirajte se u Postavkama.</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">FRAZA ZA OPORAVAK</string>
+    <string name="recovery_desc">Nakon što ga pohranite, ovaj gumb nestaje i više ga nikad nećete vidjeti.</string>
+    <string name="btn_recovery_phrase">Prikaži frazu za oporavak</string>
+    <string name="recovery_biometric_subtitle">Autentificiraj se za prikaz fraze za oporavak</string>
+    <string name="recovery_phrase_title">Tvoja fraza za oporavak</string>
+    <string name="recovery_phrase_instruction">Zapiši svih 24 riječi po redu. Ovo se neće više prikazati.</string>
+    <string name="recovery_phrase_next">Zapisao/la sam je</string>
+    <string name="recovery_verify_title">Provjeri sigurnosnu kopiju</string>
+    <string name="recovery_verify_instruction">Unesi riječi na ovim pozicijama kako bi potvrdio/la da si ih ispravno zapisao/la.</string>
+    <string name="recovery_word_hint">Riječ</string>
+    <string name="recovery_verify_confirm">Potvrdi</string>
+    <string name="recovery_verify_wrong">Netočno — provjeri svoju zapisanu frazu i pokušaj ponovo.</string>
+    <string name="recovery_confirm_success">Fraza za oporavak potvrđena. Čuvaj je na sigurnom.</string>
+    <string name="recovery_server_error">Potvrda nije mogla biti spremljena. Pokušaj ponovo.</string>
+    <string name="logout_blocked_title">Prvo spremi</string>
+    <string name="logout_blocked_message">Morate potvrditi frazu za oporavak prije odjave. Tapnite «Prikaži frazu za oporavak» gore da je prvo sačuvate.</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">Prijava u Trezor</string>
+    <string name="login_vault_option_import">Uvezi sa starog telefona</string>
+    <string name="login_vault_option_recovery">Koristi frazu za oporavak</string>
+    <string name="login_vault_import_desc">Skeniraj QR kod sa starog uređaja za prijenos trezora.</string>
+    <string name="login_vault_recovery_desc">Unesi svoju 24-riječnu frazu za oporavak radi vraćanja pristupa.</string>
+    <string name="recovery_login_title">Prijava s frazom za oporavak</string>
+    <string name="recovery_login_relay_label">URL relay poslužitelja</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">ID starog uređaja</string>
+    <string name="recovery_login_device_id_hint">Iz postavki starog uređaja</string>
+    <string name="recovery_login_phrase_label">Fraza za oporavak (24 riječi, odvojene razmacima)</string>
+    <string name="recovery_login_phrase_hint">riječ1 riječ2 riječ3 …</string>
+    <string name="recovery_login_btn">Vrati trezor</string>
+    <string name="recovery_login_fetching">Dohvaćanje trezora…</string>
+    <string name="recovery_login_decrypting">Dešifriranje trezora…</string>
+    <string name="recovery_login_registering">Registracija uređaja…</string>
+    <string name="recovery_login_wrong_phrase">Pogrešna fraza — trezor nije mogao biti dešifriran. Provjeri svaku riječ.</string>
+    <string name="recovery_login_not_available">Oporavak nije dostupan za ovaj trezor.</string>
+    <string name="recovery_login_device_not_found">Uređaj nije pronađen. Provjeri URL i ID uređaja.</string>
+    <string name="recovery_login_success">Trezor uspješno vraćen.</string>
+    <string name="recovery_login_error">Vraćanje nije uspjelo: %s</string>
+
+    <string name="next">Dalje</string>
+    <string name="words_page_indicator">Riječi %1$d–%2$d od 24</string>
+    <string name="word_label">Riječ %d</string>
+    <string name="recovery_word_unknown">Nepoznata riječ</string>
+
+    <string name="prev_page">Prethodno</string>
+    <string name="restore">Vrati</string>
+
+    <!-- Add Device -->
+    <string name="add_device">Dodaj uređaj</string>
+    <string name="add_device_title">Dodaj uređaj</string>
+    <string name="add_device_desc">Skeniraj ovaj QR kod na novom telefonu da ga dodaš u trezor.</string>
+    <string name="add_device_waiting">Čekanje na skeniranje novog uređaja…</string>
+    <string name="add_device_accepted">Novi uređaj skeniran. Isporuka pristupa trezoru…</string>
+    <string name="add_device_done">Novi uređaj uspješno dodan.</string>
+    <string name="add_device_error">Dodavanje uređaja nije uspjelo: %s</string>
+    <string name="add_device_expired">Pozivnica istekla. Pokušaj ponovo.</string>
+    <string name="add_device_mode_title">Pridruži se Trezoru</string>
+    <string name="add_device_mode_desc">Skeniraj QR kod prikazan na postojećem uređaju.</string>
+    <string name="add_device_at_limit">Ovaj trezor dostigao je ograničenje uređaja. Ukloni jedan uređaj za nastavak.</string>
+    <string name="kick_device_title">Ukloni uređaj</string>
+    <string name="kick_device_message">Trezor je dostigao ograničenje. Odaberi uređaj za uklanjanje.</string>
+    <string name="kick_device_confirm">Ukloni i pridruži se</string>
+    <string name="kick_device_added_on">Dodano %s</string>
+
+    <string name="section_this_vault">VAŠ TREZOR</string>
+    <string name="device_count_fmt">%1$d / %2$d uređaja</string>
+    <string name="device_joined">Prijavljen %s</string>
+    <string name="device_this">OVAJ UREĐAJ</string>
+    <string name="devices_offline">Poslužitelj nije dostupan. Možda je nedostupan ili ima problema.</string>
+
+    <string name="rename_device">Preimenuj uređaj</string>
+    <string name="rename_device_hint">Naziv uređaja</string>
+    <string name="rename_device_success">Uređaj preimenovan.</string>
+    <string name="rename_device_error">Preimenovanje nije uspjelo: %s</string>
+    <string name="scan_invite_qr">Skeniraj QR pozivnicu</string>
+    <string name="qr_scan_instruction_invite">Usmjeri kameru na QR kod drugog uređaja</string>
+</resources>

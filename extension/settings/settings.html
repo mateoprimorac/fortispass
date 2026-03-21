@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>fortispass — settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="shell">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="../icons/icon48.png" alt="" class="brand-logo">
+        <div>
+          <div class="brand-name"><span class="fp-fortis">fortis</span><span class="fp-pass">pass</span></div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-item active" data-section="server">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/>
+            <line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+          </svg>
+          <span>Server</span>
+        </button>
+        <button class="nav-item" data-section="security">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>Security</span>
+        </button>
+        <button class="nav-item" data-section="appearance">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Appearance</span>
+        </button>
+        <button class="nav-item" data-section="accessibility">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span>Accessibility</span>
+        </button>
+        <button class="nav-item" data-section="language">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span>Language</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-reset">
+        <button class="btn-reset-settings" id="btn-reset-settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/>
+            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+          </svg>
+          <span>Reset settings</span>
+        </button>
+      </div>
+      <div class="sidebar-footer">v1.0.0 &nbsp;·&nbsp; Kyubey</div>
+    </aside>
+
+    <main class="content">
+
+      <!-- ── Server ── -->
+      <section id="section-server" class="section active">
+        <div class="section-header">
+          <h2 data-i18n="server_title">Server Configuration</h2>
+          <p data-i18n="server_desc">Connect the extension to your self-hosted relay server.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label for="relay-url" data-i18n="relay_url_label">Relay Server URL</label>
+            <input type="url" id="relay-url"
+              placeholder="http://192.168.1.x:8080"
+              data-i18n-placeholder="relay_placeholder"
+              spellcheck="false" autocomplete="off">
+            <span class="field-hint" data-i18n-html="relay_url_hint_html">
+              Use your machine's local IP — not <code>localhost</code>.<br>
+              Examples: <code>http://192.168.1.105:8080</code> &nbsp;·&nbsp; <code>https://my-server.com</code>
+            </span>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="btn-test" class="btn-outline">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/>
+            </svg>
+            <span data-i18n="btn_test">Test Connection</span>
+          </button>
+          <button id="btn-save-server" class="btn-primary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <span data-i18n="btn_save">Save</span>
+          </button>
+        </div>
+
+        <div id="test-status"       class="status-msg"></div>
+        <div id="save-status-server" class="status-msg"></div>
+      </section>
+
+      <!-- ── Security ── -->
+      <section id="section-security" class="section">
+        <div class="section-header">
+          <h2 data-i18n="security_title">Security Settings</h2>
+          <p data-i18n="security_desc">Control how the vault locks and protects your data.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label>Auto-lock timeout</label>
+            <div class="slider-row">
+              <span class="slider-bound">1 min</span>
+              <input type="range" id="auto-lock" min="1" max="60" value="15" step="1">
+              <span class="slider-bound">60 min</span>
+              <input type="number" id="auto-lock-num" min="1" max="60" value="15" class="slider-num">
+              <span class="suffix">min</span>
+            </div>
+            <span class="field-hint" data-i18n="autolock_hint">Vault locks after this many minutes of inactivity. Saves automatically.</span>
+          </div>
+
+          <div class="field full">
+            <label>QR Code expiry</label>
+            <div class="slider-row">
+              <span class="slider-bound">20 s</span>
+              <input type="range" id="qr-expiry-slider" min="20" max="50" value="45" step="1">
+              <span class="slider-bound">50 s</span>
+              <input type="number" id="qr-expiry-num" min="20" max="50" value="45" class="slider-num">
+              <span class="suffix">s</span>
+            </div>
+            <span class="field-hint" data-i18n="qr_expiry_hint">How long the QR code stays valid. Saves automatically.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Appearance ── -->
+      <section id="section-appearance" class="section">
+        <div class="section-header">
+          <h2 data-i18n="appearance_title">Appearance</h2>
+          <p data-i18n="appearance_desc">Personalise the look of the extension.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label data-i18n="theme_label">Theme</label>
+            <div class="theme-picker">
+              <button class="theme-opt" data-theme="dark">
+                <span class="theme-preview dark-preview"></span>
+                <span data-i18n="theme_dark">Dark</span>
+              </button>
+              <button class="theme-opt" data-theme="light">
+                <span class="theme-preview light-preview"></span>
+                <span data-i18n="theme_light">Light</span>
+              </button>
+              <button class="theme-opt" data-theme="system">
+                <span class="theme-preview system-preview"></span>
+                <span data-i18n="theme_system">System</span>
+              </button>
+              <button class="theme-opt" data-theme="madoka">
+                <span class="theme-preview madoka-preview"></span>
+                <span>Madoka</span>
+              </button>
+              <button class="theme-opt" data-theme="homura">
+                <span class="theme-preview homura-preview"></span>
+                <span>Homura</span>
+              </button>
+              <button class="theme-opt" data-theme="mami">
+                <span class="theme-preview mami-preview"></span>
+                <span>Mami</span>
+              </button>
+              <button class="theme-opt" data-theme="sayaka">
+                <span class="theme-preview sayaka-preview"></span>
+                <span>Sayaka</span>
+              </button>
+              <button class="theme-opt" data-theme="kyoko">
+                <span class="theme-preview kyoko-preview"></span>
+                <span>Kyoko</span>
+              </button>
+              <!-- Custom theme card -->
+              <button class="theme-opt theme-opt-custom" data-theme="custom" id="btn-custom-theme">
+                <span class="theme-preview custom-preview" id="custom-preview-swatch"></span>
+                <span data-i18n="custom_card_label">Custom</span>
+              </button>
+            </div>
+
+            <!-- Custom theme builder — shown only when Custom card is clicked -->
+            <div class="custom-theme-builder" id="custom-theme-builder">
+              <div class="custom-theme-row">
+                <label class="custom-label" data-i18n="custom_base_label">Base colour</label>
+                <input type="color" id="custom-base" value="#0f0f1a">
+                <span class="custom-hint" data-i18n="custom_base_hint">Background &amp; surfaces</span>
+              </div>
+              <div class="custom-theme-row">
+                <label class="custom-label" data-i18n="custom_accent_label">Accent colour</label>
+                <input type="color" id="custom-accent" value="#5b5bd6">
+                <span class="custom-hint" data-i18n="custom_accent_hint">Buttons &amp; highlights</span>
+              </div>
+              <div class="custom-preview-bar" id="custom-preview-bar">
+                <span class="custom-preview-text" data-i18n="custom_preview_text">Preview</span>
+                <span class="custom-preview-badge" data-i18n="custom_preview_btn">Button</span>
+              </div>
+              <button id="btn-apply-custom" class="btn-primary btn-full-width">
+                <span data-i18n="custom_apply_btn">Apply Custom Theme</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Accessibility ── -->
+      <section id="section-accessibility" class="section">
+        <div class="section-header">
+          <h2 data-i18n="accessibility_title">Accessibility</h2>
+          <p data-i18n="accessibility_desc">Adjust the interface to suit your needs. All settings save automatically.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label data-i18n-label="text_size_label">Text size</label>
+            <div class="slider-row">
+              <span class="slider-bound">12 px</span>
+              <input type="range" id="font-size-slider" min="12" max="20" value="15" step="1">
+              <span class="slider-bound">20 px</span>
+              <input type="number" id="font-size-num" min="12" max="20" value="15" class="slider-num">
+              <span class="suffix">px</span>
+            </div>
+            <span class="field-hint" data-i18n="text_size_hint">Adjusts text size across the entire extension.</span>
+          </div>
+
+          <div class="field full">
+            <label data-i18n="anim_label">Animations</label>
+            <div class="toggle-row accessibility-toggle-row">
+              <span class="toggle-desc" data-i18n="anim_desc">Enable transitions and motion effects</span>
+              <button class="toggle-btn" id="anim-toggle" data-on="true" role="switch" aria-checked="true">
+                <span class="toggle-knob"></span>
+              </button>
+            </div>
+            <span class="field-hint" data-i18n="anim_hint">Turn off if you prefer reduced motion or find animations distracting.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Language ── -->
+      <section id="section-language" class="section">
+        <div class="section-header">
+          <h2 data-i18n="language_title">Language</h2>
+          <p data-i18n="language_desc">Choose the language for the extension interface. Saves automatically.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <div class="lang-picker">
+              <button class="lang-opt" data-lang="en">
+                <span class="lang-flag">EN</span>
+                <span class="lang-name">English</span>
+                <span class="lang-native">English</span>
+              </button>
+              <button class="lang-opt" data-lang="es">
+                <span class="lang-flag">ES</span>
+                <span class="lang-name">Spanish</span>
+                <span class="lang-native">Español</span>
+              </button>
+              <button class="lang-opt" data-lang="de">
+                <span class="lang-flag">DE</span>
+                <span class="lang-name">German</span>
+                <span class="lang-native">Deutsch</span>
+              </button>
+              <button class="lang-opt" data-lang="hr">
+                <span class="lang-flag">HR</span>
+                <span class="lang-name">Croatian</span>
+                <span class="lang-native">Hrvatski</span>
+              </button>
+              <button class="lang-opt" data-lang="it">
+                <span class="lang-flag">IT</span>
+                <span class="lang-name">Italian</span>
+                <span class="lang-native">Italiano</span>
+              </button>
+              <button class="lang-opt" data-lang="zh">
+                <span class="lang-flag">中文</span>
+                <span class="lang-name">Mandarin</span>
+                <span class="lang-native">普通话</span>
+              </button>
+              <button class="lang-opt" data-lang="ru">
+                <span class="lang-flag">RU</span>
+                <span class="lang-name">Russian</span>
+                <span class="lang-native">Русский</span>
+              </button>
+              <button class="lang-opt" data-lang="ja">
+                <span class="lang-flag">JA</span>
+                <span class="lang-name">Japanese</span>
+                <span class="lang-native">日本語</span>
+              </button>
+              <button class="lang-opt" data-lang="fr">
+                <span class="lang-flag">FR</span>
+                <span class="lang-name">French</span>
+                <span class="lang-native">Français</span>
+              </button>
+              <button class="lang-opt" data-lang="ar">
+                <span class="lang-flag">عر</span>
+                <span class="lang-name">Arabic</span>
+                <span class="lang-native">العربية</span>
+              </button>
+              <button class="lang-opt" data-lang="hi">
+                <span class="lang-flag">HI</span>
+                <span class="lang-name">Hindi</span>
+                <span class="lang-native">हिन्दी</span>
+              </button>
+              <button class="lang-opt" data-lang="ko">
+                <span class="lang-flag">KO</span>
+                <span class="lang-name">Korean</span>
+                <span class="lang-native">한국어</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

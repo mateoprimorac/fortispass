@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/bioColorBg">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/bioColorBg2"
+        android:paddingHorizontal="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="?attr/bioColorText2"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconTint="?attr/bioColorText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/recovery_login_title"
+            android:textColor="?attr/bioColorText"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="?attr/bioColorBorder" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Relay URL — always visible, required -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recovery_login_relay_label"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="?attr/bioColorText"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/et_relay_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/recovery_login_relay_hint"
+                android:inputType="textUri"
+                android:textColor="?attr/bioColorText"
+                android:textColorHint="?attr/bioColorText3"
+                android:backgroundTint="?attr/bioColorBorder"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Page indicator -->
+            <TextView
+                android:id="@+id/tv_page_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Words 1–6 of 24"
+                android:textSize="12sp"
+                android:textColor="?attr/bioColorText2"
+                android:textAlignment="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Word inputs injected here by activity -->
+            <LinearLayout
+                android:id="@+id/container_words"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textAlignment="center"
+                android:textColor="?attr/bioColorText2"
+                android:lineSpacingMultiplier="1.4"
+                android:visibility="gone"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Navigation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_prev"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:minHeight="52dp"
+                    android:text="@string/prev_page"
+                    android:textSize="13sp"
+                    android:maxLines="1"
+                    android:textColor="?attr/bioColorText2"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_arrow_back"
+                    app:iconGravity="start"
+                    app:iconPadding="6dp"
+                    app:iconTint="?attr/bioColorText2" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_next"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:minHeight="52dp"
+                    android:text="@string/next"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:backgroundTint="?attr/bioColorAccent"
+                    android:textColor="@color/white"
+                    app:icon="@drawable/ic_arrow_forward"
+                    app:iconGravity="end"
+                    app:iconPadding="6dp"
+                    app:iconTint="@color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

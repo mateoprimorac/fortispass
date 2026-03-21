@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/bioColorBg">
+
+    <!-- Camera preview fills the screen -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Overlay -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Viewfinder box -->
+        <View
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:background="@drawable/qr_viewfinder" />
+
+        <TextView
+            android:id="@+id/tv_scan_instruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qr_scan_instruction"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="32dp" />
+
+    </LinearLayout>
+
+    <!-- Top bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="#88000000">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/white"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconTint="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/qr_scan_title"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <View android:layout_width="80dp" android:layout_height="1dp" />
+
+    </LinearLayout>
+
+    <!-- Status message at bottom -->
+    <TextView
+        android:id="@+id/tv_scan_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="20dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:background="#88000000"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">Cassaforte bloccata</string>
+    <string name="btn_scan_qr">Scansiona QR per sbloccare</string>
+    <string name="btn_settings">Impostazioni</string>
+    <string name="import_from_old_phone">Importa dal vecchio telefono</string>
+    <string name="setup_subtitle">Inserisci l\'URL del server relay per iniziare. Nessun account o password principale richiesti.</string>
+    <string name="relay_url_label">URL server relay</string>
+    <string name="device_name_label">Nome dispositivo (opzionale)</string>
+    <string name="device_name_hint">Il mio telefono</string>
+    <string name="btn_register">Crea Vault</string>
+    <string name="qr_scan_title">Scansiona codice QR</string>
+    <string name="qr_scan_instruction">Punta la fotocamera sul codice QR del vecchio telefono</string>
+    <string name="btn_back">Indietro</string>
+    <string name="biometric_title">Sblocca fortispass</string>
+    <string name="biometric_subtitle">Autenticati per sbloccare l\'estensione del browser</string>
+    <string name="biometric_cancel">Annulla</string>
+    <string name="settings_title">Impostazioni</string>
+    <string name="section_theme">TEMA</string>
+    <string name="section_language">LINGUA</string>
+    <string name="section_migration">MIGRAZIONE</string>
+    <string name="section_danger">ZONA PERICOLOSA</string>
+    <string name="migration_desc">Stai cambiando telefono? Esporta la tua registrazione e scansionala sul nuovo dispositivo.</string>
+    <string name="btn_export_migration">Esporta sul nuovo telefono</string>
+    <string name="btn_import_migration">Accedi al Vault</string>
+    <string name="btn_re_register">Disconnetti Vault</string>
+    <string name="re_register_title">Disconnetti Vault</string>
+    <string name="re_register_message">Questo rimuoverà tutti i dati del vault da questo dispositivo. Assicurati di aver salvato la tua frase di recupero prima di continuare.</string>
+    <string name="re_register_confirm">Disconnetti</string>
+    <string name="cancel">Annulla</string>
+    <string name="done">Fatto</string>
+    <string name="ok">OK</string>
+    <string name="error">Errore</string>
+    <string name="migration_export_title">Scansiona sul nuovo telefono</string>
+    <string name="migration_export_desc">Apri fortispass sul tuo nuovo telefono, vai su Impostazioni, tocca Importa dal vecchio telefono e scansiona questo codice. Scade in 3 minuti.</string>
+    <string name="migration_expiry">Scade tra %s</string>
+    <string name="migration_expired">Scaduto — chiudi e riprova</string>
+    <string name="import_title">Importa registrazione</string>
+    <string name="import_message">Importare la registrazione dal vecchio telefono? Sostituirà la registrazione attuale.</string>
+    <string name="import_confirm">Importa</string>
+    <string name="err_enter_url">Inserisci l\'URL del server relay</string>
+    <string name="fetching_identity">Recupero identità server…</string>
+    <string name="generating_keys">Generazione chiavi dispositivo…</string>
+    <string name="registering">Registrazione sul server…</string>
+    <string name="confirm_biometric">Conferma biometria per proteggere la chiave del vault…</string>
+    <string name="device_registered">Dispositivo registrato</string>
+    <string name="setup_complete">Configurazione completata!</string>
+    <string name="unlocking">Sblocco in corso…</string>
+    <string name="extension_unlocked">Estensione sbloccata</string>
+    <string name="extension_unlocked_toast">Estensione sbloccata!</string>
+    <string name="camera_permission_required">Permesso fotocamera necessario per scansionare codici QR</string>
+    <string name="import_success">Registrazione importata con successo!</string>
+    <string name="not_registered">Non registrato</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">Ti stai connettendo a:
+%1$s
+
+Impronta digitale del server (SHA-256):
+
+%2$s
+
+Tocca Fidati solo se hai configurato tu stesso questo server.</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">La chiave del server è cambiata dalla tua ultima registrazione.
+
+Bloccata:
+%1$s
+
+Nuova:
+%2$s
+
+Registrati nuovamente solo se hai reinstallato il tuo server intenzionalmente.</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">Scuro</string>
+    <string name="theme_light">Chiaro</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_madoka">Madoka</string>
+    <string name="theme_homura">Homura</string>
+    <string name="theme_mami">Mami</string>
+    <string name="theme_sayaka">Sayaka</string>
+    <string name="theme_kyoko">Kyoko</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">Dispositivo non registrato su questo server — registrati nuovamente nelle Impostazioni.</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">FRASE DI RECUPERO</string>
+    <string name="recovery_desc">Una volta salvato, questo pulsante scompare e non potrai più vederlo.</string>
+    <string name="btn_recovery_phrase">Visualizza frase di recupero</string>
+    <string name="recovery_biometric_subtitle">Autenticati per visualizzare la frase di recupero</string>
+    <string name="recovery_phrase_title">La tua frase di recupero</string>
+    <string name="recovery_phrase_instruction">Scrivi tutte le 24 parole in ordine. Non verrà più mostrata.</string>
+    <string name="recovery_phrase_next">L\'ho scritta</string>
+    <string name="recovery_verify_title">Verifica il tuo backup</string>
+    <string name="recovery_verify_instruction">Inserisci le parole in queste posizioni per confermare di averle scritte correttamente.</string>
+    <string name="recovery_word_hint">Parola</string>
+    <string name="recovery_verify_confirm">Conferma</string>
+    <string name="recovery_verify_wrong">Errato — controlla la frase scritta e riprova.</string>
+    <string name="recovery_confirm_success">Frase di recupero confermata. Conservala al sicuro.</string>
+    <string name="recovery_server_error">Impossibile salvare la conferma. Riprova.</string>
+    <string name="logout_blocked_title">Prima fai il backup</string>
+    <string name="logout_blocked_message">Devi confermare la tua frase di recupero prima di disconnetterti. Tocca «Visualizza frase di recupero» sopra per salvarla prima.</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">Accedi al Vault</string>
+    <string name="login_vault_option_import">Importa dal vecchio telefono</string>
+    <string name="login_vault_option_recovery">Usa la frase di recupero</string>
+    <string name="login_vault_import_desc">Scansiona un codice QR dal tuo vecchio dispositivo per trasferire il vault.</string>
+    <string name="login_vault_recovery_desc">Inserisci la tua frase di recupero di 24 parole per ripristinare l\'accesso.</string>
+    <string name="recovery_login_title">Accesso con frase di recupero</string>
+    <string name="recovery_login_relay_label">URL server relay</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">ID vecchio dispositivo</string>
+    <string name="recovery_login_device_id_hint">Dalle impostazioni del tuo vecchio dispositivo</string>
+    <string name="recovery_login_phrase_label">Frase di recupero (24 parole, separate da spazi)</string>
+    <string name="recovery_login_phrase_hint">parola1 parola2 parola3 …</string>
+    <string name="recovery_login_btn">Ripristina vault</string>
+    <string name="recovery_login_fetching">Recupero vault…</string>
+    <string name="recovery_login_decrypting">Decifratura vault…</string>
+    <string name="recovery_login_registering">Registrazione dispositivo…</string>
+    <string name="recovery_login_wrong_phrase">Frase errata — vault non decifrabile. Controlla ogni parola.</string>
+    <string name="recovery_login_not_available">Recupero non disponibile per questo vault.</string>
+    <string name="recovery_login_device_not_found">Dispositivo non trovato. Controlla URL e ID.</string>
+    <string name="recovery_login_success">Vault ripristinato con successo.</string>
+    <string name="recovery_login_error">Ripristino fallito: %s</string>
+
+    <string name="next">Avanti</string>
+    <string name="words_page_indicator">Parole %1$d–%2$d di 24</string>
+    <string name="word_label">Parola %d</string>
+    <string name="recovery_word_unknown">Parola sconosciuta</string>
+
+    <string name="prev_page">Precedente</string>
+    <string name="restore">Ripristina</string>
+
+    <!-- Add Device -->
+    <string name="add_device">Aggiungi dispositivo</string>
+    <string name="add_device_title">Aggiungi dispositivo</string>
+    <string name="add_device_desc">Scansiona questo codice QR sul nuovo telefono per aggiungerlo al tuo vault.</string>
+    <string name="add_device_waiting">In attesa della scansione del nuovo dispositivo…</string>
+    <string name="add_device_accepted">Nuovo dispositivo scansionato. Consegna accesso al vault…</string>
+    <string name="add_device_done">Nuovo dispositivo aggiunto con successo.</string>
+    <string name="add_device_error">Impossibile aggiungere il dispositivo: %s</string>
+    <string name="add_device_expired">Invito scaduto. Riprovare.</string>
+    <string name="add_device_mode_title">Unisciti al Vault</string>
+    <string name="add_device_mode_desc">Scansiona il codice QR mostrato sul dispositivo esistente.</string>
+    <string name="add_device_at_limit">Questo vault ha raggiunto il limite di dispositivi. Rimuovine uno per continuare.</string>
+    <string name="kick_device_title">Rimuovi un dispositivo</string>
+    <string name="kick_device_message">Il vault ha raggiunto il limite. Seleziona un dispositivo da rimuovere.</string>
+    <string name="kick_device_confirm">Rimuovi e unisciti</string>
+    <string name="kick_device_added_on">Aggiunto il %s</string>
+
+    <string name="section_this_vault">IL TUO VAULT</string>
+    <string name="device_count_fmt">%1$d / %2$d dispositivi</string>
+    <string name="device_joined">Accesso il %s</string>
+    <string name="device_this">QUESTO DISPOSITIVO</string>
+    <string name="devices_offline">Impossibile contattare il server. Potrebbe essere offline o avere problemi.</string>
+
+    <string name="rename_device">Rinomina dispositivo</string>
+    <string name="rename_device_hint">Nome dispositivo</string>
+    <string name="rename_device_success">Dispositivo rinominato.</string>
+    <string name="rename_device_error">Rinomina fallita: %s</string>
+    <string name="scan_invite_qr">Scansiona QR invito</string>
+    <string name="qr_scan_instruction_invite">Punta la fotocamera sul codice QR dell\'altro dispositivo</string>
+</resources>

@@ -1,0 +1,235 @@
+<resources>
+    <string name="app_name">fortispass</string>
+
+    <!-- Main screen -->
+    <string name="vault_locked">Vault Locked</string>
+    <string name="btn_scan_qr">Scan QR to Unlock</string>
+    <string name="btn_settings">Settings</string>
+
+    <!-- Setup screen -->
+    <string name="setup_subtitle">Enter your relay server URL to get started. No account or master password needed.</string>
+    <string name="relay_url_label">Relay Server URL</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="device_name_label">Device Name (optional)</string>
+    <string name="device_name_hint">My Phone</string>
+    <string name="btn_register">Create Vault</string>
+
+    <!-- QR scan screen -->
+    <string name="qr_scan_title">Scan QR Code</string>
+    <string name="qr_scan_instruction">Point camera at the QR code on the old phone</string>
+    <string name="btn_back">Back</string>
+
+    <!-- Biometric -->
+    <string name="biometric_title">Unlock fortispass</string>
+    <string name="biometric_subtitle">Authenticate to unlock your browser extension</string>
+    <string name="migration_biometric_subtitle">Authenticate to generate migration QR code</string>
+    <string name="re_register_biometric_subtitle">Authenticate to log out of this vault</string>
+    <string name="biometric_cancel">Cancel</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    <string name="section_theme">THEME</string>
+    <string name="section_language">LANGUAGE</string>
+    <string name="section_text_size">TEXT SIZE</string>
+    <string name="text_size_label">Adjust app text size</string>
+    <string name="section_migration">MIGRATION</string>
+    <string name="section_danger">DANGER ZONE</string>
+    <string name="migration_desc">Moving to a new phone? Export your registration, then scan it on your new device.</string>
+    <string name="btn_export_migration">Export to New Phone</string>
+    <string name="btn_import_migration">Log In Vault</string>
+    <string name="import_from_old_phone">Import from Old Phone</string>
+    <string name="btn_re_register">Log Out Vault</string>
+
+    <!-- Theme names -->
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">System</string>
+    <string name="theme_madoka">Madoka</string>
+    <string name="theme_homura">Homura</string>
+    <string name="theme_mami">Mami</string>
+    <string name="theme_sayaka">Sayaka</string>
+    <string name="theme_kyoko">Kyoko</string>
+
+    <!-- Dialogs -->
+    <string name="re_register_title">Log Out Vault</string>
+    <string name="re_register_message">This will remove all vault data from this device. Make sure your recovery phrase is backed up before continuing.</string>
+    <string name="re_register_confirm">Log Out</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="migration_export_title">Scan on New Phone</string>
+    <string name="migration_export_desc">Open fortispass on your new phone, tap Import from Old Phone on the setup screen, then scan this code. It expires in 3 minutes.</string>
+    <string name="migration_expiry">Expires in %s</string>
+    <string name="migration_expired">Expired — close and try again</string>
+    <string name="migration_wiped">Device transferred — this device has been wiped.</string>
+    <string name="import_title">Import Registration</string>
+    <string name="import_message">Import device registration from your old phone? This will replace any existing registration.</string>
+    <string name="import_confirm">Import</string>
+
+    <!-- Toasts / status -->
+    <string name="err_enter_url">Enter relay server URL</string>
+    <string name="fetching_identity">Fetching server identity…</string>
+    <string name="generating_keys">Generating device keys…</string>
+    <string name="registering">Registering with server…</string>
+    <string name="confirm_biometric">Confirm your biometric to secure the vault key…</string>
+    <string name="device_registered">Device registered</string>
+    <string name="setup_complete">Setup complete!</string>
+    <string name="unlocking">Unlocking…</string>
+    <string name="extension_unlocked">Extension unlocked</string>
+    <string name="extension_unlocked_toast">Extension unlocked!</string>
+    <string name="camera_permission_required">Camera permission is required to scan QR codes</string>
+    <string name="import_success">Registration imported successfully!</string>
+    <string name="not_registered">Not registered</string>
+
+    <!-- Setup extra -->
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">You are connecting to:
+%1$s
+
+Server fingerprint (SHA-256):
+
+%2$s
+
+Only tap Trust if you set up this server yourself.</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">The server\'s key has changed since you last registered.
+
+Pinned:
+%1$s
+
+New:
+%2$s
+
+Only re-register if you intentionally reinstalled your server.</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <!-- QR scan extra -->
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack. Open app settings to re-verify.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+
+
+    <!-- PairExtensionActivity -->
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">Device not registered on this server — please re-register in Settings.</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">RECOVERY PHRASE</string>
+    <string name="recovery_desc">Once you backed it up, this button disappears and you never get to see it again.</string>
+    <string name="btn_recovery_phrase">View Recovery Phrase</string>
+    <string name="recovery_biometric_subtitle">Authenticate to view recovery phrase</string>
+    <string name="recovery_phrase_title">Your Recovery Phrase</string>
+    <string name="recovery_phrase_instruction">Write down all 24 words in order. This will never be shown again.</string>
+    <string name="recovery_phrase_next">I wrote it down</string>
+    <string name="recovery_verify_title">Verify Your Backup</string>
+    <string name="recovery_verify_instruction">Enter the words at these positions to confirm you wrote them down correctly.</string>
+    <string name="recovery_word_hint">Word</string>
+    <string name="recovery_verify_confirm">Confirm</string>
+    <string name="recovery_verify_wrong">Incorrect — check your written phrase and try again.</string>
+    <string name="recovery_confirm_success">Recovery phrase confirmed. Keep it safe.</string>
+    <string name="recovery_server_error">Could not save confirmation. Try again.</string>
+    <string name="logout_blocked_title">Back Up First</string>
+    <string name="logout_blocked_message">You must confirm your recovery phrase before logging out. Tap “View Recovery Phrase” above to save it first.</string>
+
+    <!-- Log In Vault dialog options -->
+    <string name="login_vault_title">Log In Vault</string>
+    <string name="login_vault_option_import">Import from old phone</string>
+    <string name="login_vault_option_recovery">Use recovery phrase</string>
+    <string name="login_vault_import_desc">Scan a QR code from your old device to transfer your vault.</string>
+    <string name="login_vault_recovery_desc">Enter your 24-word recovery phrase to restore access.</string>
+
+    <!-- Recovery phrase login flow -->
+    <string name="recovery_login_title">Recovery Phrase Login</string>
+    <string name="recovery_login_relay_label">Relay Server URL</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">Old Device ID</string>
+    <string name="recovery_login_device_id_hint">From your old device\'s settings</string>
+    <string name="recovery_login_phrase_label">Recovery Phrase (24 words, space-separated)</string>
+    <string name="recovery_login_phrase_hint">word1 word2 word3 …</string>
+    <string name="recovery_login_btn">Restore Vault</string>
+    <string name="recovery_login_fetching">Fetching vault…</string>
+    <string name="recovery_login_decrypting">Decrypting vault…</string>
+    <string name="recovery_login_registering">Registering device…</string>
+    <string name="recovery_login_wrong_phrase">Wrong phrase — vault could not be decrypted. Check every word.</string>
+    <string name="recovery_login_not_available">Recovery not available for this vault. The owner must confirm their recovery phrase first.</string>
+    <string name="recovery_login_device_not_found">Device not found. Check the relay URL and device ID.</string>
+    <string name="recovery_login_success">Vault restored successfully.</string>
+    <string name="recovery_login_error">Restore failed: %s</string>
+
+    <string name="next">Next</string>
+    <string name="words_page_indicator">Words %1$d–%2$d of 24</string>
+    <string name="word_label">Word %d</string>
+    <string name="recovery_word_unknown">Unknown word</string>
+
+    <string name="prev_page">Previous</string>
+    <string name="restore">Restore</string>
+
+    <!-- Add Device -->
+    <string name="add_device">Add Device</string>
+    <string name="add_device_title">Add Device</string>
+    <string name="add_device_desc">Scan this QR code on the new phone to add it to your vault.</string>
+    <string name="add_device_waiting">Waiting for new device to scan…</string>
+    <string name="add_device_accepted">New device scanned. Delivering vault access…</string>
+    <string name="add_device_done">New device added successfully.</string>
+    <string name="add_device_error">Failed to add device: %s</string>
+    <string name="add_device_expired">Invite expired. Please try again.</string>
+    <string name="add_device_mode_title">Join Vault</string>
+    <string name="add_device_mode_desc">Scan the QR code shown on the existing device.</string>
+    <string name="add_device_at_limit">This vault has reached the device limit. Remove a device to continue.</string>
+    <string name="kick_device_title">Remove a Device</string>
+    <string name="kick_device_message">Your vault is at the device limit. Select a device to remove so this device can join.</string>
+    <string name="kick_device_confirm">Remove &amp; Join</string>
+    <string name="kick_device_added_on">Added %s</string>
+
+    <string name="section_this_vault">YOUR VAULT</string>
+    <string name="device_count_fmt">%1$d / %2$d devices</string>
+    <string name="device_joined">Logged In %s</string>
+    <string name="device_this">THIS DEVICE</string>
+    <string name="devices_offline">Cannot reach server. It may be down or experiencing problems.</string>
+
+    <string name="rename_device">Rename Device</string>
+    <string name="rename_device_hint">Device name</string>
+    <string name="rename_device_success">Device renamed.</string>
+    <string name="rename_device_error">Rename failed: %s</string>
+    <string name="scan_invite_qr">Scan Invite QR</string>
+    <string name="qr_scan_instruction_invite">Point camera at the QR code from the other device</string>
+</resources>

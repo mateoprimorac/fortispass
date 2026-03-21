@@ -1,0 +1,206 @@
+<resources>
+    <string name="vault_locked">الخزنة مقفلة</string>
+    <string name="btn_scan_qr">مسح QR لفتح القفل</string>
+    <string name="btn_settings">الإعدادات</string>
+    <string name="import_from_old_phone">استيراد من الهاتف القديم</string>
+    <string name="setup_subtitle">أدخل عنوان URL لخادم الترحيل للبدء. لا حاجة لحساب أو كلمة مرور رئيسية.</string>
+    <string name="relay_url_label">عنوان URL لخادم الترحيل</string>
+    <string name="device_name_label">اسم الجهاز (اختياري)</string>
+    <string name="device_name_hint">هاتفي</string>
+    <string name="btn_register">إنشاء خزنة</string>
+    <string name="qr_scan_title">مسح رمز QR</string>
+    <string name="qr_scan_instruction">وجّه الكاميرا نحو رمز QR على الهاتف القديم</string>
+    <string name="btn_back">رجوع</string>
+    <string name="biometric_title">فتح قفل fortispass</string>
+    <string name="biometric_subtitle">المصادقة لفتح قفل امتداد المتصفح</string>
+    <string name="biometric_cancel">إلغاء</string>
+    <string name="settings_title">الإعدادات</string>
+    <string name="section_theme">السمة</string>
+    <string name="section_language">اللغة</string>
+    <string name="section_migration">الترحيل</string>
+    <string name="section_danger">منطقة الخطر</string>
+    <string name="migration_desc">تنتقل إلى هاتف جديد؟ صدّر تسجيلك ثم امسحه على جهازك الجديد.</string>
+    <string name="btn_export_migration">تصدير إلى الهاتف الجديد</string>
+    <string name="btn_import_migration">تسجيل الدخول إلى الخزنة</string>
+    <string name="btn_re_register">تسجيل الخروج من الخزنة</string>
+    <string name="re_register_title">تسجيل الخروج من الخزنة</string>
+    <string name="re_register_message">سيؤدي هذا إلى إزالة جميع بيانات الخزنة من هذا الجهاز. تأكد من أن عبارة الاسترداد الخاصة بك محفوظة قبل المتابعة.</string>
+    <string name="re_register_confirm">تسجيل الخروج</string>
+    <string name="cancel">إلغاء</string>
+    <string name="done">تم</string>
+    <string name="ok">موافق</string>
+    <string name="error">خطأ</string>
+    <string name="migration_export_title">مسح على الهاتف الجديد</string>
+    <string name="migration_export_desc">افتح fortispass على هاتفك الجديد، اذهب إلى الإعدادات، اضغط على استيراد من الهاتف القديم وامسح هذا الرمز. ينتهي خلال 3 دقائق.</string>
+    <string name="migration_expiry">ينتهي خلال %s</string>
+    <string name="migration_expired">انتهت الصلاحية — أغلق وحاول مرة أخرى</string>
+    <string name="import_title">استيراد التسجيل</string>
+    <string name="import_message">هل تريد استيراد تسجيل الجهاز من الهاتف القديم؟ سيتم استبدال التسجيل الحالي.</string>
+    <string name="import_confirm">استيراد</string>
+    <string name="err_enter_url">أدخل عنوان URL لخادم الترحيل</string>
+    <string name="fetching_identity">جارٍ جلب هوية الخادم…</string>
+    <string name="generating_keys">جارٍ توليد مفاتيح الجهاز…</string>
+    <string name="registering">جارٍ التسجيل في الخادم…</string>
+    <string name="confirm_biometric">تأكيد القياسات الحيوية لتأمين مفتاح الخزنة…</string>
+    <string name="device_registered">تم تسجيل الجهاز</string>
+    <string name="setup_complete">اكتمل الإعداد!</string>
+    <string name="unlocking">جارٍ فتح القفل…</string>
+    <string name="extension_unlocked">تم فتح قفل الامتداد</string>
+    <string name="extension_unlocked_toast">تم فتح قفل الامتداد!</string>
+    <string name="camera_permission_required">مطلوب إذن الكاميرا لمسح رموز QR</string>
+    <string name="import_success">تم استيراد التسجيل بنجاح!</string>
+    <string name="not_registered">غير مسجل</string>
+    <string name="err_could_not_reach">Could not reach server: %s</string>
+    <string name="err_connection_failed">Connection failed: %s</string>
+    <string name="trust_title">Trust This Server?</string>
+    <string name="trust_message">أنت تتصل بـ:
+%1$s
+
+بصمة الخادم (SHA-256):
+
+%2$s
+
+انقر على ثقة فقط إذا قمت بإعداد هذا الخادم بنفسك.</string>
+    <string name="trust_confirm">Trust &amp; Register</string>
+    <string name="cancelled">Cancelled.</string>
+    <string name="key_changed_title">Server Key Changed</string>
+    <string name="key_changed_message">تغيّر مفتاح الخادم منذ آخر تسجيل لك.
+
+المثبّت:
+%1$s
+
+الجديد:
+%2$s
+
+أعد التسجيل فقط إذا أعدت تثبيت الخادم عن قصد.</string>
+    <string name="key_changed_confirm">Re-register (I reinstalled)</string>
+    <string name="registration_cancelled">Registration cancelled.</string>
+    <string name="err_server_key_mismatch">Server returned a different key than advertised. Aborting.</string>
+    <string name="err_generic">Error: %s</string>
+    <string name="err_registration_failed">Registration failed: %s</string>
+    <string name="err_cipher_init">Failed to init cipher: %s</string>
+    <string name="err_biometric_cipher">Biometric cipher error</string>
+    <string name="err_biometric_error">Biometric error: %s</string>
+    <string name="biometric_cancelled">Biometric cancelled — tap Register to try again.</string>
+    <string name="biometric_not_recognised">Not recognised — try again</string>
+    <string name="secure_vault_title">Secure Your Vault</string>
+    <string name="secure_vault_subtitle">Confirm biometric to protect the vault key</string>
+    <string name="connecting">Connecting…</string>
+    <string name="err_setup_failed">Setup failed: %s</string>
+    <string name="err_invalid_qr">Invalid QR code</string>
+    <string name="err_unsupported_qr_version">Unsupported QR version</string>
+    <string name="err_invalid_session_id">Invalid session ID</string>
+    <string name="err_invalid_pub_key">Invalid pub key</string>
+    <string name="err_invalid_signature">Invalid signature</string>
+    <string name="err_missing_relay_url">Missing relay URL in QR</string>
+    <string name="err_qr_expired">QR expired — click Show QR Code again</string>
+    <string name="err_server_not_trusted">Server not trusted yet — please re-open the app and register first.</string>
+    <string name="err_server_key_mismatch_scan">Server key mismatch — possible attack.</string>
+    <string name="err_invalid_server_sig">Invalid server signature — possible MITM attack.</string>
+    <string name="err_biometric_cipher_scan">Biometric cipher error</string>
+    <string name="err_unlock_failed">Unlock failed: %s</string>
+    <string name="err_not_migration_qr">Not a migration QR code</string>
+    <string name="err_migration_qr_expired">Migration QR expired — generate a new one on the old phone</string>
+    <string name="err_invalid_migration_qr">Invalid migration QR</string>
+    <string name="err_import_failed">Import failed: %s</string>
+    <string name="err_camera">Camera error: %s</string>
+    <string name="biometric_prompt">Biometric prompt…</string>
+    <string name="status_unlocking">Unlocking…</string>
+    <string name="status_extension_unlocked">Extension unlocked</string>
+    <string name="app_name">fortispass</string>
+    <string name="relay_url_hint">http://192.168.1.x:8080</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_system">النظام</string>
+    <string name="theme_madoka">مادوكا</string>
+    <string name="theme_homura">هومورا</string>
+    <string name="theme_mami">مامي</string>
+    <string name="theme_sayaka">سايكا</string>
+    <string name="theme_kyoko">كيوكو</string>
+    <string name="err_invalid_qr_code">Invalid QR code</string>
+    <string name="err_not_pairing_qr">Not a pairing QR — use Scan QR to Unlock instead</string>
+    <string name="err_qr_expired_pair">QR expired</string>
+    <string name="err_missing_relay_url_pair">Missing relay URL</string>
+    <string name="pairing_coming_soon">Pairing received — feature coming soon</string>
+    <string name="err_pairing_failed">Pairing failed: %s</string>
+    <string name="err_device_not_registered">الجهاز غير مسجل على هذا الخادم — يرجى إعادة التسجيل في الإعدادات.</string>
+
+    <!-- Recovery phrase -->
+    <string name="section_recovery">عبارة الاسترداد</string>
+    <string name="recovery_desc">بمجرد نسخه احتياطيًا، يختفي هذا الزر ولن تتمكن من رؤيته مرة أخرى.</string>
+    <string name="btn_recovery_phrase">عرض عبارة الاسترداد</string>
+    <string name="recovery_biometric_subtitle">المصادقة لعرض عبارة الاسترداد</string>
+    <string name="recovery_phrase_title">عبارة الاسترداد الخاصة بك</string>
+    <string name="recovery_phrase_instruction">اكتب جميع الكلمات الـ 24 بالترتيب. لن تُعرض مرة أخرى أبدًا.</string>
+    <string name="recovery_phrase_next">لقد كتبتها</string>
+    <string name="recovery_verify_title">تحقق من نسختك الاحتياطية</string>
+    <string name="recovery_verify_instruction">أدخل الكلمات في هذه المواضع للتأكد من أنك كتبتها بشكل صحيح.</string>
+    <string name="recovery_word_hint">كلمة</string>
+    <string name="recovery_verify_confirm">تأكيد</string>
+    <string name="recovery_verify_wrong">غير صحيح — تحقق من العبارة المكتوبة وحاول مرة أخرى.</string>
+    <string name="recovery_confirm_success">تم تأكيد عبارة الاسترداد. احتفظ بها في مكان آمن.</string>
+    <string name="recovery_server_error">تعذر حفظ التأكيد. حاول مرة أخرى.</string>
+    <string name="logout_blocked_title">تأكيد أولاً</string>
+    <string name="logout_blocked_message">يجب عليك تأكيد عبارة الاسترداد قبل تسجيل الخروج. انقر على «عرض عبارة الاسترداد» أعلاه لحفظها أولاً.</string>
+
+    <!-- Log In Vault & Recovery Login -->
+    <string name="login_vault_title">تسجيل الدخول إلى الخزنة</string>
+    <string name="login_vault_option_import">الاستيراد من الهاتف القديم</string>
+    <string name="login_vault_option_recovery">استخدام عبارة الاسترداد</string>
+    <string name="login_vault_import_desc">امسح رمز QR من جهازك القديم لنقل الخزنة.</string>
+    <string name="login_vault_recovery_desc">أدخل عبارة الاسترداد المكونة من 24 كلمة لاستعادة الوصول.</string>
+    <string name="recovery_login_title">تسجيل الدخول بعبارة الاسترداد</string>
+    <string name="recovery_login_relay_label">عنوان URL للخادم</string>
+    <string name="recovery_login_relay_hint">http://192.168.1.10:8080</string>
+    <string name="recovery_login_device_id_label">معرّف الجهاز القديم</string>
+    <string name="recovery_login_device_id_hint">من إعدادات جهازك القديم</string>
+    <string name="recovery_login_phrase_label">عبارة الاسترداد (24 كلمة مفصولة بمسافات)</string>
+    <string name="recovery_login_phrase_hint">كلمة١ كلمة٢ كلمة٣ …</string>
+    <string name="recovery_login_btn">استعادة الخزنة</string>
+    <string name="recovery_login_fetching">جارٍ جلب الخزنة…</string>
+    <string name="recovery_login_decrypting">جارٍ فك تشفير الخزنة…</string>
+    <string name="recovery_login_registering">جارٍ تسجيل الجهاز…</string>
+    <string name="recovery_login_wrong_phrase">عبارة خاطئة — تعذّر فك تشفير الخزنة. تحقق من كل كلمة.</string>
+    <string name="recovery_login_not_available">الاسترداد غير متاح لهذه الخزنة.</string>
+    <string name="recovery_login_device_not_found">الجهاز غير موجود. تحقق من URL والمعرّف.</string>
+    <string name="recovery_login_success">تمت استعادة الخزنة بنجاح.</string>
+    <string name="recovery_login_error">فشل الاستعادة: %s</string>
+
+    <string name="next">التالي</string>
+    <string name="words_page_indicator">الكلمات %1$d–%2$d من 24</string>
+    <string name="word_label">كلمة %d</string>
+    <string name="recovery_word_unknown">كلمة غير معروفة</string>
+
+    <string name="prev_page">السابق</string>
+    <string name="restore">استعادة</string>
+
+    <!-- Add Device -->
+    <string name="add_device">إضافة جهاز</string>
+    <string name="add_device_title">إضافة جهاز</string>
+    <string name="add_device_desc">امسح رمز QR على الهاتف الجديد لإضافته إلى خزنتك.</string>
+    <string name="add_device_waiting">في انتظار مسح الجهاز الجديد…</string>
+    <string name="add_device_accepted">تم مسح الجهاز الجديد. جارٍ تسليم الوصول إلى الخزنة…</string>
+    <string name="add_device_done">تمت إضافة الجهاز الجديد بنجاح.</string>
+    <string name="add_device_error">فشل إضافة الجهاز: %s</string>
+    <string name="add_device_expired">انتهت صلاحية الدعوة. يُرجى المحاولة مجدداً.</string>
+    <string name="add_device_mode_title">الانضمام إلى الخزنة</string>
+    <string name="add_device_mode_desc">امسح رمز QR المعروض على الجهاز الموجود.</string>
+    <string name="add_device_at_limit">وصلت هذه الخزنة إلى حد الأجهزة. أزل جهازاً للمتابعة.</string>
+    <string name="kick_device_title">إزالة جهاز</string>
+    <string name="kick_device_message">وصلت الخزنة إلى الحد. اختر جهازاً لإزالته.</string>
+    <string name="kick_device_confirm">إزالة والانضمام</string>
+    <string name="kick_device_added_on">أُضيف في %s</string>
+
+    <string name="section_this_vault">خزنتك</string>
+    <string name="device_count_fmt">%1$d / %2$d أجهزة</string>
+    <string name="device_joined">سجّل الدخول في %s</string>
+    <string name="device_this">هذا الجهاز</string>
+    <string name="devices_offline">تعذّر الوصول إلى الخادم. ربما يكون معطلاً أو يواجه مشكلات.</string>
+
+    <string name="rename_device">إعادة تسمية الجهاز</string>
+    <string name="rename_device_hint">اسم الجهاز</string>
+    <string name="rename_device_success">تمت إعادة تسمية الجهاز.</string>
+    <string name="rename_device_error">فشل إعادة التسمية: %s</string>
+    <string name="scan_invite_qr">مسح رمز QR للدعوة</string>
+    <string name="qr_scan_instruction_invite">وجّه الكاميرا نحو رمز QR على الجهاز الآخر</string>
+</resources>

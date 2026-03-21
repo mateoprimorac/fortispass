@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/bioColorBg">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/bioColorBg2"
+        android:paddingHorizontal="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="?attr/bioColorText2"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconTint="?attr/bioColorText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/add_device_title"
+            android:textColor="?attr/bioColorText"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="?attr/bioColorBorder" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <ImageView
+            android:id="@+id/iv_qr"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:contentDescription="QR"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_device_waiting"
+            android:textSize="14sp"
+            android:textColor="?attr/bioColorText2"
+            android:textAlignment="center"
+            android:lineSpacingMultiplier="1.4" />
+
+    </LinearLayout>
+
+</LinearLayout>
