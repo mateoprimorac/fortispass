@@ -1,4 +1,18 @@
-# fortispass
+# 🔑 fortispass
+
+<img style="display: block; margin: auto;" width="500" height="250" alt="Fortispass logo" src="https://github.com/user-attachments/assets/a675cf0c-0418-4968-9ddf-dbaa902ec647"/>
+
+<h4 align="left">
+    <a href="https://github.com/mateoprimorac/fortispass/releases/tag/v1.0.0-kyubey" target="_blank">
+        <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
+    </a>
+    <a href="https://github.com/mateoprimorac/fortispass/commits/main/">
+        <img src="https://img.shields.io/github/commit-activity/w/mateoprimorac/fortispass" alt="Commit activity">
+    </a>
+    <a href="https://github.com/mateoprimorac/fortispass/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/mateoprimorac/fortispass" alt="License">
+    </a>
+</h4>
 
 A self-hosted, zero-knowledge password manager with biometric QR unlock. Your vault is AES-256-GCM encrypted on your device at all times. The relay server stores only ciphertext it cannot decrypt. 
 
@@ -191,5 +205,6 @@ This project was made for the [SUMIT Code Challenge 2026 hackathon](https://skol
 
 ## License
 
-Fortispass is licensed under the [MIT License](https://opensource.org/license/MIT).
+Fortispass is licensed under the [MIT License](https://opensource.org/license/MIT).<br>
 See [LICENSE](LICENSE).
+
