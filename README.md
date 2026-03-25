@@ -1,8 +1,9 @@
-# 🔑 fortispass
+<div align="center">
+<h1 align="center">fortispass</h1>
 
 <img style="display: block; margin: auto;" width="500" height="250" alt="Fortispass logo" src="https://github.com/user-attachments/assets/a675cf0c-0418-4968-9ddf-dbaa902ec647"/>
 
-<h4 align="left">
+<h4 align="center">
     <a href="https://github.com/mateoprimorac/fortispass/releases/tag/v1.0.0-kyubey" target="_blank">
         <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
     </a>
@@ -13,10 +14,11 @@
         <img src="https://img.shields.io/github/license/mateoprimorac/fortispass" alt="License">
     </a>
 </h4>
+</div>
 
-A self-hosted, zero-knowledge password manager with biometric QR unlock. Your vault is AES-256-GCM encrypted on your device at all times. The relay server stores only ciphertext it cannot decrypt. 
+A **self-hosted, zero-knowledge password manager** with biometric QR unlock.<br>Your vault is AES-256-GCM encrypted on your device at all times.<br>The relay server stores only ciphertext it cannot decrypt. 
 
-The ONLY official website for this project: [fortispass.com](https://fortispass.com)
+The **ONLY** official website for this project: [fortispass.com](https://fortispass.com)
 
 ## Components
 
