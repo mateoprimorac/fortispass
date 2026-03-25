@@ -12,16 +12,6 @@ The ONLY official website for this project: [fortispass.com](https://fortispass.
 
 **Chromium extension**: JavaScript, WebCrypto API, Manifest V3
 
-## How the unlock works
-
-The extension cannot ask for your biometrics directly, so it delegates to your phone. When you click the extension icon, it generates a random session ID and a one-time X25519 keypair, registers the session with your server, and renders a QR code.
-
-You scan the QR with the Android app. The app verifies the server's Ed25519 signature on the QR payload to confirm it came from a trusted server, then triggers a biometric prompt. On success, the Keystore releases the wrapped vault key.
-
-The app generates its own one-time X25519 keypair and performs an ECDH key exchange with the extension's public key. Both sides independently derive the same 256-bit session key using HKDF-SHA256 with the session ID as salt. The server sees both public keys in transit but cannot compute the shared secret because that requires a private key, which never leaves either device.
-
-The app encrypts the vault key with AES-256-GCM using the session key and posts the ciphertext to the server. The server forwards a notification to the extension over WebSocket. The extension fetches the ciphertext, derives the same session key independently, and decrypts the vault key. The vault key lives in service worker memory until the auto-lock timer fires or the browser closes.
-
 ---
 
 ## Prerequisites
@@ -33,7 +23,7 @@ The app encrypts the vault key with AES-256-GCM using the session key and posts 
 ## Server setup
 
 Everything is managed through `server.py`. You do not need to edit Docker or config files directly.
-You do need to be running a docker instance before running `server.py`.
+You do need to be running a Docker instance before running `server.py`.
 
 ```bash
 git clone https://github.com/mateoprimorac/fortispass.git
@@ -87,6 +77,18 @@ Pressing Ctrl+C detaches the dashboard. The server keeps running in Docker.
 
 ---
 
+## How the unlock works
+
+The extension cannot ask for your biometrics directly, so it delegates to your phone. When you click the extension icon, it generates a random session ID and a one-time X25519 keypair, registers the session with your server, and renders a QR code.
+
+You scan the QR with the Android app. The app verifies the server's Ed25519 signature on the QR payload to confirm it came from a trusted server, then triggers a biometric prompt. On success, the Keystore releases the wrapped vault key.
+
+The app generates its own one-time X25519 keypair and performs an ECDH key exchange with the extension's public key. Both sides independently derive the same 256-bit session key using HKDF-SHA256 with the session ID as salt. The server sees both public keys in transit but cannot compute the shared secret because that requires a private key, which never leaves either device.
+
+The app encrypts the vault key with AES-256-GCM using the session key and posts the ciphertext to the server. The server forwards a notification to the extension over WebSocket. The extension fetches the ciphertext, derives the same session key independently, and decrypts the vault key. The vault key lives in service worker memory until the auto-lock timer fires or the browser closes.
+
+---
+
 ## Authorization flow
 
 When a user opens the extension popup, the extension creates a session on the relay server by posting a randomly generated session ID and its ephemeral X25519 public key. The server signs the payload with its Ed25519 key and returns the signature. The extension displays all of this as a QR code and opens a WebSocket connection to wait for the result.
@@ -133,7 +135,7 @@ The 24-word recovery phrase is the canonical source of the vault key. The vault 
 
 ## Android app setup
 
-The following is how to build your own android application of this project. There should be an already built .apk on the releases section of this GitHub repository.
+The following is how to build your own android application of this project. There should be an already built .apk in the releases section of this GitHub repository.
 
 ### Building
 
@@ -158,7 +160,7 @@ By default a vault can have up to 3 devices. The server operator can change this
 ---
 
 ## Extension setup
-The following is how to setup the unpacked Chromium extension of this project. There should be an already packed extension on the releases section of this GitHub repository.
+The following is how to setup the unpacked Chromium extension of this project. There should be an already packed extension in the releases section of this GitHub repository.
 
 1. Go to `chrome://extensions`
 2. Enable **Developer mode** in the top right
@@ -189,4 +191,5 @@ This project was made for the [SUMIT Code Challenge 2026 hackathon](https://skol
 
 ## License
 
-[MIT](https://opensource.org/license/MIT)
+Fortispass is licensed under the [MIT License](https://opensource.org/license/MIT).
+See [LICENSE](LICENSE).
