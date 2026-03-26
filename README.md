@@ -1,7 +1,7 @@
 <div align="center">
 <h1 align="center">fortispass</h1>
 
-<img style="display: block; margin: auto;" width="500" height="250" alt="Fortispass logo" src="https://github.com/user-attachments/assets/a675cf0c-0418-4968-9ddf-dbaa902ec647"/>
+<img style="display: block; margin: auto;" width="500" height="260" alt="Fortispass logo" src="https://github.com/user-attachments/assets/7bb09c9b-3d37-42c3-ae94-ca1f6f75cd73"/>
 
 <h4 align="center">
     <a href="https://github.com/mateoprimorac/fortispass/releases/tag/v1.0.0-kyubey" target="_blank">
