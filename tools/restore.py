@@ -11,6 +11,7 @@ Usage:
 """
 
 import io
+import importlib
 import os
 import platform
 import subprocess
@@ -18,6 +19,8 @@ import sys
 import tarfile
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.dont_write_bytecode = True
 
 # Ensure tools/ is on the path so `from backup import ...` works regardless of cwd
 sys.path.insert(0, str(Path(__file__).parent))
@@ -68,9 +71,9 @@ def run_out(cmd):
 
 def check_deps():
     missing = []
-    for pkg in ["cryptography", "google.oauth2", "googleapiclient"]:
+    for pkg in ["cryptography", "google.oauth2", "googleapiclient.discovery", "googleapiclient.http"]:
         try:
-            __import__(pkg.replace(".", "/").split("/")[0])
+            importlib.import_module(pkg)
         except ImportError:
             missing.append(pkg)
     if missing:
@@ -96,6 +99,18 @@ def format_ts(ts_str: str) -> str:
         return ts_str
 
 
+def load_env_file(path: Path) -> dict[str, str]:
+    env_vars = {}
+    if not path.exists():
+        return env_vars
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, _, v = line.partition("=")
+            env_vars[k.strip()] = v.strip()
+    return env_vars
+
+
 def main():
     clr()
     print(ASCII_ART + "\n")
@@ -106,17 +121,22 @@ def main():
 
     # Import after dep check
     from backup import (
-        load_config, _drive_service, get_or_create_folder,
+        load_config, _drive_service, get_folder_metadata,
         list_backups, download_backup, decrypt_backup,
-        passphrase_to_key, DRIVE_FOLDER, LOCAL_CREDS
+        passphrase_to_key, DRIVE_FOLDER, LOCAL_CREDS,
+        _extract_folder_id, _is_not_found_error, _is_forbidden_error,
+        _is_storage_quota_error, _print_folder_access_guidance,
+        _print_shared_drive_guidance, _service_account_email,
     )
 
     # -- Resolve credentials ---------------------------------------------------
     # Works in two modes:
     #   1. Config exists on this machine (backup was set up here) — use stored creds.
     #   2. Fresh machine / disaster recovery — ask for the credentials JSON path.
-    cfg        = load_config()
+    cfg = load_config()
     creds_path = None  # None = _drive_service() uses LOCAL_CREDS automatically
+    creds_file = LOCAL_CREDS
+    folder_id = (cfg or {}).get("folder_id")
 
     if cfg and cfg.get("enabled") and LOCAL_CREDS.exists():
         # Happy path — configured locally already
@@ -135,9 +155,20 @@ def main():
             p = Path(os.path.expanduser(raw))
             if p.exists():
                 creds_path = str(p)
+                creds_file = p
                 break
             print(f"  {RED}File not found: {p}{RESET}  — try again.\n")
         print()
+
+    if not folder_id:
+        print(f"  {DIM}Restore needs the exact Google Drive folder ID used for backups.{RESET}")
+        print(f"  {DIM}Paste the folder URL or just the folder ID below.{RESET}\n")
+        while True:
+            raw_folder = input("  Backup folder ID or full folder URL: ").strip()
+            folder_id = _extract_folder_id(raw_folder)
+            if folder_id:
+                break
+            print(f"  {RED}Folder ID is required.{RESET}\n")
 
     # -- Connect to Drive ------------------------------------------------------
     print("  Connecting to Google Drive …", end=" ", flush=True)
@@ -148,30 +179,22 @@ def main():
         print(f"\n  {RED}Could not connect to Drive:{RESET} {e}")
         sys.exit(1)
 
-    # -- Find backup folder ----------------------------------------------------
-    # Use stored folder_id if available (most reliable).
-    # Otherwise search by name — never create a new folder during restore.
-    folder_id = (cfg or {}).get("folder_id")
-    if not folder_id:
-        print(f"  Searching for Drive folder '{DRIVE_FOLDER}' …", end=" ", flush=True)
-        try:
-            q = (f"name='{DRIVE_FOLDER}' and "
-                 f"mimeType='application/vnd.google-apps.folder' and trashed=false")
-            resp    = svc.files().list(q=q, fields="files(id,name)").execute()
-            folders = resp.get("files", [])
-            if not folders:
-                print(f"\n\n  {RED}Folder '{DRIVE_FOLDER}' not found on Google Drive.{RESET}")
-                print(f"  Make sure you are using the same service-account credentials")
-                print(f"  that were used when backups were set up.\n")
-                sys.exit(1)
-            if len(folders) > 1:
-                print(f"{YELLOW}found {len(folders)} folders with that name — using the first{RESET}")
-            else:
-                print(f"{GREEN}found{RESET}")
-            folder_id = folders[0]["id"]
-        except Exception as e:
-            print(f"\n  {RED}Drive search failed:{RESET} {e}")
-            sys.exit(1)
+    # -- Validate backup folder ------------------------------------------------
+    print("  Verifying backup folder …", end=" ", flush=True)
+    try:
+        folder_meta = get_folder_metadata(svc, folder_id)
+        if folder_meta.get("mimeType") != "application/vnd.google-apps.folder":
+            raise ValueError("The provided ID is not a Google Drive folder")
+        print(f"{GREEN}done{RESET}")
+        print(f"  Folder: {BOLD}{folder_meta.get('name', DRIVE_FOLDER)}{RESET}")
+        print(f"  {DIM}folder_id: {folder_id}{RESET}\n")
+    except Exception as e:
+        print(f"\n  {RED}Could not access backup folder:{RESET} {e}")
+        if _is_storage_quota_error(e):
+            _print_shared_drive_guidance()
+        elif _is_not_found_error(e) or _is_forbidden_error(e):
+            _print_folder_access_guidance(_service_account_email(creds_file))
+        sys.exit(1)
 
     # -- List backups ----------------------------------------------------------
     print("  Listing backups …", end=" ", flush=True)
@@ -310,8 +333,10 @@ def main():
             if result.returncode == 0:
                 break
             time.sleep(2)
+        else:
+            raise RuntimeError("postgres did not become ready in time")
         print(f"{GREEN}done{RESET}")
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         print(f"\n  {RED}Failed to start postgres:{RESET} {e}")
         sys.exit(1)
 
@@ -319,25 +344,23 @@ def main():
     if sql_data:
         print("  Restoring database …", end=" ", flush=True)
         try:
-            # Load .env to get postgres password
-            env_vars = {}
             env_file = HERE / ".env"
-            if env_file.exists():
-                for line in env_file.read_text().splitlines():
-                    if line and not line.startswith("#") and "=" in line:
-                        k, _, v = line.partition("=")
-                        env_vars[k.strip()] = v.strip()
-
+            env_vars = load_env_file(env_file)
             pg_pass = env_vars.get("POSTGRES_PASSWORD", "")
             env_copy = os.environ.copy()
             env_copy["PGPASSWORD"] = pg_pass
 
-            # Drop + recreate schema, then restore
             drop_cmd = (
                 f"{COMPOSE} exec -T postgres psql -U fortispass -d postgres "
-                f"-c 'DROP DATABASE IF EXISTS fortispass; CREATE DATABASE fortispass;'"
+                f'-c "DROP DATABASE IF EXISTS fortispass WITH (FORCE);"'
+            )
+            create_cmd = (
+                f"{COMPOSE} exec -T postgres psql -U fortispass -d postgres "
+                f'-c "CREATE DATABASE fortispass;"'
             )
             subprocess.run(drop_cmd, shell=True, cwd=str(HERE),
+                           env=env_copy, check=True, capture_output=True)
+            subprocess.run(create_cmd, shell=True, cwd=str(HERE),
                            env=env_copy, check=True, capture_output=True)
 
             restore_cmd = f"{COMPOSE} exec -T postgres psql -U fortispass -d fortispass"
@@ -365,7 +388,9 @@ def main():
         sys.exit(1)
 
     print(f"\n  {GREEN}{BOLD}[OK]  Restore complete.{RESET}")
-    print(f"  Your server is back up at  {WHITE}http://localhost:8080{RESET}")
+    env_vars = load_env_file(HERE / ".env")
+    listen_port = env_vars.get("LISTEN_PORT", "8080")
+    print(f"  Your server is back up at  {WHITE}http://localhost:{listen_port}{RESET}")
     print(f"  Run  {BOLD}python server.py{RESET}  to view the dashboard.\n")
 
 

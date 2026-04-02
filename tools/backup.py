@@ -28,11 +28,13 @@ External dependencies (pip install):
 """
 
 import base64
+import importlib
 import io
 import json
 import os
 import platform
 import random
+import re
 import shutil
 import secrets
 import subprocess
@@ -42,6 +44,8 @@ import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.dont_write_bytecode = True
 
 # -- ANSI ----------------------------------------------------------------------
 RESET  = "\033[0m"
@@ -222,11 +226,31 @@ def _drive_service(creds_path: str = None):
     return build("drive", "v3", credentials=creds, cache_discovery=False)
 
 
+def _drive_list_all(service, *, q: str, fields: str, order_by: str | None = None) -> list[dict]:
+    files = []
+    page_token = None
+    while True:
+        request = service.files().list(
+            q=q,
+            fields=f"nextPageToken, files({fields})",
+            orderBy=order_by,
+            pageSize=1000,
+            pageToken=page_token,
+            includeItemsFromAllDrives=True,
+            supportsAllDrives=True,
+        )
+        resp = request.execute()
+        files.extend(resp.get("files", []))
+        page_token = resp.get("nextPageToken")
+        if not page_token:
+            return files
+
+
 def get_or_create_folder(service, folder_name: str) -> str:
-    q = (f"name='{folder_name}' and mimeType='application/vnd.google-apps.folder'"
+    escaped_name = folder_name.replace("'", "\\'")
+    q = (f"name='{escaped_name}' and mimeType='application/vnd.google-apps.folder'"
          f" and trashed=false")
-    resp  = service.files().list(q=q, fields="files(id,name)").execute()
-    files = resp.get("files", [])
+    files = _drive_list_all(service, q=q, fields="id,name")
     if files:
         return files[0]["id"]
     meta   = {"name": folder_name, "mimeType": "application/vnd.google-apps.folder"}
@@ -234,37 +258,60 @@ def get_or_create_folder(service, folder_name: str) -> str:
     return folder["id"]
 
 
+def get_folder_metadata(service, folder_id: str) -> dict:
+    return service.files().get(
+        fileId=folder_id,
+        fields="id,name,mimeType,driveId",
+        supportsAllDrives=True,
+    ).execute()
+
+
 def upload_backup(service, folder_id: str, filename: str, data: bytes) -> str:
     from googleapiclient.http import MediaIoBaseUpload
     meta  = {"name": filename, "parents": [folder_id]}
     media = MediaIoBaseUpload(io.BytesIO(data), mimetype="application/octet-stream")
-    f     = service.files().create(body=meta, media_body=media, fields="id").execute()
+    f     = service.files().create(
+        body=meta,
+        media_body=media,
+        fields="id",
+        supportsAllDrives=True,
+    ).execute()
     return f["id"]
 
 
 def prune_old_backups(service, folder_id: str, keep: int = MAX_BACKUPS) -> int:
-    q    = f"'{folder_id}' in parents and trashed=false"
-    resp = service.files().list(
-        q=q, fields="files(id,name,createdTime)", orderBy="createdTime asc"
-    ).execute()
-    files     = resp.get("files", [])
+    q = (
+        f"'{folder_id}' in parents and trashed=false "
+        f"and mimeType!='application/vnd.google-apps.folder'"
+    )
+    files = _drive_list_all(
+        service,
+        q=q,
+        fields="id,name,createdTime",
+        order_by="createdTime asc",
+    )
     to_delete = files[:max(0, len(files) - keep)]
     for f in to_delete:
-        service.files().delete(fileId=f["id"]).execute()
+        service.files().delete(fileId=f["id"], supportsAllDrives=True).execute()
     return len(to_delete)
 
 
 def list_backups(service, folder_id: str) -> list:
-    q    = f"'{folder_id}' in parents and trashed=false"
-    resp = service.files().list(
-        q=q, fields="files(id,name,createdTime,size)", orderBy="createdTime desc"
-    ).execute()
-    return resp.get("files", [])
+    q = (
+        f"'{folder_id}' in parents and trashed=false "
+        f"and mimeType!='application/vnd.google-apps.folder'"
+    )
+    return _drive_list_all(
+        service,
+        q=q,
+        fields="id,name,createdTime,size",
+        order_by="createdTime desc",
+    )
 
 
 def download_backup(service, file_id: str) -> bytes:
     from googleapiclient.http import MediaIoBaseDownload
-    req  = service.files().get_media(fileId=file_id)
+    req  = service.files().get_media(fileId=file_id, supportsAllDrives=True)
     buf  = io.BytesIO()
     dl   = MediaIoBaseDownload(buf, req)
     done = False
@@ -288,7 +335,8 @@ def save_config(cfg: dict):
 
 
 def is_configured() -> bool:
-    return load_config() is not None
+    cfg = load_config()
+    return bool(cfg and cfg.get("setup_complete"))
 
 
 def get_backup_key() -> bytes | None:
@@ -321,9 +369,9 @@ def verify_passphrase_wizard(words: list[str]) -> bool:
 def _check_google_deps():
     """Exit with a helpful message if Google API libraries are not installed."""
     missing = []
-    for pkg in ["google.oauth2", "googleapiclient"]:
+    for pkg in ["google.oauth2", "googleapiclient.discovery", "googleapiclient.http"]:
         try:
-            __import__(pkg.split(".")[0])
+            importlib.import_module(pkg)
         except ImportError:
             missing.append(pkg)
     if missing:
@@ -333,26 +381,109 @@ def _check_google_deps():
         sys.exit(1)
 
 
+def _is_storage_quota_error(exc: Exception) -> bool:
+    try:
+        from googleapiclient.errors import HttpError
+    except ImportError:
+        return False
+    if not isinstance(exc, HttpError):
+        return False
+    return exc.resp.status == 403 and "Service Accounts do not have storage quota" in str(exc)
+
+
+def _print_shared_drive_guidance():
+    print(f"\n  {YELLOW}Google service accounts cannot store backups in their own Drive space.{RESET}")
+    print(f"  {YELLOW}Use an existing folder inside a Shared Drive, or another Drive folder{RESET}")
+    print(f"  {YELLOW}that has been shared with the service account as an editor.{RESET}\n")
+    print(f"  {DIM}Fix:{RESET}")
+    print(f"  {DIM}  1. Create a destination folder in Google Drive / Shared Drive{RESET}")
+    print(f"  {DIM}  2. Share it with the service account email from your JSON file{RESET}")
+    print(f"  {DIM}  3. Copy that folder's ID from the URL{RESET}")
+    print(f"  {DIM}  4. Re-run backup setup and paste that folder ID when asked{RESET}\n")
+
+
+def _print_folder_access_guidance(service_account_email: str | None = None):
+    print(f"\n  {YELLOW}That folder ID is not visible to the service account.{RESET}")
+    if service_account_email:
+        print(f"  {YELLOW}Service account:{RESET} {BOLD}{service_account_email}{RESET}")
+    print(f"  {DIM}Check all of these:{RESET}")
+    print(f"  {DIM}  1. You copied the folder URL/ID from the actual destination folder{RESET}")
+    print(f"  {DIM}  2. The folder is shared directly with the service account as Editor{RESET}")
+    print(f"  {DIM}  3. If it is in a Shared Drive, the service account was added there too{RESET}")
+    print(f"  {DIM}  4. You are not pasting a file ID by mistake{RESET}\n")
+
+
+def _extract_folder_id(raw: str) -> str:
+    value = raw.strip()
+    if not value:
+        return ""
+    match = re.search(r"/folders/([a-zA-Z0-9_-]+)", value)
+    if match:
+        return match.group(1)
+    match = re.search(r"[?&]id=([a-zA-Z0-9_-]+)", value)
+    if match:
+        return match.group(1)
+    return value
+
+
+def _service_account_email(creds_path: Path) -> str | None:
+    try:
+        data = json.loads(creds_path.read_text())
+    except Exception:
+        return None
+    email = data.get("client_email")
+    return email if isinstance(email, str) and email else None
+
+
+def _is_not_found_error(exc: Exception) -> bool:
+    try:
+        from googleapiclient.errors import HttpError
+    except ImportError:
+        return False
+    return isinstance(exc, HttpError) and exc.resp.status == 404
+
+
+def _is_forbidden_error(exc: Exception) -> bool:
+    try:
+        from googleapiclient.errors import HttpError
+    except ImportError:
+        return False
+    return isinstance(exc, HttpError) and exc.resp.status == 403
+
+
+def _print_folder_reconfigure_guidance():
+    print(f"\n  {YELLOW}Backup setup is incomplete.{RESET}")
+    print(f"  {DIM}Re-run backup setup and select a destination folder that is shared{RESET}")
+    print(f"  {DIM}with the Google service account.{RESET}\n")
+
+
 def setup_wizard(interval_hours: int = 4) -> bool:
     """
     First-time interactive setup. Returns True if enabled, False if skipped.
     Saves config and copies credentials file locally on success.
     """
     _check_google_deps()
-    print(f"\n  {BOLD}Google Drive Backup Setup{RESET}")
+    print(f"  {BOLD}Google Drive Backup Setup{RESET}")
     print(f"  {DIM}{'-' * 44}{RESET}\n")
     print("  fortispass can automatically back up your database and")
     print(f"  server secrets to Google Drive every {interval_hours}h.\n")
 
-    ans = input(f"  Enable Google Drive backups? [{BOLD}y{RESET}/n]: ").strip().lower()
-    if ans not in ("y", "yes", ""):
-        print(f"\n  {DIM}Skipped. Delete .backup_config.json to be asked again.{RESET}\n")
-        save_config({"enabled": False})
-        return False
+    while True:
+        ans = input(f"  Enable Google Drive backups? [{BOLD}y{RESET}/n]: ").strip().lower()
+        if ans in ("y", "yes"):
+            break
+        if ans in ("n", "no"):
+            print(f"\n  {DIM}Skipped. Delete .backup_config.json to be asked again.{RESET}\n")
+            save_config({"enabled": False, "setup_complete": True})
+            return False
+        print(f"  {YELLOW}Please enter y or n.{RESET}\n")
 
     print()
     print("  You need a Google service account credentials file (JSON key).")
     print("  Guide: https://cloud.google.com/iam/docs/service-accounts-create\n")
+    print("  Important: service accounts do not have personal Drive storage.")
+    print("  Backups must go into an existing shared folder or Shared Drive folder")
+    print("  that is explicitly shared with the service account email.\n")
 
     while True:
         raw_path = input("  Path to credentials JSON file: ").strip().strip('"')
@@ -360,23 +491,41 @@ def setup_wizard(interval_hours: int = 4) -> bool:
         if not creds_path.is_file():
             print(f"  {RED}File not found.{RESET} Try again.\n")
             continue
+        service_account_email = _service_account_email(creds_path)
         try:
             # Copy credentials locally so path changes don't break anything
             shutil.copy2(str(creds_path), str(LOCAL_CREDS))
-            # Test the copied file
-            svc       = _drive_service()
-            folder_id = get_or_create_folder(svc, DRIVE_FOLDER)
+            svc = _drive_service()
+            if service_account_email:
+                print(f"  Service account: {BOLD}{service_account_email}{RESET}")
+
+            raw_folder = input(
+                "  Destination folder ID or full folder URL for backups: "
+            ).strip()
+            folder_id = _extract_folder_id(raw_folder)
+            if not folder_id:
+                raise ValueError("Folder ID is required")
+
+            folder_meta = get_folder_metadata(svc, folder_id)
+            if folder_meta.get("mimeType") != "application/vnd.google-apps.folder":
+                raise ValueError("The provided ID is not a Google Drive folder")
+
             print(f"  {GREEN}[OK]{RESET}  Connected. Credentials saved locally.")
-            print(f"       Backups -> Drive folder: {BOLD}{DRIVE_FOLDER}{RESET}\n")
+            print(f"       Backup destination: {BOLD}{folder_meta.get('name', folder_id)}{RESET}")
+            print(f"       Folder ID: {DIM}{folder_id}{RESET}\n")
             break
         except Exception as e:
             # Remove failed copy
             if LOCAL_CREDS.exists():
                 LOCAL_CREDS.unlink()
             print(f"  {RED}Could not connect:{RESET} {e}\n")
+            if _is_storage_quota_error(e):
+                _print_shared_drive_guidance()
+            elif _is_not_found_error(e):
+                _print_folder_access_guidance(service_account_email)
             retry = input("  Try a different file? [y/n]: ").strip().lower()
             if retry not in ("y", "yes"):
-                save_config({"enabled": False})
+                save_config({"enabled": False, "setup_complete": True})
                 return False
 
     # -- Generate backup key and derive passphrase from it ---------------------
@@ -409,6 +558,7 @@ def setup_wizard(interval_hours: int = 4) -> bool:
     # -- Save config (key stored in config, passphrase is never stored) ---------
     cfg = {
         "enabled":        True,
+        "setup_complete": True,
         "folder_id":      folder_id,
         "interval_hours": interval_hours,
         "max_backups":    MAX_BACKUPS,
@@ -441,6 +591,7 @@ def run_backup(silent: bool = False) -> datetime | None:
             print(f"  {RED}No backup key found in config.{RESET}")
         return None
 
+    global _last_backup_time
     try:
         if not silent:
             print("\n  Building backup archive …", end=" ", flush=True)
@@ -453,13 +604,18 @@ def run_backup(silent: bool = False) -> datetime | None:
 
         if not silent:
             print("uploading …", end=" ", flush=True)
-        folder_id = cfg.get("folder_id") or get_or_create_folder(svc, DRIVE_FOLDER)
+        folder_id = cfg.get("folder_id")
+        if not folder_id:
+            raise RuntimeError("No backup destination folder is configured. Re-run backup setup.")
+        get_folder_metadata(svc, folder_id)
         upload_backup(svc, folder_id, fn, encrypted)
         pruned = prune_old_backups(svc, folder_id, cfg.get("max_backups", MAX_BACKUPS))
 
         now                = datetime.now(timezone.utc)
+        cfg["folder_id"]   = folder_id
         cfg["last_backup"] = now.isoformat()
         save_config(cfg)
+        _last_backup_time = now
 
         if not silent:
             print(f"{GREEN}done{RESET}")
@@ -470,6 +626,12 @@ def run_backup(silent: bool = False) -> datetime | None:
     except Exception as e:
         if not silent:
             print(f"\n  {RED}Backup failed:{RESET} {e}")
+            if _is_storage_quota_error(e):
+                _print_shared_drive_guidance()
+            elif _is_not_found_error(e) or _is_forbidden_error(e):
+                _print_folder_access_guidance()
+            elif "No backup destination folder is configured" in str(e):
+                _print_folder_reconfigure_guidance()
         return None
 
 
@@ -496,6 +658,8 @@ def start_scheduler(interval_hours: int = None):
     global _scheduler_thread
     cfg = load_config()
     if not cfg or not cfg.get("enabled"):
+        return
+    if _scheduler_thread is not None and _scheduler_thread.is_alive():
         return
     interval = interval_hours if interval_hours is not None else cfg.get("interval_hours", 4)
     # Persist override so dashboard shows accurate next-backup time
@@ -568,9 +732,11 @@ def _standalone_main():
 
     cfg = load_config()
     if cfg is not None and cfg.get("enabled"):
-        print(f"\n  {GREEN}Backups are already configured and enabled.{RESET}")
-        print(f"  To reconfigure, delete {BOLD}.backup_config.json{RESET} and re-run.\n")
-        sys.exit(0)
+        print(f"\n  {YELLOW}Backups are already configured.{RESET}")
+        ans = input(f"  Reconfigure backup destination and passphrase? [y/N]: ").strip().lower()
+        if ans not in ("y", "yes"):
+            print()
+            sys.exit(0)
 
     print()
     result = setup_wizard()

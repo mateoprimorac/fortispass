@@ -4,6 +4,10 @@ Entry point. Loads config and starts Uvicorn.
 
 from __future__ import annotations
 
+import sys
+
+sys.dont_write_bytecode = True
+
 import uvicorn
 
 from api.router import create_app

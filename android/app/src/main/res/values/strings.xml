@@ -10,9 +10,12 @@
     <string name="setup_subtitle">Enter your relay server URL to get started. No account or master password needed.</string>
     <string name="relay_url_label">Relay Server URL</string>
     <string name="relay_url_hint">http://192.168.1.x:8080</string>
-    <string name="device_name_label">Device Name (optional)</string>
+    <string name="device_name_label">Device Name</string>
     <string name="device_name_hint">My Phone</string>
     <string name="btn_register">Create Vault</string>
+    <string name="btn_github">GitHub Repository</string>
+    <string name="version_kyubey">v1.0.1 “Kyubey”</string>
+    <string name="err_enter_device_name">Enter device name</string>
 
     <!-- QR scan screen -->
     <string name="qr_scan_title">Scan QR Code</string>

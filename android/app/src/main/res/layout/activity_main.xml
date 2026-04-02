@@ -1,73 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
     android:background="?attr/bioColorBg">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_app_logo"
-        android:layout_marginBottom="6dp"
-        android:contentDescription="fortispass" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layoutDirection="ltr"
-        android:layout_marginBottom="48dp">
-        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:paddingBottom="108dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_app_logo"
+            android:layout_marginBottom="6dp"
+            android:contentDescription="fortispass" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="fortis"
-            android:textSize="22sp"
-            android:fontFamily="@font/space_grotesk_semibold"
-            android:textColor="#0666CC" />
-        <TextView
-            android:id="@+id/tv_pass"
-            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layoutDirection="ltr"
+            android:layout_marginBottom="48dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fortis"
+                android:textSize="22sp"
+                android:fontFamily="@font/space_grotesk_semibold"
+                android:textColor="#0666CC" />
+            <TextView
+                android:id="@+id/tv_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="pass"
+                android:textSize="22sp"
+                android:fontFamily="@font/space_grotesk_semibold"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_scan_qr"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="pass"
-            android:textSize="22sp"
-            android:fontFamily="@font/space_grotesk_semibold"
-            android:textColor="@color/white" />
+            android:minHeight="56dp"
+            android:paddingVertical="14dp"
+            android:text="@string/btn_scan_qr"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/bioColorAccent"
+            android:textColor="@color/white"
+            android:layout_marginBottom="12dp"
+            app:icon="@drawable/ic_qr_code"
+            app:iconGravity="start"
+            app:iconPadding="10dp"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:paddingVertical="12dp"
+            android:text="@string/btn_settings"
+            android:textSize="14sp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="?attr/bioColorText2"
+            app:icon="@drawable/ic_settings"
+            app:iconGravity="start"
+            app:iconPadding="10dp"
+            app:iconTint="?attr/bioColorText2" />
+
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_scan_qr"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_github"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:paddingVertical="14dp"
-        android:text="@string/btn_scan_qr"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:backgroundTint="?attr/bioColorAccent"
-        android:textColor="@color/white"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
-        app:icon="@drawable/ic_qr_code"
-        app:iconGravity="start"
-        app:iconPadding="10dp"
-        app:iconTint="@color/white" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="52dp"
-        android:paddingVertical="12dp"
-        android:text="@string/btn_settings"
-        android:textSize="14sp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minHeight="0dp"
+        android:paddingStart="10dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="6dp"
+        android:text="@string/btn_github"
+        android:textAllCaps="false"
         android:textColor="?attr/bioColorText2"
-        app:icon="@drawable/ic_settings"
-        app:iconGravity="start"
-        app:iconPadding="10dp"
-        app:iconTint="?attr/bioColorText2" />
+        android:textSize="12sp"
+        android:letterSpacing="0"
+        app:backgroundTint="@android:color/transparent"
+        app:icon="@drawable/ic_github"
+        app:iconSize="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="4dp"
+        app:iconTint="?attr/bioColorText2"
+        app:rippleColor="?attr/bioColorBorder"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="18dp"
+        android:text="@string/version_kyubey"
+        android:textSize="12sp"
+        android:textColor="?attr/bioColorText2" />
+
+</FrameLayout>

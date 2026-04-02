@@ -1,0 +1,26 @@
+# Secrets and local runtime config
+.env
+.env.pre_restore
+.backup_config.json
+.fortispass_credentials.json
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Android local machine files and build outputs
+android/local.properties
+android/.gradle/
+android/app/build/
+android/build/
+*.apk
+*.aab
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

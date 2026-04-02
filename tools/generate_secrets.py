@@ -14,6 +14,8 @@ import os
 import secrets
 import sys
 
+sys.dont_write_bytecode = True
+
 try:
     import nacl.signing
 except ImportError:

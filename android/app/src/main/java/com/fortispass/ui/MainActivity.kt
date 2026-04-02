@@ -2,6 +2,7 @@ package com.fortispass.ui
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -46,6 +47,9 @@ class MainActivity : com.fortispass.ui.BaseActivity() {
         }
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        binding.btnGithub.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/mateoprimorac/fortispass")))
         }
         if (intent.getBooleanExtra("open_settings", false)) {
             startActivity(Intent(this, SettingsActivity::class.java))

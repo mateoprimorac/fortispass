@@ -21,13 +21,18 @@ Other tools (run from project root):
 import base64
 import os
 import platform
+import re
 import secrets
 import socket
 import subprocess
 import sys
+import threading
 import time
+import urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.dont_write_bytecode = True
 
 # -- Dependency check + auto-install ------------------------------------------
 _REQUIRED = [
@@ -78,6 +83,284 @@ def _ensure_deps():
 _ensure_deps()
 import nacl.signing  # now safe to import at module level
 
+# -- Early console helpers used by top-level flag handlers ---------------------
+def _early_clr():
+    if not is_interactive_terminal():
+        return
+    try:
+        os.system("cls" if platform.system() == "Windows" else "clear")
+    except Exception:
+        pass
+
+
+def set_terminal_title(title: str):
+    if not is_interactive_terminal():
+        return
+    safe_title = title.replace("\x1b", "")
+    try:
+        if platform.system() == "Windows":
+            os.system(f"title {safe_title}")
+        else:
+            sys.stdout.write(f"\33]0;{safe_title}\a")
+            sys.stdout.flush()
+    except Exception:
+        pass
+
+
+def restore_terminal_state():
+    if not is_interactive_terminal():
+        return
+    try:
+        sys.stdout.write("\033[?25h")
+        sys.stdout.flush()
+    except Exception:
+        pass
+
+
+def is_interactive_terminal() -> bool:
+    try:
+        return bool(sys.stdin and sys.stdin.isatty() and sys.stdout and sys.stdout.isatty())
+    except Exception:
+        return False
+
+
+def _early_run(cmd, check=True, quiet=False):
+    kwargs = {
+        "shell": True,
+        "cwd": str(Path(__file__).parent.resolve()),
+        "check": check,
+    }
+    if quiet:
+        kwargs["stdout"] = subprocess.DEVNULL
+        kwargs["stderr"] = subprocess.DEVNULL
+    return subprocess.run(cmd, **kwargs)
+
+
+def windows_parent_process_name() -> str | None:
+    if platform.system() != "Windows":
+        return None
+    try:
+        result = subprocess.run(
+            ["tasklist", "/FI", f"PID eq {os.getppid()}", "/FO", "CSV", "/NH"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            return None
+        line = result.stdout.strip().splitlines()[0] if result.stdout.strip() else ""
+        if not line or line.startswith("INFO:"):
+            return None
+        match = re.match(r'"([^"]+)"', line)
+        if not match:
+            return None
+        return match.group(1).lower()
+    except Exception:
+        return None
+
+
+def launched_from_shell() -> bool:
+    if platform.system() != "Windows":
+        return True
+    parent = windows_parent_process_name()
+    if not parent:
+        return True
+    return parent in {
+        "cmd.exe",
+        "powershell.exe",
+        "pwsh.exe",
+        "bash.exe",
+        "wsl.exe",
+        "sh.exe",
+    }
+
+
+def handoff_to_interactive_shell(access_value: str):
+    if platform.system() != "Windows":
+        return
+    if not is_interactive_terminal():
+        return
+    if launched_from_shell():
+        return
+
+    shell = os.environ.get("COMSPEC") or "cmd.exe"
+    try:
+        subprocess.run([shell, "/K", "title fortispass"], cwd=str(HERE), check=False)
+    except Exception:
+        pass
+
+
+set_terminal_title("fortispass")
+
+
+class SetupAnimation:
+    def __init__(self, message: str = "setting up server"):
+        self._message = message
+        self._detail = ""
+        self._last_detail = None
+        self._stop = threading.Event()
+        self._lock = threading.Lock()
+        self._thread = None
+        self._rendered = False
+        self._interactive = is_interactive_terminal()
+
+    def start(self, detail: str = ""):
+        with self._lock:
+            self._detail = detail
+        if not self._interactive:
+            self._render_fallback(detail)
+            return
+        if self._thread and self._thread.is_alive():
+            return
+        self._stop.clear()
+        self._thread = threading.Thread(target=self._run, daemon=True, name="setup-animation")
+        self._thread.start()
+
+    def update(self, detail: str):
+        with self._lock:
+            self._detail = detail
+        if not self._interactive:
+            self._render_fallback(detail)
+
+    def stop(self):
+        if not self._interactive:
+            return
+        self._stop.set()
+        if self._thread and self._thread.is_alive():
+            self._thread.join(timeout=0.3)
+        if self._rendered:
+            # Remove the transient block cleanly without touching the ASCII art.
+            # The animation renders 2 spacer lines, 1 message line, and 1 detail line.
+            try:
+                sys.stdout.write("\033[4F")
+                for _ in range(4):
+                    sys.stdout.write("\r\033[2K\n")
+                restore_terminal_state()
+            except Exception:
+                pass
+            self._rendered = False
+            self._last_detail = None
+        self._thread = None
+
+    def _run(self):
+        step = 0
+        try:
+            self._render_static_frame()
+            while not self._stop.is_set():
+                with self._lock:
+                    detail = self._detail
+
+                self._render_status(step, detail)
+
+                step += 1
+                if self._stop.wait(0.12):
+                    break
+        except Exception:
+            self._interactive = False
+            self._rendered = False
+            restore_terminal_state()
+
+    def _render_static_frame(self):
+        _early_clr()
+        sys.stdout.write("\033[?25l")
+        sys.stdout.write(ASCII_ART + "\n\n\n")
+        sys.stdout.write(f"           {WHITE}{self._message}{RESET}\n")
+        sys.stdout.write("  \n")
+        sys.stdout.flush()
+        self._rendered = True
+        self._last_detail = ""
+
+    def _render_status(self, step: int, detail: str):
+        sys.stdout.write("\033[2F")
+        sys.stdout.write("\r")
+        sys.stdout.write(self._render_message(step))
+        sys.stdout.write("\n")
+        if detail != self._last_detail:
+            sys.stdout.write("\r\033[2K")
+            if detail:
+                sys.stdout.write(f"  {DIM}{detail}{RESET}\n")
+            else:
+                sys.stdout.write("\n")
+            self._last_detail = detail
+        else:
+            sys.stdout.write("\n")
+        sys.stdout.flush()
+
+    def _render_message(self, step: int) -> str:
+        spinner_frames = [
+            f"{WHITE}{BOLD}●{RESET} {DIM}● ●{RESET}",
+            f"{DIM}●{RESET} {WHITE}{BOLD}●{RESET} {DIM}●{RESET}",
+            f"{DIM}● ●{RESET} {WHITE}{BOLD}●{RESET}",
+        ]
+        spinner = spinner_frames[(step // 4) % len(spinner_frames)]
+        return f"  {spinner}"
+
+    def _render_fallback(self, detail: str):
+        status = detail or self._message
+        if status == self._last_detail:
+            return
+        print(f"  {DIM}{status}{RESET}")
+        self._last_detail = status
+
+
+def print_docker_not_running_message():
+    print(f"  {RED}{'=' * 54}{RESET}")
+    print(f"  {RED}{BOLD}  Docker is not running or not installed.{RESET}")
+    print(f"  {RED}{'=' * 54}{RESET}\n")
+    print(f"  Fortispass runs inside Docker. To fix this:\n")
+    print(f"  {BOLD}Windows / macOS:{RESET}")
+    print(f"    1. Download Docker Desktop from  https://docker.com/products/docker-desktop")
+    print(f"    2. Install and launch it")
+    print(f"    3. Wait for the whale icon to appear in the system tray")
+    print(f"    4. Run  python server.py  again\n")
+
+
+def secure_delete_file(path: Path):
+    """Best-effort overwrite-then-delete for small local secret files."""
+    if not path.exists() or not path.is_file():
+        return
+    try:
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
+
+    size = path.stat().st_size
+    if size > 0:
+        chunk_size = 64 * 1024
+        with path.open("r+b", buffering=0) as f:
+            for pattern in ("random", "zeros"):
+                f.seek(0)
+                remaining = size
+                while remaining > 0:
+                    chunk_len = min(chunk_size, remaining)
+                    if pattern == "random":
+                        chunk = os.urandom(chunk_len)
+                    else:
+                        chunk = b"\x00" * chunk_len
+                    f.write(chunk)
+                    remaining -= chunk_len
+                f.flush()
+                os.fsync(f.fileno())
+    path.unlink()
+    print(f"  {BOLD}Linux:{RESET}")
+    print(f"    1. Install Docker Engine:  https://docs.docker.com/engine/install/")
+    print(f"    2. Start the service:      sudo systemctl start docker")
+    print(f"    3. (Optional) add yourself to the docker group so you do not need sudo:")
+    print(f"       sudo usermod -aG docker $USER   then log out and back in")
+    print(f"    4. Run  python server.py  again\n")
+
+
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
+
+
+def _pad_ansi(text: str, width: int) -> str:
+    visible = len(_ANSI_RE.sub("", text))
+    return text + (" " * max(0, width - visible))
+
+
+def menu_line(num: str, command: str, desc: str, command_width: int = 31):
+    print(f"  {BOLD}{num}.{RESET}  {_pad_ansi(command, command_width)}  {DIM}{desc}{RESET}")
+
 # -- tools/ on path so `from backup import ...` works -------------------------
 import sys as _sys, pathlib as _pl
 _sys.path.insert(0, str(_pl.Path(__file__).parent / 'tools'))
@@ -123,20 +406,21 @@ def _interactive_help():
         os.system("color")
     clr = lambda: os.system("cls" if platform.system() == "Windows" else "clear")
     clr()
+
     print(ASCII_ART)
     print(f"  {BOLD}fortispass server — available flags{RESET}\n")
-    print(f"  {BOLD}  1.{RESET}  {GREEN}start{RESET}               python server.py")
-    print(f"  {BOLD}  2.{RESET}  {GREEN}start --interval X{RESET}  python server.py --interval X  {DIM}(1–48h, default 4){RESET}")
-    print(f"  {BOLD}  3.{RESET}  {GREEN}start --port X{RESET}      python server.py --port X      {DIM}(default 8080){RESET}")
-    print(f"  {BOLD}  4.{RESET}  {GREEN}start --max-devices X{RESET} python server.py --max-devices X  {DIM}(default 3){RESET}")
-    print(f"  {BOLD}  5.{RESET}  {YELLOW}--restore{RESET}           restore the server from a Google Drive backup")
-    print(f"  {BOLD}  6.{RESET}  {YELLOW}--backup{RESET}            configure or run a Google Drive backup")
-    print(f"  {BOLD}  7.{RESET}  {YELLOW}--stop{RESET}              stop the server (data volumes preserved)")
-    print(f"  {BOLD}  8.{RESET}  {RED}--wipe{RESET}              stop the server and permanently delete all data")
+    menu_line("1", f"{GREEN}start{RESET}", "python server.py")
+    menu_line("2", f"{GREEN}start --interval X{RESET}", "python server.py --interval X  (1-48h, default 4)")
+    menu_line("3", f"{GREEN}start --port X{RESET}", "python server.py --port X  (default 8080)")
+    menu_line("4", f"{GREEN}start --max-devices X{RESET}", "python server.py --max-devices X  (default 3)")
+    menu_line("5", f"{YELLOW}--restore{RESET}", "restore the server from a Google Drive backup")
+    menu_line("6", f"{YELLOW}--backup{RESET}", "configure or run a Google Drive backup")
+    menu_line("7", f"{YELLOW}--stop{RESET}", "stop the server (data volumes preserved)")
+    menu_line("8", f"{RED}--wipe{RESET}", "stop the server and permanently delete all data")
     print(f"\n  {DIM}{'─' * 46}{RESET}\n")
-    choice = input(f"  Enter a number to run it, or press {BOLD}Enter{RESET} to start normally: ").strip()
+    choice = input(f"  Enter a number to run it: ").strip()
     print()
-    if choice == "1" or choice == "":
+    if choice == "1":
         return "start"
     elif choice == "2":
         raw = input(f"  Interval in hours (1–48): ").strip()
@@ -177,8 +461,8 @@ def _interactive_help():
     elif choice == "8":
         return "wipe"
     else:
-        print(f"  {DIM}Unrecognised — starting normally.{RESET}\n")
-        return "start"
+        print(f"  {DIM}Unrecognised choice. Nothing was started.{RESET}\n")
+        return None
 
 _parser = _ap.ArgumentParser(add_help=False)
 _parser.add_argument('--interval',    type=int, default=None)
@@ -193,6 +477,8 @@ _args, _ = _parser.parse_known_args()
 
 if _args.help:
     _action = _interactive_help()
+    if _action is None:
+        _sys.exit(0)
     if _action == "restore":
         import importlib.util as _ilu_h
         _spec_h = _ilu_h.spec_from_file_location("restore", _pl.Path(__file__).parent / "tools" / "restore.py")
@@ -220,28 +506,38 @@ if _args.wipe:
     _clr = lambda: os.system("cls" if platform.system() == "Windows" else "clear")
     _clr()
     print(ASCII_ART + "\n")
-    print(f"  {BOLD}Stopping fortispass server …{RESET}\n")
     print(f"  {RED}{BOLD}{'=' * 54}{RESET}")
     print(f"  {RED}{BOLD}  DESTRUCTIVE OPERATION — READ CAREFULLY             {RESET}")
     print(f"  {RED}{BOLD}{'=' * 54}{RESET}\n")
-    print(f"  {YELLOW}This will permanently delete:{RESET}")
-    print(f"  {YELLOW}  •  The PostgreSQL database (all user vaults){RESET}")
-    print(f"  {YELLOW}  •  The Redis store (all active sessions){RESET}")
-    print(f"  {YELLOW}  •  All Docker volumes for this stack{RESET}\n")
+    print(f"  {RED}This will permanently delete:{RESET}")
+    print(f"  {RED}  •  The PostgreSQL database (all user vaults){RESET}")
+    print(f"  {RED}  •  The Redis store (all active sessions){RESET}")
+    print(f"  {RED}  •  All Docker volumes for this stack{RESET}\n")
     print(f"  {RED}This CANNOT be undone. There is no recovery unless you{RESET}")
     print(f"  {RED}have a Google Drive backup configured.{RESET}\n")
-    print(f"  {DIM}Only proceed if you are intentionally wiping this server{RESET}")
-    print(f"  {DIM}and know exactly what you are doing.{RESET}\n")
+    for _remaining in range(10, 0, -1):
+        print(f"  {DIM}Confirmation unlocks in {_remaining}s …{RESET}", end="\r", flush=True)
+        time.sleep(1)
+    print(" " * 60, end="\r")
     _ans = input(f"  Type  {BOLD}CONFIRM{RESET}  to wipe everything, or anything else to abort: ").strip()
     if _ans != "CONFIRM":
         print(f"\n  {DIM}Aborted — nothing was changed.{RESET}\n")
         _sys.exit(0)
-    print()
+    _anim = SetupAnimation("wiping server")
+    _anim.start("removing containers and volumes")
     try:
-        subprocess.run(f"{COMPOSE} down -v", shell=True, cwd=str(HERE), check=True)
+        _early_run(f"{COMPOSE} down -v", quiet=True)
+        secure_delete_file(HERE / ".env")
+        secure_delete_file(HERE / ".backup_config.json")
+        _anim.stop()
+        _early_clr()
+        print(ASCII_ART + "\n")
         print(f"\n  {GREEN}[OK]{RESET}  All containers and data volumes removed.")
         print(f"      Run  {BOLD}python server.py{RESET}  to start fresh.\n")
     except subprocess.CalledProcessError:
+        _anim.stop()
+        _early_clr()
+        print(ASCII_ART + "\n")
         print(f"\n  {RED}Docker command failed. Make sure Docker Desktop is running and try again.{RESET}\n")
         _sys.exit(1)
     # Kill every other server.py process (dashboard loops, background instances).
@@ -278,15 +574,19 @@ if _args.restore:
     _sys.exit(0)
 
 if _args.stop:
-    clr = lambda: os.system("cls" if platform.system() == "Windows" else "clear")
-    clr()
-    print(ASCII_ART + "\n")
-    print(f"  {BOLD}Stopping fortispass server …{RESET}\n")
+    _anim = SetupAnimation("stopping server")
+    _anim.start("stopping containers")
     try:
-        subprocess.run(f"{COMPOSE} down", shell=True, cwd=str(HERE), check=True)
+        _early_run(f"{COMPOSE} down", quiet=True)
+        _anim.stop()
+        _early_clr()
+        print(ASCII_ART + "\n")
         print(f"\n  {GREEN}[OK]{RESET}  Server stopped. Data volumes are intact.")
         print(f"      Run  {BOLD}python server.py{RESET}  to start again.\n")
     except subprocess.CalledProcessError:
+        _anim.stop()
+        _early_clr()
+        print(ASCII_ART + "\n")
         print(f"\n  {RED}Docker command failed. Make sure Docker Desktop is running and try again.{RESET}\n")
         _sys.exit(1)
     _sys.exit(0)
@@ -313,17 +613,54 @@ BACKUP_INTERVAL = _args.interval  # None = use stored config default (4h)
 # -----------------------------------------------------------------------------
 
 def clr():
-    os.system("cls" if platform.system() == "Windows" else "clear")
+    if not is_interactive_terminal():
+        return
+    try:
+        os.system("cls" if platform.system() == "Windows" else "clear")
+    except Exception:
+        pass
 
 
-def run(cmd, check=True):
-    return subprocess.run(cmd, shell=True, cwd=str(HERE), check=check)
+def run(cmd, check=True, quiet=False):
+    kwargs = {
+        "shell": True,
+        "cwd": str(HERE),
+        "check": check,
+    }
+    if quiet:
+        kwargs["stdout"] = subprocess.DEVNULL
+        kwargs["stderr"] = subprocess.DEVNULL
+    return subprocess.run(cmd, **kwargs)
 
 
 def run_out(cmd):
     r = subprocess.run(cmd, shell=True, cwd=str(HERE),
                        capture_output=True, text=True)
     return r.stdout.strip() if r.returncode == 0 else ""
+
+
+def env_value(name: str, default: str | None = None) -> str | None:
+    if not ENV_PATH.exists():
+        return default
+    for line in ENV_PATH.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            key, _, value = line.partition("=")
+            if key.strip() == name:
+                return value.strip()
+    return default
+
+
+def deployment_mode() -> str:
+    return env_value("DEPLOYMENT_MODE", "local") or "local"
+
+
+def access_display(ip: str) -> tuple[str, str, str]:
+    mode = deployment_mode()
+    relay_url = (env_value("RELAY_URL", "") or "").strip()
+    if mode == "production" and relay_url:
+        return mode, "Public URL", relay_url
+    return "local", "IP:Port", f"{ip}:{_port}"
 
 
 def b64(b):
@@ -341,16 +678,91 @@ def local_ip():
         return "unavailable"
 
 
-def server_reachable(host: str = "localhost"):
+def server_reachable(host: str = "localhost", port: int | None = None):
     """Try localhost first (always works for local Docker), then the LAN IP."""
     import urllib.request
+    target_port = port if port is not None else _port
     for h in (["localhost", host] if host != "localhost" else ["localhost"]):
         try:
-            urllib.request.urlopen(f"http://{h}:{_port}/health", timeout=3)
+            urllib.request.urlopen(f"http://{h}:{target_port}/health", timeout=3)
             return True
         except Exception:
             continue
     return False
+
+
+def other_server_client_running() -> bool:
+    my_pid = os.getpid()
+    if platform.system() == "Windows":
+        query = (
+            'wmic process where '
+            f'"CommandLine like \'%server.py%\' and ProcessId != {my_pid}" '
+            'get ProcessId /value'
+        )
+        out = run_out(query)
+        return "ProcessId=" in out
+    out = run_out(f"pgrep -f server.py | grep -v '^{my_pid}$'")
+    return bool(out.strip())
+
+
+def active_server_port() -> int:
+    try:
+        return int(env_value("LISTEN_PORT", str(_port)) or _port)
+    except ValueError:
+        return _port
+
+
+def active_stack_running(port: int) -> bool:
+    if server_reachable("localhost", port=port):
+        return True
+    state = run_out(f"{COMPOSE} ps --format '{{{{.Service}}}} {{{{.State}}}}'")
+    if state:
+        server_running = any(
+            line.strip().startswith("server") and "running" in line.lower()
+            for line in state.splitlines()
+        )
+        if server_running:
+            return True
+    return False
+
+
+def terminate_other_server_clients() -> None:
+    my_pid = os.getpid()
+    if platform.system() == "Windows":
+        query = (
+            'wmic process where '
+            '"CommandLine like \'%server.py%\' '
+            'and ProcessId != ' + str(my_pid) + '" '
+            'call terminate'
+        )
+        subprocess.run(
+            query,
+            shell=True,
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return
+    subprocess.run(
+        f"pkill -9 -f 'server.py' 2>/dev/null || true",
+        shell=True,
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+
+def stop_running_server() -> bool:
+    stop_anim = SetupAnimation("stopping server")
+    stop_anim.start("stopping containers")
+    try:
+        _early_run(f"{COMPOSE} down", quiet=True)
+        terminate_other_server_clients()
+        return True
+    except subprocess.CalledProcessError:
+        return False
+    finally:
+        stop_anim.stop()
 
 
 def get_uptime():
@@ -385,6 +797,10 @@ def get_uptime():
 # -----------------------------------------------------------------------------
 
 def generate_env(ip: str = "localhost"):
+    return generate_env_for_mode(ip, "local", f"http://{ip}:{_port}")
+
+
+def generate_env_for_mode(ip: str, deployment_mode: str, relay_url: str):
     jwt_secret      = b64(secrets.token_bytes(32))
     server_hmac_key = b64(secrets.token_bytes(32))
     postgres_pw     = secrets.token_urlsafe(24)
@@ -392,8 +808,9 @@ def generate_env(ip: str = "localhost"):
     signing_key     = nacl.signing.SigningKey.generate()
     sign_key_seed   = b64(bytes(signing_key))
 
+    mode_label = "production/personal deployment" if deployment_mode == "production" else "local environment"
     contents = (
-        "# fortispass — local environment\n"
+        f"# fortispass — {mode_label}\n"
         "# Generated by server.py — do NOT commit this file to git.\n\n"
         "LISTEN_HOST=0.0.0.0\n"
         f"LISTEN_PORT={_port}\n\n"
@@ -405,13 +822,56 @@ def generate_env(ip: str = "localhost"):
         f"SERVER_SIGN_KEY_SEED={sign_key_seed}\n"
         f"SERVER_HMAC_KEY={server_hmac_key}\n\n"
         "SELF_HOSTED=true\n"
-        f"RELAY_URL=http://{ip}:{_port}\n"
+        f"DEPLOYMENT_MODE={deployment_mode}\n"
+        f"RELAY_URL={relay_url}\n"
         f"MAX_DEVICES_PER_VAULT={_max_devices}\n"
     )
     (HERE / ".env").write_text(contents)
 
 
-def patch_relay_url(ip: str) -> None:
+def prompt_deployment_mode(ip: str) -> tuple[str, str]:
+    clr()
+    print(ASCII_ART + "\n")
+    print(f"  {BOLD}Deployment Mode{RESET}\n")
+    print(f"  {DIM}{'-' * 46}{RESET}\n")
+    menu_line("1", f"{GREEN}Development / Testing{RESET}", "run locally on this machine / network")
+    menu_line("2", f"{BLUE}Production / Personal{RESET}", "prepare for internet access with your own URL")
+    print()
+
+    while True:
+        choice = input("  Enter a number: ").strip()
+        if choice == "1":
+            relay_url = f"http://{ip}:{_port}"
+            return "local", relay_url
+        if choice == "2":
+            print()
+            print(f"  {BOLD}Production / Personal deployment{RESET}\n")
+            print(f"  {DIM}Fortispass will still run on this machine, but devices outside your{RESET}")
+            print(f"  {DIM}local network need a public URL that points to it.{RESET}\n")
+            print(f"  {DIM}Checklist:{RESET}")
+            print(f"  {DIM}  1. Use a domain or dynamic DNS name that points to your public IP{RESET}")
+            print(f"  {DIM}  2. Forward ports 80/443 or place the server behind a reverse proxy / VPS{RESET}")
+            print(f"  {DIM}  3. Terminate TLS with HTTPS using nginx, Caddy, Traefik, or Let's Encrypt{RESET}")
+            print(f"  {DIM}  4. Enter the final public base URL below so apps can connect from anywhere{RESET}\n")
+            while True:
+                raw = input("  Public relay URL (for example https://vault.example.com): ").strip()
+                parsed = urllib.parse.urlparse(raw)
+                if parsed.scheme not in ("http", "https") or not parsed.netloc:
+                    print(f"  {YELLOW}Enter a full URL starting with http:// or https://{RESET}\n")
+                    continue
+                if parsed.path not in ("", "/") or parsed.params or parsed.query or parsed.fragment:
+                    print(f"  {YELLOW}Enter only the base URL, without extra path/query parts.{RESET}\n")
+                    continue
+                relay_url = raw.rstrip("/")
+                print(f"\n  {GREEN}[OK]{RESET}  Using production/personal deployment mode.")
+                print(f"  {DIM}Relay URL:{RESET} {relay_url}")
+                print(f"  {DIM}Make sure this public URL reaches your server over the internet.{RESET}\n")
+                input("  Press Enter to continue … ")
+                return "production", relay_url
+        print(f"  {YELLOW}Unrecognised choice. Nothing was started.{RESET}\n")
+
+
+def patch_relay_url(ip: str, quiet: bool = False) -> None:
     """Keep RELAY_URL and LISTEN_PORT in an existing .env in sync.
     Called every startup so a --port flag or IP change takes effect without
     regenerating secrets. Docker Compose reads LISTEN_PORT from .env to set
@@ -420,17 +880,19 @@ def patch_relay_url(ip: str) -> None:
     import re
     text = ENV_PATH.read_text()
     changed = False
+    deployment_mode = env_value("DEPLOYMENT_MODE", "local")
 
     # Update RELAY_URL to current IP + port
-    new_text = re.sub(
-        r'^RELAY_URL=http://[^\s]+',
-        f'RELAY_URL=http://{ip}:{_port}',
-        text,
-        flags=re.MULTILINE,
-    )
-    if new_text != text:
-        changed = True
-        text = new_text
+    if deployment_mode != "production":
+        new_text = re.sub(
+            r'^RELAY_URL=http://[^\s]+',
+            f'RELAY_URL=http://{ip}:{_port}',
+            text,
+            flags=re.MULTILINE,
+        )
+        if new_text != text:
+            changed = True
+            text = new_text
 
     # Update LISTEN_PORT if it differs from the resolved port (e.g. --port flag)
     new_text = re.sub(
@@ -460,10 +922,13 @@ def patch_relay_url(ip: str) -> None:
 
     if changed:
         ENV_PATH.write_text(text)
-        parts = [f"RELAY_URL → http://{ip}:{_port}", f"LISTEN_PORT={_port}"]
-        if _args.max_devices is not None:
-            parts.append(f"MAX_DEVICES_PER_VAULT={_max_devices}")
-        print(f"  {YELLOW}[updated]{RESET}  {('  |  ').join(parts)}\n")
+        if not quiet:
+            parts = [f"LISTEN_PORT={_port}"]
+            if deployment_mode != "production":
+                parts.insert(0, f"RELAY_URL → http://{ip}:{_port}")
+            if _args.max_devices is not None:
+                parts.append(f"MAX_DEVICES_PER_VAULT={_max_devices}")
+            print(f"  {YELLOW}[updated]{RESET}  {('  |  ').join(parts)}\n")
 
 
 # -----------------------------------------------------------------------------
@@ -494,13 +959,10 @@ def get_container_stats():
     return cpu.strip(), mem_used
 
 
-def draw_dashboard(ip, backup_enabled, startup_backup_time=None):
-    clr()
-    print(ASCII_ART + "\n")
-    print(f"  {DIM}{'-' * 46}{RESET}")
-
+def build_dashboard_rows(ip, backup_enabled, startup_backup_time=None):
     healthy = server_reachable(ip)
     uptime  = get_uptime() if healthy else "—"
+    _, access_label, access_value = access_display(ip)
 
     # Import backup module for last-backup string + interval
     last_backup_label = "Last backup"
@@ -547,16 +1009,143 @@ def draw_dashboard(ip, backup_enabled, startup_backup_time=None):
     ]
     if backup_interval_row:
         rows.append(backup_interval_row)
-    rows.append(("IP:Port", f"{WHITE}{ip}:{_port}{RESET}"))
+    rows.append((access_label, f"{WHITE}{access_value}{RESET}"))
+    return rows
+
+
+def render_dashboard(rows, ip: str):
+    # Keep the previous panel on screen while fresh stats are loading, then
+    # swap the whole dashboard once the new snapshot is ready.
+    mode, _, access_value = access_display(ip)
+    clr()
+    print(ASCII_ART + "\n")
+    print(f"  {DIM}{'-' * 46}{RESET}")
 
     for label, value in rows:
         print(f"  {BOLD}{label:<14}{RESET}  {value}")
 
     print(f"\n  {DIM}{'-' * 46}{RESET}")
-    print(f"  {DIM}If connecting from another device, make sure{RESET}")
-    print(f"  {DIM}port {_port} is allowed in your firewall.{RESET}")
+    if mode == "production":
+        print(f"  {DIM}Public URL should already point to this server.{RESET}")
+        print(f"  {DIM}Keep HTTPS and your proxy/domain configuration in place.{RESET}")
+    else:
+        print(f"  {DIM}If connecting from another device, make sure{RESET}")
+        print(f"  {DIM}port {_port} is allowed in your firewall.{RESET}")
     print(f"  {DIM}Ctrl+C to detach, server keeps running{RESET}")
     print(f"  {DIM}python server.py --stop  ·  python server.py --restore{RESET}\n")
+
+
+def draw_dashboard(ip, backup_enabled, startup_backup_time=None):
+    rows = build_dashboard_rows(ip, backup_enabled, startup_backup_time=startup_backup_time)
+    render_dashboard(rows, ip)
+
+
+def attach_to_dashboard(ip: str, backup_enabled: bool, show_opening_animation: bool = False):
+    _, _, access_value = access_display(ip)
+    set_terminal_title(f"fortispass ({access_value})")
+    wait_anim = SetupAnimation("opening panel")
+    first_rows = None
+    try:
+        if show_opening_animation:
+            wait_anim.start("loading live stats")
+        if not server_reachable(ip):
+            if show_opening_animation:
+                wait_anim.update("waiting for server")
+            else:
+                wait_anim.start("opening panel",)
+                wait_anim.update("waiting for server")
+            try:
+                for _ in range(150):
+                    if server_reachable(ip):
+                        break
+                    time.sleep(1)
+                else:
+                    wait_anim.stop()
+                    clr()
+                    print(ASCII_ART + "\n")
+                    print(f"  {YELLOW}Fortispass is still starting.{RESET}")
+                    print(f"  {DIM}The server has not answered yet at {access_value}.{RESET}\n")
+                    return "unavailable"
+            finally:
+                pass
+        elif show_opening_animation:
+            time.sleep(0.2)
+        first_rows = build_dashboard_rows(ip, backup_enabled, startup_backup_time=None)
+        wait_anim.stop()
+        render_dashboard(first_rows, ip)
+        while True:
+            if first_rows is not None:
+                first_rows = None
+            else:
+                rows = build_dashboard_rows(ip, backup_enabled, startup_backup_time=None)
+                render_dashboard(rows, ip)
+            for _ in range(60):
+                time.sleep(1)
+    except KeyboardInterrupt:
+        wait_anim.stop()
+        restore_terminal_state()
+        if is_interactive_terminal():
+            try:
+                sys.stdout.write("\r\033[2K")
+                sys.stdout.flush()
+            except Exception:
+                pass
+        return "detached"
+
+
+def render_running_server_menu(ip: str, port: int, notice: str | None = None):
+    clr()
+    print(ASCII_ART + "\n")
+    print(f"  {YELLOW}Fortispass is already running in the background.{RESET}\n")
+    print(f"  {BOLD}IP:Port:{RESET} {WHITE}{ip}:{port}{RESET}\n")
+    menu_line("1", f"{GREEN}Panel{RESET}", "attach to the running dashboard", command_width=8)
+    menu_line("2", f"{YELLOW}Stop{RESET}", "stop the running server", command_width=8)
+    menu_line("3", f"{DIM}Close{RESET}", "close this launcher", command_width=8)
+    if notice:
+        print(f"\n  {YELLOW}{notice}{RESET}")
+    print()
+
+
+def run_running_server_menu(ip: str, port: int):
+    active_notice = None
+    while True:
+        render_running_server_menu(ip, port, active_notice)
+        active_notice = None
+        try:
+            choice = input("  Enter a number: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            active_notice = "Use Close to exit this launcher."
+            restore_terminal_state()
+            continue
+        if choice == "1":
+            backup_enabled = False
+            try:
+                from backup import load_config
+                cfg = load_config()
+                backup_enabled = bool(cfg and cfg.get("enabled"))
+            except ImportError:
+                pass
+            result = attach_to_dashboard(ip, backup_enabled, show_opening_animation=True)
+            if result == "detached":
+                _, _, access_value = access_display(ip)
+                print(f"\n  {DIM}Detached. Fortispass is still running at {access_value}.{RESET}")
+                print(f"  {DIM}Run  python server.py  to reopen the live dashboard.{RESET}\n")
+                handoff_to_interactive_shell(access_value)
+            return
+        if choice == "2":
+            if stop_running_server():
+                clr()
+                print(ASCII_ART + "\n")
+                print(f"  {GREEN}[OK]{RESET}  Server stopped. Run  {BOLD}python server.py{RESET}  to start again.\n")
+            else:
+                clr()
+                print(ASCII_ART + "\n")
+                print(f"  {RED}Docker command failed. Make sure Docker Desktop is running and try again.{RESET}\n")
+            return
+        if choice == "3":
+            print(f"\n  {DIM}Closed.{RESET}\n")
+            return
+        active_notice = "Unrecognised choice. Nothing was started."
 
 
 # -----------------------------------------------------------------------------
@@ -564,186 +1153,202 @@ def draw_dashboard(ip, backup_enabled, startup_backup_time=None):
 # -----------------------------------------------------------------------------
 
 def main():
-    clr()
-    print(ASCII_ART + "\n")
-
-    # -- 0. Docker check -------------------------------------------------------
-    # Verify Docker is installed and the daemon is running before doing anything.
-    probe = subprocess.run(
-        "docker info", shell=True, cwd=str(HERE),
-        capture_output=True, text=True,
-    )
-    if probe.returncode != 0:
-        print(f"  {RED}{'=' * 54}{RESET}")
-        print(f"  {RED}{BOLD}  Docker is not running or not installed.{RESET}")
-        print(f"  {RED}{'=' * 54}{RESET}\n")
-        print(f"  fortispass runs inside Docker. To fix this:\n")
-        print(f"  {BOLD}Windows / macOS:{RESET}")
-        print(f"    1. Download Docker Desktop from  https://docker.com/products/docker-desktop")
-        print(f"    2. Install and launch it")
-        print(f"    3. Wait for the whale icon to appear in the system tray")
-        print(f"    4. Run  python server.py  again\n")
-        print(f"  {BOLD}Linux:{RESET}")
-        print(f"    1. Install Docker Engine:  https://docs.docker.com/engine/install/")
-        print(f"    2. Start the service:      sudo systemctl start docker")
-        print(f"    3. (Optional) add yourself to the docker group so you do not need sudo:")
-        print(f"       sudo usermod -aG docker $USER   then log out and back in")
-        print(f"    4. Run  python server.py  again\n")
-        input(f"  Press Enter to exit … ")
-        sys.exit(1)
-
-    # Resolve IP early — needed for RELAY_URL which is baked into .env and
-    # handed to the extension inside every QR payload and session create response.
-    # localhost doesn't reach Docker on all machines, so we always use the LAN IP.
-    ip = local_ip()
-
-    # -- 1. .env ---------------------------------------------------------------
-    if ENV_PATH.exists():
-        print(f"  {GREEN}[OK]{RESET}  .env found — skipping secret generation\n")
-        patch_relay_url(ip)   # keep RELAY_URL in sync with current LAN IP
-    else:
-        print(f"  Generating secrets …", end=" ", flush=True)
-        generate_env(ip)
-        print(f"{GREEN}done{RESET}\n")
-
-    # -- 2. Backup setup (asked once, stored in .backup_config.json) -----------
+    animation = SetupAnimation()
+    interactive = is_interactive_terminal()
     backup_enabled = False
-
+    ip = None
     try:
-        from backup import is_configured, load_config, setup_wizard, run_backup, start_scheduler
+        set_terminal_title("fortispass")
+        animation.start("checking Docker")
 
-        if not is_configured():
-            print(f"  {DIM}{'-' * 46}{RESET}\n")
-            setup_wizard(interval_hours=BACKUP_INTERVAL or 4)
-            print(f"  {DIM}{'-' * 46}{RESET}\n")
+        # -- 0. Docker check -------------------------------------------------------
+        # Verify Docker is installed and the daemon is running before doing anything.
+        probe = subprocess.run(
+            "docker info", shell=True, cwd=str(HERE),
+            capture_output=True, text=True,
+        )
+        if probe.returncode != 0:
+            animation.stop()
+            print_docker_not_running_message()
+            if interactive:
+                input(f"  Press Enter to exit … ")
+            sys.exit(1)
 
-        cfg = load_config()
-        if cfg and cfg.get("enabled"):
-            backup_enabled = True
+        running_port = active_server_port()
+        if active_stack_running(running_port):
+            animation.stop()
+            running_ip = local_ip()
+            if not interactive:
+                _, _, access_value = access_display(running_ip)
+                print(f"\n  {YELLOW}Fortispass is already running in the background.{RESET}")
+                print(f"  {DIM}Access:{RESET} {access_value}\n")
+                return
+            run_running_server_menu(running_ip, running_port)
+            return
 
-    except ImportError:
-        print(f"  {DIM}backup.py not found — Drive backups unavailable.{RESET}\n")
+        # Resolve IP early — needed for RELAY_URL which is baked into .env and
+        # handed to the extension inside every QR payload and session create response.
+        # localhost doesn't reach Docker on all machines, so we always use the LAN IP.
+        ip = local_ip()
 
-    # -- 3. Build + start Docker -----------------------------------------------
-    print(f"  {BOLD}Building and starting Docker stack …{RESET}\n")
-    try:
-        run(f"{COMPOSE} up --build -d")
-    except subprocess.CalledProcessError:
-        print(f"\n  {RED}{'=' * 54}{RESET}")
-        print(f"  {RED}{BOLD}  Docker is not running or not installed.{RESET}")
-        print(f"  {RED}{'=' * 54}{RESET}\n")
-        print(f"  fortispass runs inside Docker. To fix this:\n")
-        print(f"  {BOLD}Windows / macOS:{RESET}")
-        print(f"    1. Download Docker Desktop from  https://docker.com/products/docker-desktop")
-        print(f"    2. Install and launch it")
-        print(f"    3. Wait for the whale icon to appear in the system tray")
-        print(f"    4. Run  python server.py  again\n")
-        print(f"  {BOLD}Linux:{RESET}")
-        print(f"    1. Install Docker Engine:  https://docs.docker.com/engine/install/")
-        print(f"    2. Start the service:      sudo systemctl start docker")
-        print(f"    3. (Optional) add yourself to the docker group so you do not need sudo:")
-        print(f"       sudo usermod -aG docker $USER   then log out and back in")
-        print(f"    4. Run  python server.py  again\n")
-        input(f"  Press Enter to exit … ")
-        sys.exit(1)
+        # -- 1. Backup setup (asked once, stored in .backup_config.json) -----------
+        try:
+            from backup import is_configured, load_config, setup_wizard, run_backup, start_scheduler
 
-    # -- 4. Wait for /health ---------------------------------------------------
-    print(f"\n  Waiting for server …", end="", flush=True)
-    for tick in range(150):  # 300s total — covers cold builds, image pulls, db init
-        if server_reachable(ip):
-            break
+            if not is_configured():
+                if not interactive:
+                    animation.stop()
+                    print(ASCII_ART + "\n")
+                    print(f"  {YELLOW}First-time backup setup requires an interactive terminal.{RESET}")
+                    print(f"  {DIM}Run  python server.py  once in a normal terminal window to finish setup,{RESET}")
+                    print(f"  {DIM}or configure .backup_config.json manually before launching detached.{RESET}\n")
+                    sys.exit(1)
+                animation.stop()
+                clr()
+                print(ASCII_ART + "\n")
+                setup_wizard(interval_hours=BACKUP_INTERVAL or 4)
+                animation.start("setting up server")
 
-        if tick > 0 and tick % 5 == 0:
-            state = run_out(
-                f"{COMPOSE} ps --format '{{{{.Service}}}} {{{{.State}}}}'"
-            )
-            # Crash detection — report immediately instead of waiting the full 300s
-            for line in state.splitlines():
-                if line.strip().startswith("server") and "exit" in line.lower():
-                    print(f"\n\n  {RED}Server container crashed.{RESET} Showing logs:\n")
-                    logs = run_out(f"{COMPOSE} logs --tail=60 server")
-                    print(logs)
+            cfg = load_config()
+            if cfg and cfg.get("enabled"):
+                backup_enabled = True
 
-                    # ── Password mismatch auto-recovery ───────────────────
-                    if "password authentication failed" in logs or "InvalidPasswordError" in logs:
-                        print(f"\n  {YELLOW}Detected database password mismatch.{RESET}")
-                        print(f"  This happens when the Postgres volume was initialised")
-                        print(f"  with a different password than the one in your .env.")
-                        print()
-                        print(f"  {BOLD}Fix:{RESET} wipe the old volume and regenerate secrets,")
-                        print(f"  then restart. {RED}All existing vault data will be lost.{RESET}")
-                        print()
-                        ans = input(f"  Type  {BOLD}CONFIRM{RESET}  to wipe and restart, or Enter to abort: ").strip()
-                        if ans == "CONFIRM":
-                            print(f"\n  Wiping volumes …", end=" ", flush=True)
-                            run(f"{COMPOSE} down -v", check=False)
-                            print(f"{GREEN}done{RESET}")
-                            ENV_PATH.unlink(missing_ok=True)
-                            print(f"  Regenerating secrets …", end=" ", flush=True)
-                            generate_env(ip)
-                            print(f"{GREEN}done{RESET}\n")
-                            print(f"  Restarting …\n")
-                            run(f"{COMPOSE} up --build -d")
-                            print(f"\n  Waiting for server …", end="", flush=True)
-                            for _ in range(90):
-                                if server_reachable(ip):
-                                    print(f"  {GREEN}[OK]{RESET}  Server is up.\n")
-                                    break
-                                print(".", end="", flush=True)
-                                time.sleep(2)
-                            else:
-                                print(f"\n  {RED}Still not reachable — check logs above.{RESET}\n")
-                                sys.exit(1)
-                            break  # exit the outer tick loop
-                        else:
-                            print(f"\n  {DIM}Aborted.{RESET}\n")
-                            sys.exit(0)
-                    # ── Generic crash ─────────────────────────────────────
-                    else:
-                        print(f"\n  {YELLOW}Fix the error above, then run  {BOLD}python server.py{RESET}  again.\n")
-                        sys.exit(1)
+        except ImportError:
+            pass
 
-            # Every 30s print a live status line so the user can see what's still starting
-            if tick % 15 == 0:
-                statuses = []
+        # -- 2. .env / deployment mode --------------------------------------------
+        animation.update("preparing environment")
+        if ENV_PATH.exists():
+            patch_relay_url(ip, quiet=True)   # keep local RELAY_URL in sync unless using production mode
+        else:
+            if not interactive:
+                animation.stop()
+                print(ASCII_ART + "\n")
+                print(f"  {YELLOW}First-time environment setup requires an interactive terminal.{RESET}")
+                print(f"  {DIM}Run  python server.py  once in a normal terminal window to choose deployment mode{RESET}")
+                print(f"  {DIM}and generate .env, then detached launches will work normally.{RESET}\n")
+                sys.exit(1)
+            animation.stop()
+            deployment_mode, relay_url = prompt_deployment_mode(ip)
+            generate_env_for_mode(ip, deployment_mode, relay_url)
+            animation.start("setting up server")
+
+        # -- 3. Build + start Docker -----------------------------------------------
+        animation.update("building and starting Docker")
+        try:
+            run(f"{COMPOSE} up --build -d", quiet=True)
+        except subprocess.CalledProcessError:
+            animation.stop()
+            print_docker_not_running_message()
+            if interactive:
+                input(f"  Press Enter to exit … ")
+            sys.exit(1)
+
+        # -- 4. Wait for /health ---------------------------------------------------
+        animation.update("waiting for server")
+        for tick in range(150):  # 300s total — covers cold builds, image pulls, db init
+            if server_reachable(ip):
+                break
+
+            if tick > 0 and tick % 5 == 0:
+                state = run_out(
+                    f"{COMPOSE} ps --format '{{{{.Service}}}} {{{{.State}}}}'"
+                )
+                # Crash detection — report immediately instead of waiting the full 300s
                 for line in state.splitlines():
-                    parts = line.strip().split()
-                    if parts:
-                        statuses.append(f"{parts[0]}:{parts[-1]}" if len(parts) > 1 else parts[0])
-                if statuses:
-                    print(f"\n  {DIM}[{tick*2}s] {' · '.join(statuses)}{RESET}", end="", flush=True)
+                    if line.strip().startswith("server") and "exit" in line.lower():
+                        animation.stop()
+                        print(f"\n\n  {RED}Server container crashed.{RESET} Showing logs:\n")
+                        logs = run_out(f"{COMPOSE} logs --tail=60 server")
+                        print(logs)
 
-        print(".", end="", flush=True)
-        time.sleep(2)
-    else:
-        # Loop exhausted without a break — server never became reachable
-        print(f"\n\n  {YELLOW}Server did not respond after 300 s.{RESET}")
-        print(f"  Checking container logs …\n")
-        run(f"{COMPOSE} logs --tail=50 server", check=False)
-        print(f"\n  {DIM}If the server is still starting, run  {BOLD}python server.py{RESET}{DIM}  again.{RESET}\n")
-        sys.exit(1)
-    print()
+                        # ── Password mismatch auto-recovery ───────────────────
+                        if "password authentication failed" in logs or "InvalidPasswordError" in logs:
+                            print(f"\n  {YELLOW}Detected database password mismatch.{RESET}")
+                            print(f"  This happens when the Postgres volume was initialised")
+                            print(f"  with a different password than the one in your .env.")
+                            print()
+                            print(f"  {BOLD}Fix:{RESET} wipe the old volume and regenerate secrets,")
+                            print(f"  then restart. {RED}All existing vault data will be lost.{RESET}")
+                            if not interactive:
+                                print()
+                                print(f"  {DIM}Detached/non-interactive launch will not auto-confirm destructive recovery.{RESET}")
+                                print(f"  {DIM}Run  python server.py  interactively, or run  python tools/stop.py --wipe{RESET}")
+                                print(f"  {DIM}and then start again.{RESET}\n")
+                                sys.exit(1)
+                            print()
+                            ans = input(f"  Type  {BOLD}CONFIRM{RESET}  to wipe and restart, or Enter to abort: ").strip()
+                            if ans == "CONFIRM":
+                                print(f"\n  Wiping volumes …", end=" ", flush=True)
+                                run(f"{COMPOSE} down -v", check=False, quiet=True)
+                                print(f"{GREEN}done{RESET}")
+                                ENV_PATH.unlink(missing_ok=True)
+                                print(f"  Regenerating secrets …", end=" ", flush=True)
+                                generate_env(ip)
+                                print(f"{GREEN}done{RESET}\n")
+                                print(f"  Restarting …\n")
+                                run(f"{COMPOSE} up --build -d", quiet=True)
+                                animation.start("waiting for server")
+                                for _ in range(90):
+                                    if server_reachable(ip):
+                                        break
+                                    animation.update("waiting for server")
+                                    time.sleep(2)
+                                else:
+                                    animation.stop()
+                                    print(f"\n  {RED}Still not reachable — check logs above.{RESET}\n")
+                                    sys.exit(1)
+                                break  # exit the outer tick loop
+                            else:
+                                print(f"\n  {DIM}Aborted.{RESET}\n")
+                                sys.exit(0)
+                        # ── Generic crash ─────────────────────────────────────
+                        else:
+                            print(f"\n  {YELLOW}Fix the error above, then run  {BOLD}python server.py{RESET}  again.\n")
+                            sys.exit(1)
+            time.sleep(2)
+        else:
+            # Loop exhausted without a break — server never became reachable
+            animation.stop()
+            print(f"\n\n  {YELLOW}Server did not respond after 300 s.{RESET}")
+            print(f"  Checking container logs …\n")
+            run(f"{COMPOSE} logs --tail=50 server", check=False)
+            print(f"\n  {DIM}If the server is still starting, run  {BOLD}python server.py{RESET}{DIM}  again.{RESET}\n")
+            sys.exit(1)
 
-    # -- 5. Immediate backup on start + launch scheduler -----------------------
-    startup_backup_time = None
-    if backup_enabled:
-        print(f"\n  Running startup backup …")
-        startup_backup_time = run_backup(silent=False)
-        if startup_backup_time:
-            print(f"  {GREEN}[OK]{RESET}  Backup complete.")
-        start_scheduler(interval_hours=BACKUP_INTERVAL)
-        _ival = BACKUP_INTERVAL or load_config().get('interval_hours', 4)
-        print(f"  {DIM}Next automatic backup in {_ival}h.{RESET}\n")
+        # -- 5. Immediate backup on start + launch scheduler -----------------------
+        startup_backup_time = None
+        if backup_enabled:
+            animation.update("creating startup backup")
+            startup_backup_time = run_backup(silent=True)
+            start_scheduler(interval_hours=BACKUP_INTERVAL)
+        rows = build_dashboard_rows(ip, backup_enabled, startup_backup_time=startup_backup_time)
+        animation.stop()
+        _, _, access_value = access_display(ip)
+        if not interactive:
+            print(f"\n  {GREEN}[OK]{RESET}  Fortispass is running in the background.")
+            print(f"  {DIM}Access:{RESET} {access_value}")
+            print(f"  {DIM}Run  python server.py  in a terminal to open the live dashboard.{RESET}\n")
+            return
 
-    # -- 6. Live dashboard (60s refresh) --------------------------------------
-    try:
-        while True:
-            draw_dashboard(ip, backup_enabled, startup_backup_time=startup_backup_time)
-            time.sleep(60)
+        render_dashboard(rows, ip)
+        set_terminal_title(f"fortispass ({access_value})")
+
+        # -- 6. Live dashboard (60s refresh) --------------------------------------
+        result = attach_to_dashboard(ip, backup_enabled, show_opening_animation=False)
+        if result == "detached":
+            print(f"\n  {DIM}Detached. Fortispass is still running at {access_value}.{RESET}")
+            print(f"  {DIM}Run  python server.py  to reopen the live dashboard.{RESET}\n")
+            handoff_to_interactive_shell(access_value)
+        return
     except KeyboardInterrupt:
-        print(f"\n  {DIM}Detached. Server is still running in the background.{RESET}")
-        print(f"  Run  {BOLD}python server.py --stop{RESET}  to shut it down.\n")
+        animation.stop()
+        restore_terminal_state()
+        return
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

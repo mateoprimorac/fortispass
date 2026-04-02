@@ -1,6 +1,7 @@
 package com.fortispass.ui.setup
 
 import android.content.Intent
+import android.net.Uri
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Base64
@@ -50,7 +51,6 @@ class SetupActivity : BaseActivity() {
 
         if (isRegistered()) { goToMain(); return }
 
-        binding.etDeviceName.setText(android.os.Build.MODEL)
         binding.btnRegister.setOnClickListener { startRegistration() }
 
         // OutlinedButton stroke uses bioColorBorder which is low-contrast in light theme.
@@ -67,14 +67,17 @@ class SetupActivity : BaseActivity() {
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this, com.fortispass.ui.settings.SettingsActivity::class.java))
         }
+        binding.btnGithub.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/mateoprimorac/fortispass")))
+        }
     }
 
     private fun startRegistration() {
         val relayUrl   = binding.etRelayUrl.text.toString().trim().trimEnd('/')
         val deviceName = binding.etDeviceName.text.toString().trim()
-            .ifEmpty { android.os.Build.MODEL }
 
         if (relayUrl.isEmpty()) { toast(getString(R.string.err_enter_url)); return }
+        if (deviceName.isEmpty()) { toast(getString(R.string.err_enter_device_name)); return }
 
         setLoading(true)
         showStatus(getString(R.string.fetching_identity))

@@ -35,14 +35,14 @@ object ThemeManager {
     )
 
     private val styleMap = mapOf(
-        "dark"   to R.style.Theme_Biokey,
-        "light"  to R.style.Theme_Biokey_Light,
-        "system" to R.style.Theme_Biokey_System,
-        "madoka" to R.style.Theme_Biokey_Madoka,
-        "homura" to R.style.Theme_Biokey_Homura,
-        "mami"   to R.style.Theme_Biokey_Mami,
-        "sayaka" to R.style.Theme_Biokey_Sayaka,
-        "kyoko"  to R.style.Theme_Biokey_Kyoko,
+        "dark"   to R.style.Theme_Fortispass,
+        "light"  to R.style.Theme_Fortispass_Light,
+        "system" to R.style.Theme_Fortispass_System,
+        "madoka" to R.style.Theme_Fortispass_Madoka,
+        "homura" to R.style.Theme_Fortispass_Homura,
+        "mami"   to R.style.Theme_Fortispass_Mami,
+        "sayaka" to R.style.Theme_Fortispass_Sayaka,
+        "kyoko"  to R.style.Theme_Fortispass_Kyoko,
     )
 
     fun getSaved(context: Context): String =
@@ -59,7 +59,7 @@ object ThemeManager {
      * Sets the style resource so ?attr/ colors resolve correctly for this theme.
      */
     fun applyTheme(activity: androidx.appcompat.app.AppCompatActivity) {
-        activity.setTheme(styleMap[getSaved(activity)] ?: R.style.Theme_Biokey)
+        activity.setTheme(styleMap[getSaved(activity)] ?: R.style.Theme_Fortispass)
     }
 
     fun swatchFor(id: String): SwatchColors = swatches[id] ?: swatches[DEFAULT]!!

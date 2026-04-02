@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Base theme that all others inherit from -->
-    <style name="Theme.Biokey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Fortispass" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">#3A6FD8</item>
         <item name="colorPrimaryVariant">#2A58C0</item>
         <item name="colorOnPrimary">#FFFFFF</item>
@@ -20,7 +20,7 @@
     </style>
 
     <!-- Light: explicit parent required because colors invert -->
-    <style name="Theme.Biokey.Light" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Fortispass.Light" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">#4040C8</item>
         <item name="colorPrimaryVariant">#3030A8</item>
         <item name="colorOnPrimary">#FFFFFF</item>
@@ -39,7 +39,7 @@
 
     <!-- System: inherits Dark base, DayNight parent handles OS switching -->
     <!-- (same values as Dark; night mode toggling is done in FortispassApplication) -->
-    <style name="Theme.Biokey.System">
+    <style name="Theme.Fortispass.System">
         <item name="bioColorBg">#0E0E10</item>
         <item name="bioColorBg2">#141418</item>
         <item name="bioColorBg3">#1C1C22</item>
@@ -50,8 +50,8 @@
         <item name="bioColorAccent">#3A6FD8</item>
     </style>
 
-    <!-- Palette themes — inherit from Theme.Biokey, only override what changes -->
-    <style name="Theme.Biokey.Madoka">
+    <!-- Palette themes — inherit from Theme.Fortispass, only override what changes -->
+    <style name="Theme.Fortispass.Madoka">
         <item name="colorPrimary">#E8427A</item>
         <item name="colorPrimaryVariant">#C03060</item>
         <item name="android:windowBackground">#1A0F14</item>
@@ -66,7 +66,7 @@
         <item name="bioColorAccent">#E8427A</item>
     </style>
 
-    <style name="Theme.Biokey.Homura">
+    <style name="Theme.Fortispass.Homura">
         <item name="colorPrimary">#7A50C8</item>
         <item name="colorPrimaryVariant">#6040A8</item>
         <item name="android:windowBackground">#0A0A12</item>
@@ -81,7 +81,7 @@
         <item name="bioColorAccent">#7A50C8</item>
     </style>
 
-    <style name="Theme.Biokey.Mami">
+    <style name="Theme.Fortispass.Mami">
         <item name="colorPrimary">#E8B820</item>
         <item name="colorPrimaryVariant">#C09010</item>
         <item name="colorOnPrimary">#17130A</item>
@@ -97,7 +97,7 @@
         <item name="bioColorAccent">#E8B820</item>
     </style>
 
-    <style name="Theme.Biokey.Sayaka">
+    <style name="Theme.Fortispass.Sayaka">
         <item name="colorPrimary">#2090C8</item>
         <item name="colorPrimaryVariant">#1070A0</item>
         <item name="android:windowBackground">#091418</item>
@@ -112,7 +112,7 @@
         <item name="bioColorAccent">#2090C8</item>
     </style>
 
-    <style name="Theme.Biokey.Kyoko">
+    <style name="Theme.Fortispass.Kyoko">
         <item name="colorPrimary">#D83020</item>
         <item name="colorPrimaryVariant">#A82010</item>
         <item name="android:windowBackground">#180A0A</item>

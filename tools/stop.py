@@ -14,6 +14,8 @@ import platform
 import subprocess
 import sys
 
+sys.dont_write_bytecode = True
+
 # -- ANSI colours --------------------------------------------------------------
 if platform.system() == "Windows":
     os.system("color")
@@ -48,6 +50,35 @@ def run(cmd, check=True):
     return subprocess.run(cmd, shell=True, cwd=HERE, check=check)
 
 
+def secure_delete_file(path: str):
+    """Best-effort overwrite-then-delete for small local secret files."""
+    if not os.path.isfile(path):
+        return
+    try:
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
+
+    size = os.path.getsize(path)
+    if size > 0:
+        chunk_size = 64 * 1024
+        with open(path, "r+b", buffering=0) as f:
+            for pattern in ("random", "zeros"):
+                f.seek(0)
+                remaining = size
+                while remaining > 0:
+                    chunk_len = min(chunk_size, remaining)
+                    if pattern == "random":
+                        chunk = os.urandom(chunk_len)
+                    else:
+                        chunk = b"\x00" * chunk_len
+                    f.write(chunk)
+                    remaining -= chunk_len
+                f.flush()
+                os.fsync(f.fileno())
+    os.remove(path)
+
+
 def clr():
     os.system("cls" if platform.system() == "Windows" else "clear")
 
@@ -57,7 +88,8 @@ def main():
 
     clr()
     print(ASCII_ART + "\n")
-    print(f"  {BOLD}Stopping fortispass server …{RESET}\n")
+    if not wipe:
+        print(f"  {BOLD}Stopping fortispass server …{RESET}\n")
 
     if wipe:
         print(f"  {RED}{BOLD}{'=' * 54}{RESET}")
@@ -69,8 +101,11 @@ def main():
         print(f"  {YELLOW}  •  All Docker volumes for this stack{RESET}\n")
         print(f"  {RED}This CANNOT be undone. There is no recovery unless you{RESET}")
         print(f"  {RED}have a Google Drive backup configured.{RESET}\n")
-        print(f"  {DIM}Only proceed if you are intentionally wiping this server{RESET}")
-        print(f"  {DIM}and know exactly what you are doing.{RESET}\n")
+        for remaining in range(10, 0, -1):
+            print(f"  {DIM}Confirmation unlocks in {remaining}s …{RESET}", end="\r", flush=True)
+            import time
+            time.sleep(1)
+        print(" " * 60, end="\r")
         answer = input(f"  Type  {BOLD}CONFIRM{RESET}  to wipe everything, or anything else to abort: ").strip()
         if answer != "CONFIRM":
             print(f"\n  {DIM}Aborted — nothing was changed.{RESET}\n")
@@ -81,6 +116,8 @@ def main():
         if wipe:
             print(f"  Removing containers and volumes …", end=" ", flush=True)
             run(f"{COMPOSE} down -v")
+            secure_delete_file(os.path.join(HERE, ".env"))
+            secure_delete_file(os.path.join(HERE, ".backup_config.json"))
         else:
             print(f"  Stopping containers (data volumes preserved) …", end=" ", flush=True)
             run(f"{COMPOSE} down")
