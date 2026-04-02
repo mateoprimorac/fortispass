@@ -1,10 +1,10 @@
 <div align="center">
 <h1 align="center">fortispass</h1>
 
-<img style="display: block; margin: auto;" width="500" height="250" alt="Fortispass logo" src="https://github.com/user-attachments/assets/a675cf0c-0418-4968-9ddf-dbaa902ec647"/>
+<a href="https://fortispass.com/"><img style="display: block; margin: auto;" width="500" height="250" alt="Fortispass logo" src="https://github.com/user-attachments/assets/a675cf0c-0418-4968-9ddf-dbaa902ec647"/></a>
 
 <h4 align="center">
-    <a href="https://github.com/mateoprimorac/fortispass/releases/tag/v1.0.0-kyubey" target="_blank">
+    <a href="https://github.com/mateoprimorac/fortispass/releases/tag/v1.0.1-kyubey" target="_blank">
         <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
     </a>
     <a href="https://github.com/mateoprimorac/fortispass/commits/main/">
