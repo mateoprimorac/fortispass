@@ -1,11 +1,11 @@
 <div align="center">
 <h1 align="center">fortispass</h1>
 
-<a href="https://fortispass.com/"><img style="display: block; margin: auto;" width="500" height="250" alt="Fortispass logo" src="https://github.com/user-attachments/assets/a675cf0c-0418-4968-9ddf-dbaa902ec647"/></a>
+<a href="https://fortispass.com/"><img style="display: block; margin: auto;" width="500" height="260" alt="Fortispass logo" src="https://github.com/user-attachments/assets/7bb09c9b-3d37-42c3-ae94-ca1f6f75cd73"/></a>
 
 <h4 align="center">
     <a href="https://github.com/mateoprimorac/fortispass/releases/tag/v1.0.1-kyubey" target="_blank">
-        <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
+        <img src="https://img.shields.io/badge/version-1.0.1-blue" alt="Version">
     </a>
     <a href="https://github.com/mateoprimorac/fortispass/commits/main/">
         <img src="https://img.shields.io/github/commit-activity/w/mateoprimorac/fortispass" alt="Commit activity">
@@ -209,4 +209,3 @@ This project was made for the [SUMIT Code Challenge 2026 hackathon](https://skol
 
 Fortispass is licensed under the [MIT License](https://opensource.org/license/MIT).<br>
 See [LICENSE](LICENSE).
-
