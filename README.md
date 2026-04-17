@@ -203,6 +203,8 @@ BTC: ```bc1qy72r725p0g26d2qvqcdnpplrcswlh04eea8h64```<br>ETH: ```0xfEB014A24A0ef
 
 This project was made for the [SUMIT Code Challenge 2026 hackathon](https://skole.hackathon.sum.ba/) with the theme being cybersecurity.<br> I didn't put any "donate" buttons inside the project, and I never will, I want it to look clean and professional.<br>If you cannot afford to donate but like the project, spread the word, star the project on GitHub! It helps a lot!
 
+**UPDATE:** We won [1st place!](https://sumit.sum.ba/novosti/od-ucionice-do-inovacije-kroz-code-challenge-hackathon-iskustvo) Huge thanks to the people over at SUMIT for the event, and thanks once again for having Petar and me over at the [MoStart 2026 international conference.](https://mostart.sum.ba/)
+
 ---
 
 ## License
